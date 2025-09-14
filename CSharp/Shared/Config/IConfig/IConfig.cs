@@ -23,6 +23,7 @@ namespace BaroJunk
     object IConfigEntry.Value { get => this; set { /*bruh*/ } }
     ConfigEntry IConfigEntry.Get(string entryPath) => PropAccess.GetEntry(this, entryPath);
     IEnumerable<ConfigEntry> IConfigEntry.Entries => PropAccess.GetEntries(this);
+    bool IConfigEntry.IsConfig => true;
 
     public ConfigMixin Mixin => ConfigMixin.Mixins.GetValue(this, c => new ConfigMixin(c));
     public string Name => Mixin.Bruh;

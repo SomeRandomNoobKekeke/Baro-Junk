@@ -24,6 +24,7 @@ namespace BaroJunk
       get => Entry.Value;
       set { Entry.Value = value; }
     }
+    public bool IsConfig => Entry.IsConfig;
 
     public ConfigEntryProxy(ConfigEntry entry) => Entry = entry;
   }

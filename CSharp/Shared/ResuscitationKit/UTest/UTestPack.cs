@@ -85,4 +85,9 @@ namespace BaroJunk
     //HACK
     public void Log() { if (NotEmpty) UTestLogger.LogPack(this); }
   }
+
+  public static class UTestPackExtentions
+  {
+    public static void Log(this List<UTestPack> packs) => packs.ForEach(pack => pack.Log());
+  }
 }

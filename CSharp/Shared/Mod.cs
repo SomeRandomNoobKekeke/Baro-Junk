@@ -19,7 +19,7 @@ namespace BaroJunk
       UTestCommands.AddCommands();
 
       UTestExplorer.ScanCategory("internal");
-      UTestRunner.RunRecursive<PropAccessTest>().ForEach(pack => pack.Log());
+      UTestRunner.RunRecursive<PropAccessTest>().Log();
 
 
       Experiment();

@@ -23,6 +23,6 @@ namespace BaroJunk
 
     public UTestListResult(List<object> values) => Values = values;
 
-    public override string ToString() => $"[\n{String.Join(",\n", Values?.Select(o => o?.ToString()))}\n]";
+    public override string ToString() => $"[\n    {String.Join(",\n    ", Values?.Select(o => o?.ToString()))}\n]";
   }
 }

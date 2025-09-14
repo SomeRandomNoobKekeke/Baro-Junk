@@ -16,6 +16,7 @@ namespace BaroJunk
     public object Value { get; set; }
     public ConfigEntry Get(string name);
     public IEnumerable<ConfigEntry> Entries { get; }
+    public bool IsConfig { get; }
   }
 
 

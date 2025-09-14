@@ -50,12 +50,41 @@ namespace BaroJunk
     public static IEnumerable<ConfigEntry> GetEntries(object target)
       => target?.GetType()
           .GetProperties(BindingFlags.Public | BindingFlags.Instance)
-          // .Where(pi => !pi.PropertyType.IsAssignableTo(typeof(IConfig)))
+          .Where(pi => !pi.PropertyType.IsAssignableTo(typeof(IConfig)))
+          .Select(pi => new ConfigEntry(target, pi));
+
+    public static IEnumerable<ConfigEntry> GetAllEntries(object target)
+      => target?.GetType()
+          .GetProperties(BindingFlags.Public | BindingFlags.Instance)
           .Select(pi => new ConfigEntry(target, pi));
 
     public static IEnumerable<ConfigEntry> GetEntriesRec(object config)
     {
-      IEnumerable<ConfigEntry> entries = GetEntries(config);
+      IEnumerable<ConfigEntry> entries = GetAllEntries(config);
+
+      foreach (ConfigEntry entry in entries)
+      {
+        if (!entry.IsConfig) yield return entry;
+      }
+
+      foreach (ConfigEntry entry in entries)
+      {
+        if (entry.IsConfig)
+        {
+          IConfig nestedConfig = entry.Value as IConfig;
+          if (nestedConfig is null) continue;
+
+          foreach (ConfigEntry en in GetEntriesRec(nestedConfig))
+          {
+            yield return en;
+          }
+        }
+      }
+    }
+
+    public static IEnumerable<ConfigEntry> GetAllEntriesRec(object config)
+    {
+      IEnumerable<ConfigEntry> entries = GetAllEntries(config);
 
       foreach (ConfigEntry entry in entries)
       {
@@ -64,12 +93,12 @@ namespace BaroJunk
 
       foreach (ConfigEntry entry in entries)
       {
-        if (entry.Property.PropertyType.IsAssignableTo(typeof(IConfig)))
+        if (entry.IsConfig)
         {
           IConfig nestedConfig = entry.Value as IConfig;
           if (nestedConfig is null) continue;
 
-          foreach (ConfigEntry en in GetEntriesRec(nestedConfig))
+          foreach (ConfigEntry en in GetAllEntriesRec(nestedConfig))
           {
             yield return en;
           }
@@ -83,11 +112,11 @@ namespace BaroJunk
 
       void scanPropsRec(object cfg, string path = null)
       {
-        foreach (ConfigEntry entry in GetEntries(cfg))
+        foreach (ConfigEntry entry in GetAllEntries(cfg))
         {
           string newPath = path is null ? entry.Property.Name : String.Join('.', path, entry.Property.Name);
 
-          if (entry.Property.PropertyType.IsAssignableTo(typeof(IConfig)))
+          if (entry.IsConfig)
           {
             IConfig nestedConfig = entry.Property.GetValue(cfg) as IConfig;
             if (nestedConfig is null) continue;
@@ -96,6 +125,32 @@ namespace BaroJunk
           else
           {
             flat[newPath] = entry;
+          }
+        }
+      }
+
+      scanPropsRec(config);
+
+      return flat;
+    }
+
+    public static Dictionary<string, ConfigEntry> GetAllFlat(object config)
+    {
+      Dictionary<string, ConfigEntry> flat = new();
+
+      void scanPropsRec(object cfg, string path = null)
+      {
+        foreach (ConfigEntry entry in GetAllEntries(cfg))
+        {
+          string newPath = path is null ? entry.Property.Name : String.Join('.', path, entry.Property.Name);
+
+          flat[newPath] = entry;
+
+          if (entry.IsConfig)
+          {
+            IConfig nestedConfig = entry.Property.GetValue(cfg) as IConfig;
+            if (nestedConfig is null) continue;
+            scanPropsRec(nestedConfig, newPath);
           }
         }
       }

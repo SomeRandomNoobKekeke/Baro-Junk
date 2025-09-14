@@ -34,6 +34,8 @@ namespace BaroJunk
     public IEnumerable<ConfigEntry> Entries
       => PropAccess.GetEntries(Value);
 
+    public bool IsConfig => Property.PropertyType.IsAssignableTo(typeof(IConfig));
+
     public ConfigEntry() { }
     public ConfigEntry(object target, PropertyInfo property) => (Target, Property) = (target, property);
     public ConfigEntry(object target, string propName)

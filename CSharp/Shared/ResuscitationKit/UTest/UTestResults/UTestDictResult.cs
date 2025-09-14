@@ -3,11 +3,38 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Diagnostics;
-
+using System.Text;
 namespace BaroJunk
 {
   public class UTestDictResult : UTestResultBase
   {
+    public record ValueDiff(object Key, object Value1, object Value2)
+    {
+      public override string ToString() => $"{Key} [{Value1}, {Value2}]";
+    }
+
+    //TODO
+    // public static List<ValueDiff> Diff(UTestDictResult r1, UTestDictResult r2)
+    // {
+    //   List<ValueDiff> diffs = new();
+
+    //   foreach (System.Collections.DictionaryEntry kvp in r1.Values)
+    //   {
+    //     if (!r2.Values.Contains(kvp.Key)) diffs.Add(new ValueDiff());
+    //     if (!Object.Equals(other.Values[kvp.Key], kvp.Value)) return false;
+    //   }
+
+    //   StringBuilder sb = new("[\n");
+
+    //   foreach (System.Collections.DictionaryEntry kvp in Values)
+    //   {
+    //     sb.Append($"    [{kvp.Key}] = [{kvp.Value}],\n");
+    //   }
+    //   sb.Remove(sb.Length - 1, 1);
+    //   sb.Append("\n]");
+    //   return sb.ToString();
+    // }
+
     private System.Collections.IDictionary Values;
     public override object Result { get => Values; set => Values = value as System.Collections.IDictionary; }
 
@@ -28,6 +55,17 @@ namespace BaroJunk
 
     public UTestDictResult(System.Collections.IDictionary values) => Values = values;
 
-    public override string ToString() => $"bruh";
+    public override string ToString()
+    {
+      StringBuilder sb = new("[\n");
+
+      foreach (System.Collections.DictionaryEntry kvp in Values)
+      {
+        sb.Append($"    [{kvp.Key}] = [{kvp.Value}],\n");
+      }
+      sb.Remove(sb.Length - 1, 1);
+      sb.Append("\n]");
+      return sb.ToString();
+    }
   }
 }
