@@ -12,7 +12,10 @@ namespace BaroJunk
 {
   public class ConfigModel
   {
+    public ConfigModel(IConfig config)
+    {
 
+    }
   }
 
 

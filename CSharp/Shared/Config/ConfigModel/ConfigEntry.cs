@@ -13,7 +13,7 @@ using Barotrauma;
 
 namespace BaroJunk
 {
-  public class ConfigEntry : ITraversable
+  public class ConfigEntry : IConfigEntry
   {
     public static ConfigEntry Empty => new ConfigEntry();
 
@@ -21,18 +21,18 @@ namespace BaroJunk
     public PropertyInfo Property;
     public object Target;
     public bool IsValid => Property is not null && Target is not null;
-    public virtual object Value
+    public object Value
     {
       get => Property?.GetValue(Target);
       set { if (IsValid) Property.SetValue(Target, value); }
     }
 
     public ConfigEntry this[string key] { get => Get(key); }
-    public virtual ConfigEntry Get(string entryPath)
+    public ConfigEntry Get(string entryPath)
       => PropAccess.GetEntry(Value, entryPath);
 
-    public virtual IEnumerable<ConfigEntry> Entries
-      => PropAccess.GetEntries(Target);
+    public IEnumerable<ConfigEntry> Entries
+      => PropAccess.GetEntries(Value);
 
     public ConfigEntry() { }
     public ConfigEntry(object target, PropertyInfo property) => (Target, Property) = (target, property);

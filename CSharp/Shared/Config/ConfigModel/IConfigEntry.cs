@@ -11,12 +11,11 @@ using System.IO;
 namespace BaroJunk
 {
 
-  public partial interface IConfig
+  public interface IConfigEntry
   {
-
-    public static string bruh() => "bruh";
-
-
+    public object Value { get; set; }
+    public ConfigEntry Get(string name);
+    public IEnumerable<ConfigEntry> Entries { get; }
   }
 
 
