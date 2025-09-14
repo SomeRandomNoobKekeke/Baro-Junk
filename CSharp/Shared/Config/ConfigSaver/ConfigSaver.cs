@@ -53,6 +53,8 @@ namespace BaroJunk
     public static string DefaultSavePathFor(IConfig config)
       => Path.Combine("ModSettings", "Configs", $"{config.ID}.xml");
 
+    public IIOAdapter Adapter;
+
 
 
     public bool ShouldSave =>
@@ -98,15 +100,11 @@ namespace BaroJunk
 
       try
       {
-        if (!Directory.Exists(Path.GetDirectoryName(path)))
-        {
-          Directory.CreateDirectory(Path.GetDirectoryName(path));
-        }
-
+        Adapter.EnsureDirectory(Path.GetDirectoryName(path));
 
         XDocument xdoc = new XDocument();
         xdoc.Add(Config.ToXML());
-        xdoc.Save(path);
+        Adapter.SaveXDoc(xdoc, path);
       }
       catch (Exception e)
       {
@@ -130,14 +128,14 @@ namespace BaroJunk
 
       path ??= Settings.SavePath;
 
-      if (!File.Exists(path)) return new ConfigSaverResult(false)
+      if (!Adapter.FileExists(path)) return new ConfigSaverResult(false)
       {
         Details = $"[{path}] not found",
       };
 
       try
       {
-        XDocument xdoc = XDocument.Load(path);
+        XDocument xdoc = Adapter.LoadXDoc(path);
         Config.FromXML(xdoc.Root);
       }
       catch (Exception e)
@@ -153,6 +151,6 @@ namespace BaroJunk
     }
 
 
-
+    public ConfigSaver(IIOAdapter adapter) => Adapter = adapter;
   }
 }

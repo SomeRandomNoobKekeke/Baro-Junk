@@ -21,6 +21,13 @@ namespace BaroJunk
     public static IConfigEntry Get(this IConfig config, string entryPath) => config.Get(entryPath);
     public static IEnumerable<IConfigEntry> GetEntries(this IConfig config) => config.Entries;
 
+
+    public static string ToText(this IConfig config) => config.ToText();
+    public static XElement ToXML(this IConfig config) => config.ToXML();
+    public static void FromXML(this IConfig config, XElement element) => config.FromXML(element);
+
+
+
   }
 
 }

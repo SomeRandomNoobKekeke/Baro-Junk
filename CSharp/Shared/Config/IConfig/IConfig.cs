@@ -27,8 +27,9 @@ namespace BaroJunk
       }
     }
 
+    public static IIOAdapter IOAdapter = new IOAdapter();
     public static ConfigLogger Logger = new();
-    public static ConfigSaver ConfigSaver = new();
+    public static ConfigSaver ConfigSaver = new(IOAdapter);
 
     public void OnPropChanged(Action<string, object> action) => Mixin.Model.OnPropChanged(action);
 
