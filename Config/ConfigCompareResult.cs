@@ -9,7 +9,7 @@ using System.Xml.Linq;
 using System.IO;
 using System.Text;
 
-namespace JovianRadiationRework
+namespace BaroJunk
 {
   public class ConfigCompareResult
   {

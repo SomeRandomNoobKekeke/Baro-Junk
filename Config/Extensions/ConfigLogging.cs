@@ -12,7 +12,7 @@ using System.Text;
 using Barotrauma;
 using Microsoft.Xna.Framework;
 
-namespace JovianRadiationRework
+namespace BaroJunk
 {
   public static class ConfigLogging
   {

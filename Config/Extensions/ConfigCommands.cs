@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework;
 using HarmonyLib;
 using MoonSharp.Interpreter;
 
-namespace JovianRadiationRework
+namespace BaroJunk
 {
   public static class ConfigCommands
   {

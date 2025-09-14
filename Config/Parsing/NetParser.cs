@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework;
 using System.IO;
 using Barotrauma.Networking;
 
-namespace JovianRadiationRework
+namespace BaroJunk
 {
   public static class NetParser
   {

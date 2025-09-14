@@ -47,7 +47,8 @@ namespace BaroJunk
           if (pack.NotEmpty) pack.Log();
         }
       }
-      catch (Exception e) { UTestLogger.Warning($"utest failed with: {e.Message}"); };
+      catch (Exception e) { UTestLogger.Warning($"utest failed with: {e.Message}"); }
+      ;
     }
 
     public static void RemoveCommands()

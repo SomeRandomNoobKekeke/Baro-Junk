@@ -125,7 +125,7 @@ namespace BaroJunk
     private void _PrintFilePath(Color color, string source, int lineNumber)
     {
       var fi = new FileInfo(source);
-      LuaCsLogger.LogMessage($"{fi.Directory.Name}/{fi.Name}:{lineNumber}", color * 0.4f, color * 0.5f);
+      LuaCsLogger.LogMessage($"{fi.Directory.Name}/{fi.Name}:{lineNumber}", color * 0.8f, color);
     }
 
   }

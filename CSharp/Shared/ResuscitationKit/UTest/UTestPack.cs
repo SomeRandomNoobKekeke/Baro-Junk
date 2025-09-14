@@ -9,7 +9,7 @@ namespace BaroJunk
 {
   public class UTestPack
   {
-    public enum UTestPackState { AllPassed, SomePassed, AllFailed }
+    public enum UTestPackState { AllPassed, SomePassed, AllFailed, Error }
 
     public static bool IsTestGenerator(MethodInfo mi)
       => mi.ReturnType.IsAssignableTo(typeof(UTest)) && mi.GetParameters().Length == 0;
@@ -27,6 +27,7 @@ namespace BaroJunk
     {
       get
       {
+        if (Error is not null) return UTestPackState.Error;
         int passed = PassedCount;
         if (Tests.Count == 0) return UTestPackState.AllPassed;
         if (passed == Tests.Count) return UTestPackState.AllPassed;
@@ -65,6 +66,7 @@ namespace BaroJunk
       }
     }
 
+    //TODO ???
     public override string ToString()
     {
       if (Error is not null) return Error.ToString();
@@ -80,6 +82,7 @@ namespace BaroJunk
       return sb.ToString();
     }
 
-    public void Log() => UTestLogger.LogPack(this);
+    //HACK
+    public void Log() { if (NotEmpty) UTestLogger.LogPack(this); }
   }
 }

@@ -9,7 +9,7 @@ using System.Xml.Linq;
 using System.IO;
 using Barotrauma.Networking;
 
-namespace JovianRadiationRework
+namespace BaroJunk
 {
   public static partial class NetEncoder
   {

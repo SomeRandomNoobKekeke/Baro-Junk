@@ -11,7 +11,7 @@ using System.Text;
 
 using Barotrauma;
 
-namespace JovianRadiationRework
+namespace BaroJunk
 {
   //TODO should it really be structure?
   public struct ConfigEntry

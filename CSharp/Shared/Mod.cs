@@ -12,14 +12,17 @@ namespace BaroJunk
 {
   public partial class Mod : IAssemblyPlugin
   {
-
+    public static Logger Logger = new Logger();
 
     public void Initialize()
     {
       UTestCommands.AddCommands();
 
       UTestExplorer.ScanCategory("internal");
-      // UTestPack.RunRecursive<DebugTest>();
+      UTestRunner.RunRecursive<PropAccessTest>().ForEach(pack => pack.Log());
+
+
+      Experiment();
     }
 
 

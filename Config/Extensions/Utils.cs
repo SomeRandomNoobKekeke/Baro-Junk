@@ -9,7 +9,7 @@ using System.Xml.Linq;
 using System.IO;
 using System.Runtime.CompilerServices;
 
-namespace JovianRadiationRework
+namespace BaroJunk
 {
   //TODO put it somewhere sensible
   public static class Utils
