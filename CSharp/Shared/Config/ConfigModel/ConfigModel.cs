@@ -17,15 +17,17 @@ namespace BaroJunk
 
     public event Action<string, object> PropChanged;
     public void RaiseOnPropChanged(string key, object value) => PropChanged?.Invoke(key, value);
-    public void OnPropChanged(Action<string, object> callback) => PropChanged += callback;
+    public void OnPropChanged(Action<string, object> action) => PropChanged += action;
 
 
     public object Value { get => this; set {/*bruh*/ } }
-    public IConfigEntry Get(string name) => Proxies.ContainsKey(name) ? Proxies[name] : ConfigEntry.Empty;
+    public IConfigEntry Get(string entryPath) => Proxies.ContainsKey(entryPath) ? Proxies[entryPath] : ConfigEntry.Empty;
     public IEnumerable<IConfigEntry> Entries
-      => Config.Entries.Select(Entry => Get(Entry.Name));
+      => PropAccess.GetAllEntries(Config).Select(Entry => Get(Entry.Name));
     public bool IsConfig => Config.IsConfig;
+    public bool IsValid => Config.IsValid;
     public string Name => Config.Name;
+    public Type Type => Config.Type;
 
     public ConfigModel(IConfig config)
     {

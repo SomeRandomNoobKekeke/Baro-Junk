@@ -16,7 +16,7 @@ namespace BaroJunk
     public static string GetName(this IConfig config) => config.Name;
     public static IConfig Self(this IConfig config) => config;
     public static void OnPropChanged(this IConfig config, Action<string, object> action)
-      => config.Mixin.OnPropChanged += action;
+      => config.OnPropChanged(action);
 
     public static IConfigEntry Get(this IConfig config, string entryPath) => config.Get(entryPath);
     public static IEnumerable<IConfigEntry> GetEntries(this IConfig config) => config.Entries;

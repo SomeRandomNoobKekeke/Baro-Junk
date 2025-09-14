@@ -20,9 +20,6 @@ namespace BaroJunk
 
     public IConfig Config;
     public ConfigModel Model;
-    public string Bruh => Config.GetType().Name;
-    public event Action<string, object> OnPropChanged;
-
 
 
     public ConfigMixin(IConfig config)

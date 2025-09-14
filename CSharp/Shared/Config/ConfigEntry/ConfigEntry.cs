@@ -18,6 +18,7 @@ namespace BaroJunk
     public static ConfigEntry Empty => new ConfigEntry();
 
     public string Name => Property?.Name;
+    public Type Type => Property?.PropertyType;
     public PropertyInfo Property;
     public object Target;
     public bool IsValid => Property is not null && Target is not null;
@@ -31,7 +32,7 @@ namespace BaroJunk
     public IConfigEntry Get(string entryPath)
       => PropAccess.GetEntry(Value, entryPath);
     public IEnumerable<IConfigEntry> Entries
-      => PropAccess.GetEntries(Value);
+      => PropAccess.GetAllEntries(Value);
 
     public bool IsConfig => Property.PropertyType.IsAssignableTo(typeof(IConfig));
 

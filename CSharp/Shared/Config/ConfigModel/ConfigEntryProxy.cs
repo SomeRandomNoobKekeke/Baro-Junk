@@ -35,7 +35,9 @@ namespace BaroJunk
       }
     }
     public bool IsConfig => Entry.IsConfig;
+    public bool IsValid => Entry.IsValid;
     public string Name => Entry.Name;
+    public Type Type => Entry.Type;
 
     public ConfigEntryProxy(ConfigModel model, string path, ConfigEntry entry) => (Model, Path, Entry) = (model, path, entry);
   }
