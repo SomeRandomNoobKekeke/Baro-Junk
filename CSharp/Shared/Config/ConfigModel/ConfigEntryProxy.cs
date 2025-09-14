@@ -15,18 +15,29 @@ namespace BaroJunk
 {
   public class ConfigEntryProxy : IConfigEntry
   {
+    public ConfigModel Model;
     public ConfigEntry Entry;
+    public string Path;
 
-    public ConfigEntry Get(string entryPath) => Entry.Get(entryPath);
-    public IEnumerable<ConfigEntry> Entries => Entry.Entries;
+    public IConfigEntry Get(string entryPath)
+      => Model.Get(string.Join('.', Path, entryPath));
+    public IEnumerable<IConfigEntry> Entries
+      => Entry.Entries.Select(
+        Entry => Model.Get(string.Join('.', Path, Entry.Name))
+      );
     public object Value
     {
       get => Entry.Value;
-      set { Entry.Value = value; }
+      set
+      {
+        Entry.Value = value;
+        Model.RaiseOnPropChanged(Path, value);
+      }
     }
     public bool IsConfig => Entry.IsConfig;
+    public string Name => Entry.Name;
 
-    public ConfigEntryProxy(ConfigEntry entry) => Entry = entry;
+    public ConfigEntryProxy(ConfigModel model, string path, ConfigEntry entry) => (Model, Path, Entry) = (model, path, entry);
   }
 
 }

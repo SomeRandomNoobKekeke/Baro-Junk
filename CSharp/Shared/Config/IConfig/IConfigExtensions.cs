@@ -19,7 +19,7 @@ namespace BaroJunk
       => config.Mixin.OnPropChanged += action;
 
     public static IConfigEntry Get(this IConfig config, string entryPath) => config.Get(entryPath);
-    public static IEnumerable<ConfigEntry> GetEntries(this IConfig config) => config.Entries;
+    public static IEnumerable<IConfigEntry> GetEntries(this IConfig config) => config.Entries;
 
   }
 

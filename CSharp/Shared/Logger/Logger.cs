@@ -86,7 +86,7 @@ namespace BaroJunk
     /// </summary>
     public void Info(object msg, [CallerFilePath] string source = "", [CallerLineNumber] int lineNumber = 0)
     {
-      _PrintFilePath(LogColor, source, lineNumber);
+      _PrintFilePath(LogColor * 0.8f, source, lineNumber);
       _Print(msg, LogColor);
     }
 

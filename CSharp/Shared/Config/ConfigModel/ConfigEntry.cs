@@ -27,11 +27,10 @@ namespace BaroJunk
       set { if (IsValid) Property.SetValue(Target, value); }
     }
 
-    public ConfigEntry this[string key] { get => Get(key); }
-    public ConfigEntry Get(string entryPath)
+    public IConfigEntry this[string key] { get => Get(key); }
+    public IConfigEntry Get(string entryPath)
       => PropAccess.GetEntry(Value, entryPath);
-
-    public IEnumerable<ConfigEntry> Entries
+    public IEnumerable<IConfigEntry> Entries
       => PropAccess.GetEntries(Value);
 
     public bool IsConfig => Property.PropertyType.IsAssignableTo(typeof(IConfig));
