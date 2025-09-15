@@ -25,8 +25,8 @@ namespace BaroJunk
       ConfigA = A;
       ConfigB = B;
 
-      Dictionary<string, object> flatA = ConfigA.GetAllFlatValues();
-      Dictionary<string, object> flatB = ConfigB.GetAllFlatValues();
+      Dictionary<string, object> flatA = ConfigA.GetFlatValues();
+      Dictionary<string, object> flatB = ConfigB.GetFlatValues();
 
       OnlyInA = flatA.Keys.Except(flatB.Keys).ToList();
       OnlyInB = flatB.Keys.Except(flatA.Keys).ToList();

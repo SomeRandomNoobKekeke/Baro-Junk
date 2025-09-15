@@ -20,6 +20,7 @@ namespace BaroJunk
 
     public IConfig Config;
     public ConfigModel Model;
+    public IIOAccess IOAccess = new IOAccess();
 
 
     public ConfigMixin(IConfig config)

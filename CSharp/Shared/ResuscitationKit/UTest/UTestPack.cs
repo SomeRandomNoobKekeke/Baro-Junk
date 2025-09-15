@@ -43,6 +43,12 @@ namespace BaroJunk
     public Exception Error { get; set; }
     public bool NotEmpty => Error != null || Tests.Count > 0;
 
+    public UTest AddTest(UTest test)
+    {
+      Tests.Add(test);
+      return test;
+    }
+
     public virtual void CreateTests()
     {
       foreach (MethodInfo mi in this.GetType().GetMethods())

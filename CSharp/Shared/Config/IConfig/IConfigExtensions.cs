@@ -13,8 +13,9 @@ namespace BaroJunk
 
   public static class IConfigExtensions
   {
-    public static string GetName(this IConfig config) => config.Name;
     public static IConfig Self(this IConfig config) => config;
+    public static string GetName(this IConfig config) => config.Name;
+
     public static void OnPropChanged(this IConfig config, Action<string, object> action)
       => config.OnPropChanged(action);
 
@@ -28,9 +29,18 @@ namespace BaroJunk
 
 
 
-    public static bool Equals(this IConfig config, IConfig other) => config.Equals(other);
+
+    public static ConfigSaveResult LoadSave(this IConfig config, string path) => config.LoadSave(path);
+    public static ConfigSaveResult Save(this IConfig config, string path) => config.Save(path);
+    public static ConfigSaveResult Load(this IConfig config, string path) => config.Load(path);
+
+
+
+
+    public static bool EqualsTo(this IConfig config, IConfig other) => config.EqualsTo(other);
     public static ConfigCompareResult CompareTo(this IConfig config, IConfig other) => config.CompareTo(other);
     public static void Clear(this IConfig config) => config.Clear();
+
   }
 
 }

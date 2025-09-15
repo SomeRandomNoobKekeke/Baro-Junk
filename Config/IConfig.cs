@@ -59,8 +59,8 @@ namespace BaroJunk
     public static void FromXML(this IConfig config, XElement element) => ConfigSerialization.FromXML(config, element);
 
 
-    public static ConfigSaver.ConfigSaverResult Save(this IConfig config, string path = null) => ConfigSaver.Save(path);
-    public static ConfigSaver.ConfigSaverResult Load(this IConfig config, string path = null) => ConfigSaver.Load(path);
+    public static ConfigAutoSaver.ConfigSaveResult Save(this IConfig config, string path = null) => ConfigAutoSaver.Save(path);
+    public static ConfigAutoSaver.ConfigSaveResult Load(this IConfig config, string path = null) => ConfigAutoSaver.Load(path);
 
 
     public static void NetSync(this IConfig config) => ConfigNetworking.NetSync();

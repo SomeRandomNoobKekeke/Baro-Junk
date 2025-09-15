@@ -27,9 +27,14 @@ namespace BaroJunk
       }
     }
 
-    public static IIOAdapter IOAdapter = new IOAdapter();
+    public ConfigMixin Mixin => ConfigMixin.Mixins.GetValue(this, c => new ConfigMixin(c));
+
+    public IIOAccess IOAccess
+    {
+      get => Mixin.IOAccess;
+      set => Mixin.IOAccess = value;
+    }
     public static ConfigLogger Logger = new();
-    public static ConfigSaver ConfigSaver = new(IOAdapter);
 
     public void OnPropChanged(Action<string, object> action) => Mixin.Model.OnPropChanged(action);
 
@@ -44,19 +49,20 @@ namespace BaroJunk
     string IConfigEntry.Name => this.GetType().Name;
     Type IConfigEntry.Type => this.GetType();
 
-    public ConfigMixin Mixin => ConfigMixin.Mixins.GetValue(this, c => new ConfigMixin(c));
 
-    public object GetProp(string propPath) => PropAccess.GetProp(this, propPath);
-    public void SetProp(string propPath, object value) => PropAccess.SetProp(this, propPath, value);
-    public ConfigEntry GetEntry(string propPath) => PropAccess.GetEntry(this, propPath);
-    public IEnumerable<ConfigEntry> GetEntries() => PropAccess.GetEntries(this);
-    public IEnumerable<ConfigEntry> GetAllEntries() => PropAccess.GetAllEntries(this);
-    public IEnumerable<ConfigEntry> GetEntriesRec() => PropAccess.GetEntriesRec(this);
-    public IEnumerable<ConfigEntry> GetAllEntriesRec() => PropAccess.GetAllEntriesRec(this);
-    public Dictionary<string, ConfigEntry> GetFlat() => PropAccess.GetFlat(this);
-    public Dictionary<string, ConfigEntry> GetAllFlat() => PropAccess.GetAllFlat(this);
-    public Dictionary<string, object> GetFlatValues() => PropAccess.GetFlatValues(this);
-    public Dictionary<string, object> GetAllFlatValues() => PropAccess.GetAllFlatValues(this);
+
+
+    public object GetProp(string propPath) => EntryAccess.GetProp(this, propPath);
+    public void SetProp(string propPath, object value) => EntryAccess.SetProp(this, propPath, value);
+    public ConfigEntry GetEntry(string propPath) => EntryAccess.GetEntry(this, propPath);
+    public IEnumerable<ConfigEntry> GetEntries() => EntryAccess.GetEntries(this);
+    public IEnumerable<ConfigEntry> GetAllEntries() => EntryAccess.GetAllEntries(this);
+    public IEnumerable<ConfigEntry> GetEntriesRec() => EntryAccess.GetEntriesRec(this);
+    public IEnumerable<ConfigEntry> GetAllEntriesRec() => EntryAccess.GetAllEntriesRec(this);
+    public Dictionary<string, ConfigEntry> GetFlat() => EntryAccess.GetFlat(this);
+    public Dictionary<string, ConfigEntry> GetAllFlat() => EntryAccess.GetAllFlat(this);
+    public Dictionary<string, object> GetFlatValues() => EntryAccess.GetFlatValues(this);
+    public Dictionary<string, object> GetAllFlatValues() => EntryAccess.GetAllFlatValues(this);
   }
 
 

@@ -23,16 +23,18 @@ namespace BaroJunk
     public object Value { get => this; set {/*bruh*/ } }
     public IConfigEntry Get(string entryPath) => Proxies.ContainsKey(entryPath) ? Proxies[entryPath] : ConfigEntry.Empty;
     public IEnumerable<IConfigEntry> Entries
-      => PropAccess.GetAllEntries(Config).Select(Entry => Get(Entry.Name));
+      => EntryAccess.GetAllEntries(Config).Select(Entry => Get(Entry.Name));
     public bool IsConfig => Config.IsConfig;
     public bool IsValid => Config.IsValid;
     public string Name => Config.Name;
     public Type Type => Config.Type;
 
+
+
     public ConfigModel(IConfig config)
     {
       Config = config;
-      Dictionary<string, ConfigEntry> flat = PropAccess.GetAllFlat(config);
+      Dictionary<string, ConfigEntry> flat = EntryAccess.GetAllFlat(config);
       Proxies = flat.ToDictionary(
         kvp => kvp.Key,
         kvp => new ConfigEntryProxy(this, kvp.Key, kvp.Value)

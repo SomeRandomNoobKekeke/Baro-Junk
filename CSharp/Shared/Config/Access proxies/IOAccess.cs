@@ -14,7 +14,7 @@ using System.Xml.Linq;
 
 namespace BaroJunk
 {
-  public interface IIOAdapter
+  public interface IIOAccess
   {
     public XDocument LoadXDoc(string path);
     public void SaveXDoc(XDocument xdoc, string path);
@@ -22,7 +22,7 @@ namespace BaroJunk
     public void EnsureDirectory(string path);
 
   }
-  public class IOAdapter : IIOAdapter
+  public class IOAccess : IIOAccess
   {
     public XDocument LoadXDoc(string path) => XDocument.Load(path);
     public void SaveXDoc(XDocument xdoc, string path) => xdoc.Save(path);

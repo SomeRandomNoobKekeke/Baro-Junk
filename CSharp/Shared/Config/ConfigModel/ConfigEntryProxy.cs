@@ -40,6 +40,8 @@ namespace BaroJunk
     public Type Type => Entry.Type;
 
     public ConfigEntryProxy(ConfigModel model, string path, ConfigEntry entry) => (Model, Path, Entry) = (model, path, entry);
+
+    public override string ToString() => Entry.ToString();
   }
 
 }

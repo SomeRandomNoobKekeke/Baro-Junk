@@ -14,7 +14,8 @@ namespace BaroJunk
 
   public partial interface IConfig
   {
-    public bool Equals(IConfig other) => IsEqual(this, other);
+    //TODO this is potentially cursed
+    public bool EqualsTo(IConfig other) => IsEqual(this, other);
     public static bool IsEqual(IConfig configA, IConfig configB)
       => Compare(configA, configB).Equals;
 
@@ -23,38 +24,57 @@ namespace BaroJunk
     public static ConfigCompareResult Compare(IConfig configA, IConfig configB)
       => new ConfigCompareResult(configA, configB);
 
+
+    /// <summary>
+    /// Make sure all nested configs are not null
+    /// + Set everything to defaults
+    /// </summary>
     public void Clear()
     {
-      foreach (ConfigEntry entry in this.GetAllEntriesRec())
+      foreach (ConfigEntry entry in this.GetEntriesRec())
       {
         entry.Value = Parser.DefaultFor(entry.Type);
       }
     }
 
-    //TODO best name ever
-    public void Normalize()
+    /// <summary>
+    /// Make sure all nested configs are not null
+    /// </summary>
+    public void Restore()
     {
-      foreach (ConfigEntry entry in this.GetAllEntriesRec())
+      void RestoreRec(object o)
       {
-        if (entry.IsConfig && entry.Value is null)
+        PropertyInfo[] props = o.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public);
+
+        foreach (PropertyInfo pi in props)
         {
-          entry.Value = Activator.CreateInstance(entry.Type);
+          if (pi.PropertyType.IsAssignableTo(typeof(IConfig)))
+          {
+            if (pi.GetValue(o) is null)
+            {
+              pi.SetValue(o, Parser.DefaultFor(pi.PropertyType));
+            }
+
+            RestoreRec(pi.GetValue(o));
+          }
         }
       }
+
+      RestoreRec(this);
     }
 
 
+    public void CopyTo(IConfig other)
+    {
+      foreach (var (key, entry) in this.GetAllFlat())
+      {
+        other.Get(key).Value = entry.Value;
+      }
+    }
     public IConfig Copy()
     {
       IConfig copy = (IConfig)Activator.CreateInstance(this.GetType());
-
-      copy.Normalize();
-
-      foreach (var (key, entry) in this.GetAllFlat())
-      {
-        copy.Get(key).Value = entry.Value;
-      }
-
+      this.CopyTo(copy);
       return copy;
     }
   }

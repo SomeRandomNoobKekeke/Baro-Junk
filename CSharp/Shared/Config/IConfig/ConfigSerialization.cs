@@ -32,33 +32,41 @@ namespace BaroJunk
 
     public XElement ToXML()
     {
-      XElement element = new XElement(Name);
-
-      foreach (IConfigEntry entry in Entries)
+      XElement ToXMLRec(XElement element, IConfig config)
       {
-        if (entry.IsConfig)
+        Mod.Logger.Log($"{element} {config}");
+        foreach (IConfigEntry entry in config.Entries)
         {
-          IConfig subConfig = entry.Value as IConfig;
-          if (subConfig is null) continue;
-          element.Add(subConfig.ToXML());
+          if (entry.IsConfig)
+          {
+            IConfig subConfig = entry.Value as IConfig;
+            if (subConfig is null) continue;
+            element.Add(ToXMLRec(
+              new XElement(entry.Name),
+              subConfig
+            ));
+          }
         }
+
+        foreach (IConfigEntry entry in Entries)
+        {
+          if (!entry.IsConfig)
+          {
+            element.Add(XMLParser.Serialize(entry));
+          }
+        }
+
+        return element;
       }
 
-      foreach (IConfigEntry entry in Entries)
-      {
-        if (!entry.IsConfig)
-        {
-          element.Add(XMLParser.Serialize(entry));
-        }
-      }
-
-      return element;
+      return ToXMLRec(new XElement(Name), this);
     }
 
     public void FromXML(XElement element)
     {
       foreach (XElement child in element.Elements())
       {
+
         IConfigEntry entry = Get(child.Name.ToString());
         if (!entry.IsValid) continue;
 

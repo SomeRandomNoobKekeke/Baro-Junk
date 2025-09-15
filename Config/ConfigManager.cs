@@ -22,7 +22,7 @@ namespace BaroJunk
       set
       {
         _currentConfig = value;
-        ConfigSaver.Init();
+        ConfigAutoSaver.Init();
         ConfigNetworking.Init();
         ConfigCommands.UpdateCommand();
       }
@@ -31,11 +31,11 @@ namespace BaroJunk
     private static string _savePath;
     public static string SavePath
     {
-      get => _savePath ?? ConfigSaver.DefaultSavePathFor(CurrentConfig);
+      get => _savePath ?? ConfigAutoSaver.DefaultSavePathFor(CurrentConfig);
       set
       {
         _savePath = value;
-        ConfigSaver.Init();
+        ConfigAutoSaver.Init();
       }
     }
 

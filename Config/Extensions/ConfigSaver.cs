@@ -10,9 +10,9 @@ using System.IO;
 
 namespace BaroJunk
 {
-  public static class ConfigSaver
+  public static class ConfigAutoSaver
   {
-    public enum ConfigSaverResult
+    public enum ConfigSaveResult
     {
       Ok, FileNotFound, ConfigIsNull, NotSupposedTo, Error
     }
@@ -67,24 +67,24 @@ namespace BaroJunk
       }
     }
 
-    public static ConfigSaverResult LoadSave(string path = null)
+    public static ConfigSaveResult LoadSave(string path = null)
     {
-      ConfigSaverResult result = Load(path);
+      ConfigSaveResult result = Load(path);
       Save(path);
       return result;
     }
 
-    public static ConfigSaverResult Save(string path = null)
+    public static ConfigSaveResult Save(string path = null)
     {
       if (!ShouldSave)
       {
         ConfigLogging.DebugLog($"-- Can't save config, NotSupposedTo");
-        return ConfigSaverResult.NotSupposedTo;
+        return ConfigSaveResult.NotSupposedTo;
       }
       if (ConfigManager.CurrentConfig is null)
       {
         ConfigLogging.DebugLog($"-- Can't save config, ConfigIsNull");
-        return ConfigSaverResult.ConfigIsNull;
+        return ConfigSaveResult.ConfigIsNull;
       }
 
       try
@@ -96,31 +96,31 @@ namespace BaroJunk
       catch (Exception e)
       {
         ConfigLogging.DebugLog($"-- Can't save config, {e.Message}");
-        return ConfigSaverResult.Error;
+        return ConfigSaveResult.Error;
       }
 
-      return ConfigSaverResult.Ok;
+      return ConfigSaveResult.Ok;
     }
 
 
-    public static ConfigSaverResult Load(string path = null)
+    public static ConfigSaveResult Load(string path = null)
     {
       if (!ShouldLoad)
       {
         ConfigLogging.DebugLog($"-- Can't load config, NotSupposedTo");
-        return ConfigSaverResult.NotSupposedTo;
+        return ConfigSaveResult.NotSupposedTo;
       }
 
       if (ConfigManager.CurrentConfig is null)
       {
         ConfigLogging.DebugLog($"-- Can't load config, ConfigIsNull");
-        return ConfigSaverResult.ConfigIsNull;
+        return ConfigSaveResult.ConfigIsNull;
       }
 
       if (!File.Exists(path ?? ConfigManager.SavePath))
       {
         ConfigLogging.DebugLog($"-- Can't load config, FileNotFound [{path ?? ConfigManager.SavePath}]");
-        return ConfigSaverResult.FileNotFound;
+        return ConfigSaveResult.FileNotFound;
       }
 
       try
@@ -131,10 +131,10 @@ namespace BaroJunk
       catch (Exception e)
       {
         ConfigLogging.DebugLog($"-- Can't load config, {e.Message}");
-        return ConfigSaverResult.Error;
+        return ConfigSaveResult.Error;
       }
 
-      return ConfigSaverResult.Ok;
+      return ConfigSaveResult.Ok;
     }
 
 

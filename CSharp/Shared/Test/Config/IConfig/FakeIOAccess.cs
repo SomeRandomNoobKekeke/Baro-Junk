@@ -12,7 +12,7 @@ using System.Xml.Linq;
 
 namespace BaroJunk
 {
-  public class FakeIOAdapter : IIOAdapter
+  public class FakeIOAccess : IIOAccess
   {
     public Dictionary<string, string> Storage = new();
 
@@ -20,7 +20,7 @@ namespace BaroJunk
     {
       ArgumentNullException.ThrowIfNull(path);
       if (path.Trim() == "") throw new ArgumentException(path);
-      if (!Storage.ContainsKey(path)) throw new Exception("File not found");//bruh
+      if (!Storage.ContainsKey(path)) throw new Exception("File not found"); //bruh
 
       return XDocument.Parse(Storage[path]);
     }

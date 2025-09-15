@@ -30,9 +30,9 @@ namespace BaroJunk
 
     public IConfigEntry this[string key] { get => Get(key); }
     public IConfigEntry Get(string entryPath)
-      => PropAccess.GetEntry(Value, entryPath);
+      => EntryAccess.GetEntry(Value, entryPath);
     public IEnumerable<IConfigEntry> Entries
-      => PropAccess.GetAllEntries(Value);
+      => EntryAccess.GetAllEntries(Value);
 
     public bool IsConfig => Property.PropertyType.IsAssignableTo(typeof(IConfig));
 

@@ -32,6 +32,8 @@ namespace BaroJunk
       };
     }
 
+    public UTest(object realValue, [CallerArgumentExpression("realValue")] string expression = "")
+      => Init(realValue, true, expression);
     public UTest(object realValue, object expect, [CallerArgumentExpression("realValue")] string expression = "")
       => Init(realValue, expect, expression);
     public UTest(Func<object> method, object expect, [CallerArgumentExpression("method")] string expression = "")
