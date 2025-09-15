@@ -8,10 +8,10 @@ using System.Xml;
 using System.Xml.Linq;
 using System.IO;
 using System.Text;
+using Microsoft.Xna.Framework;
 
 namespace BaroJunk
 {
-
   public partial interface IConfig
   {
     public string ToText()
@@ -34,7 +34,6 @@ namespace BaroJunk
     {
       XElement ToXMLRec(XElement element, IConfig config)
       {
-        Mod.Logger.Log($"{element} {config}");
         foreach (IConfigEntry entry in config.Entries)
         {
           if (entry.IsConfig)
@@ -48,7 +47,7 @@ namespace BaroJunk
           }
         }
 
-        foreach (IConfigEntry entry in Entries)
+        foreach (IConfigEntry entry in config.Entries)
         {
           if (!entry.IsConfig)
           {

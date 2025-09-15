@@ -21,8 +21,6 @@ namespace BaroJunk
       config.Self().IOAccess = ioAccess;
       config.Save($"ModSettings\\Configs\\{config.Self().ID}.xml");
 
-
-
       Tests.Add(new UDictTest(ioAccess.Storage, new Dictionary<string, string>()
       {
         [$"ModSettings\\Configs"] = "dir",
@@ -32,16 +30,11 @@ namespace BaroJunk
 
       ExampleConfigs.ConfigA loaded = new();
       loaded.Self().IOAccess = ioAccess;
-      // loaded.Clear();
+      loaded.Clear();
 
+      Tests.Add(new UTest(!config.EqualsTo(loaded)));
       loaded.Load($"ModSettings\\Configs\\{config.Self().ID}.xml");
-
-      if (!AddTest(new UTest(loaded.Equals(config), true)).Passed)
-      {
-        IConfig.Logger.Log(config.CompareTo(loaded));
-      }
-
-
+      Tests.Add(new UTest(config.EqualsTo(loaded)));
     }
 
   }
