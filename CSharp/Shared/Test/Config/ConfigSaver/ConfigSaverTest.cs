@@ -26,6 +26,16 @@ namespace BaroJunk
         [$"ModSettings\\Configs"] = "dir",
         [$"ModSettings\\Configs\\{config.Self().ID}.xml"] = config.ToXML().ToString(),
       }));
+
+
+      ExampleConfigs.ConfigA loaded = new();
+      loaded.Clear();
+      saver.Config = loaded;
+      saver.Load();
+
+      IConfig.Logger.Log(loaded.CompareTo(config));
+
+      Tests.Add(new UTest(loaded.Equals(config), true));
     }
 
   }

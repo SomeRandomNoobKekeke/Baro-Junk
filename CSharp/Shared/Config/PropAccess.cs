@@ -13,6 +13,7 @@ using Barotrauma;
 
 namespace BaroJunk
 {
+  //TODO mb i should make it instance and add similar classes for access to dicts and lua tables 
   public static class PropAccess
   {
     public static object GetProp(object target, string propPath)
@@ -162,6 +163,9 @@ namespace BaroJunk
 
     public static Dictionary<string, object> GetFlatValues(object config)
       => GetFlat(config).ToDictionary(kp => kp.Key, kp => kp.Value.Value);
+
+    public static Dictionary<string, object> GetAllFlatValues(object config)
+      => GetAllFlat(config).ToDictionary(kp => kp.Key, kp => kp.Value.Value);
   }
 
 

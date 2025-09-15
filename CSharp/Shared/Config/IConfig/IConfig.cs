@@ -56,7 +56,7 @@ namespace BaroJunk
     public Dictionary<string, ConfigEntry> GetFlat() => PropAccess.GetFlat(this);
     public Dictionary<string, ConfigEntry> GetAllFlat() => PropAccess.GetAllFlat(this);
     public Dictionary<string, object> GetFlatValues() => PropAccess.GetFlatValues(this);
-
+    public Dictionary<string, object> GetAllFlatValues() => PropAccess.GetAllFlatValues(this);
   }
 
 
