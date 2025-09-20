@@ -20,8 +20,8 @@ namespace BaroJunk
 
     public IConfig Config;
     public ConfigModel Model;
-    public IIOAccess IOAccess = new IOAccess();
-
+    public IIOFacade IOFacade = new IOFacade();
+    public INetFacade NetFacade = new NetFacade();
 
     public ConfigMixin(IConfig config)
     {

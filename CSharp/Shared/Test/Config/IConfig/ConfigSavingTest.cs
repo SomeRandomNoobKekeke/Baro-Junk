@@ -16,12 +16,12 @@ namespace BaroJunk
     {
       ExampleConfigs.ConfigA config = new();
 
-      FakeIOAccess ioAccess = new FakeIOAccess();
+      FakeIOAccess IOFacade = new FakeIOAccess();
 
-      config.Self().IOAccess = ioAccess;
+      config.Self().IOFacade = IOFacade;
       config.Save($"ModSettings\\Configs\\{config.Self().ID}.xml");
 
-      Tests.Add(new UDictTest(ioAccess.Storage, new Dictionary<string, string>()
+      Tests.Add(new UDictTest(IOFacade.Storage, new Dictionary<string, string>()
       {
         [$"ModSettings\\Configs"] = "dir",
         [$"ModSettings\\Configs\\{config.Self().ID}.xml"] = config.ToXML().ToString(),
@@ -29,7 +29,7 @@ namespace BaroJunk
 
 
       ExampleConfigs.ConfigA loaded = new();
-      loaded.Self().IOAccess = ioAccess;
+      loaded.Self().IOFacade = IOFacade;
       loaded.Clear();
 
       Tests.Add(new UTest(!config.EqualsTo(loaded)));

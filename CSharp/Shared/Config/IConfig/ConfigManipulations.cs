@@ -14,7 +14,6 @@ namespace BaroJunk
 
   public partial interface IConfig
   {
-    //TODO this is potentially cursed
     public bool EqualsTo(IConfig other) => IsEqual(this, other);
     public static bool IsEqual(IConfig configA, IConfig configB)
       => Compare(configA, configB).Equals;
@@ -26,8 +25,7 @@ namespace BaroJunk
 
 
     /// <summary>
-    /// Make sure all nested configs are not null
-    /// + Set everything to defaults
+    /// Set everything to defaults
     /// </summary>
     public void Clear()
     {

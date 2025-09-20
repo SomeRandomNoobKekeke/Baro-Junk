@@ -35,7 +35,7 @@ namespace BaroJunk
     };
 
     public static void Encode(IWriteMessage msg, ConfigEntry entry)
-      => Encode(msg, entry.Value, entry.Property.PropertyType);
+      => Encode(msg, entry.Value, entry.Type);
     public static void Encode(IWriteMessage msg, object data, Type dataType)
     {
       //HACK

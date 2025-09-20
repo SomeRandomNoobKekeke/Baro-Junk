@@ -29,11 +29,17 @@ namespace BaroJunk
 
     public ConfigMixin Mixin => ConfigMixin.Mixins.GetValue(this, c => new ConfigMixin(c));
 
-    public IIOAccess IOAccess
+    public IIOFacade IOFacade
     {
-      get => Mixin.IOAccess;
-      set => Mixin.IOAccess = value;
+      get => Mixin.IOFacade;
+      set => Mixin.IOFacade = value;
     }
+    public INetFacade NetFacade
+    {
+      get => Mixin.NetFacade;
+      set => Mixin.NetFacade = value;
+    }
+
     public static ConfigLogger Logger = new();
 
     public void OnPropChanged(Action<string, object> action) => Mixin.Model.OnPropChanged(action);
