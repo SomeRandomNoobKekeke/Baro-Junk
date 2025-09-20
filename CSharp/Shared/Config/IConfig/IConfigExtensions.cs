@@ -30,9 +30,9 @@ namespace BaroJunk
 
 
 
-    public static ConfigSaveResult LoadSave(this IConfig config, string path) => config.LoadSave(path);
-    public static ConfigSaveResult Save(this IConfig config, string path) => config.Save(path);
-    public static ConfigSaveResult Load(this IConfig config, string path) => config.Load(path);
+    public static SimpleResult LoadSave(this IConfig config, string path) => config.LoadSave(path);
+    public static SimpleResult Save(this IConfig config, string path) => config.Save(path);
+    public static SimpleResult Load(this IConfig config, string path) => config.Load(path);
 
 
 

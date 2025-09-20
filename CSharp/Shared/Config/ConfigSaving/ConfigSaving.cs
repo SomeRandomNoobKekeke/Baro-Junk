@@ -14,14 +14,14 @@ namespace BaroJunk
 
   public partial interface IConfig
   {
-    public ConfigSaveResult LoadSave(string path)
+    public SimpleResult LoadSave(string path)
     {
-      ConfigSaveResult result = Load(path);
+      SimpleResult result = Load(path);
       Save(path);
       return result;
     }
 
-    public ConfigSaveResult Save(string path)
+    public SimpleResult Save(string path)
     {
       try
       {
@@ -33,20 +33,20 @@ namespace BaroJunk
       }
       catch (Exception e)
       {
-        return new ConfigSaveResult(false)
+        return new SimpleResult(false)
         {
           Details = $"Can't save config: {e.Message}",
           Exception = e,
         };
       }
 
-      return new ConfigSaveResult(true);
+      return new SimpleResult(true);
     }
 
 
-    public ConfigSaveResult Load(string path)
+    public SimpleResult Load(string path)
     {
-      if (!IOFacade.FileExists(path)) return new ConfigSaveResult(false)
+      if (!IOFacade.FileExists(path)) return new SimpleResult(false)
       {
         Details = $"Can't load config: [{path}] not found",
       };
@@ -58,14 +58,14 @@ namespace BaroJunk
       }
       catch (Exception e)
       {
-        return new ConfigSaveResult(false)
+        return new SimpleResult(false)
         {
           Details = $"Can't load config: {e.Message}",
           Exception = e,
         };
       }
 
-      return new ConfigSaveResult(true);
+      return new SimpleResult(true);
     }
   }
 
