@@ -28,9 +28,14 @@ namespace BaroJunk
       set => Config.Mixin.ConfigManager.NetSync = value;
     }
 
+    public string CommandName
+    {
+      get => Config.Mixin.ConfigManager.CommandsManager.CommandName;
+      set => Config.Mixin.ConfigManager.CommandsManager.CommandName = value;
+    }
+
     public bool ShouldSaveInMultiplayer { get; set; } = false;
     public bool LoadOnInit { get; set; } = false;
-    public bool SyncOnInit { get; set; } = false;
     public bool SaveOnQuit { get; set; } = true;
     public bool SaveEveryRound { get; set; } = true;
     public string SavePath { get; set; } = null;

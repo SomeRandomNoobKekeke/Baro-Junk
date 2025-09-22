@@ -34,6 +34,43 @@ namespace BaroJunk
       }
     }
 
+    //TODO uncringe
+    #region Cringe
+
+#if CLIENT
+    public SimpleResult Ask()
+    {
+      if (GameMain.IsSingleplayer) return SimpleResult.Failure("It's not multiplayer");
+      NetFacade.ClientSend(NetHeader + "_ask");
+      return SimpleResult.Success();
+    }
+
+    public SimpleResult Sync()
+    {
+      if (GameMain.IsSingleplayer) return SimpleResult.Failure("It's not multiplayer");
+
+      //TODO why ConsoleCommands permission is hardcoded here?
+      if (!NetFacade.DoIHavePermissions()) return SimpleResult.Failure(
+        "You need to be the host or have ConsoleCommands permission to use it"
+      );
+
+      NetFacade.ClientEncondeAndSend(NetHeader + "_sync", this);
+      return SimpleResult.Success();
+    }
+
+#elif SERVER
+
+    public SimpleResult Sync()
+    {
+      if (GameMain.IsSingleplayer) return SimpleResult.Failure("It's not multiplayer");
+      NetFacade.ServerEncondeAndBroadcast(NetHeader + "_sync", this);
+      return SimpleResult.Success();
+    }
+#endif
+
+
+    #endregion
+
 
   }
 

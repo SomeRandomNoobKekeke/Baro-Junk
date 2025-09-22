@@ -12,10 +12,10 @@ using Barotrauma.Networking;
 
 namespace BaroJunk
 {
-  public class ConfigServerNetController
+  public class ConfigServerNetManager
   {
     public IConfig Config;
-    public ConfigServerNetController(IConfig config) => Config = config;
+    public ConfigServerNetManager(IConfig config) => Config = config;
 
     private bool enabled; public bool Enabled
     {

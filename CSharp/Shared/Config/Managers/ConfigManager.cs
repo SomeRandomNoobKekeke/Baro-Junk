@@ -20,8 +20,9 @@ namespace BaroJunk
 
 
     public ConfigAutoSaver AutoSaver;
-    public ConfigClientNetController ClientNetController;
-    public ConfigServerNetController ServerNetController;
+    public ConfigClientNetManager ClientNetController;
+    public ConfigServerNetManager ServerNetController;
+    public ConfigCommandsManager CommandsManager;
 
     //HACK bruh
     public bool NetSync
@@ -49,8 +50,9 @@ namespace BaroJunk
     {
       Config = config;
       AutoSaver = new ConfigAutoSaver(config);
-      ClientNetController = new ConfigClientNetController(config);
-      ServerNetController = new ConfigServerNetController(config);
+      ClientNetController = new ConfigClientNetManager(config);
+      ServerNetController = new ConfigServerNetManager(config);
+      CommandsManager = new ConfigCommandsManager(config);
     }
   }
 }
