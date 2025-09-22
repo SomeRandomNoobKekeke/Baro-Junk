@@ -19,7 +19,7 @@ namespace BaroJunk
       UTestCommands.AddCommands();
 
       UTestExplorer.ScanCategory("internal");
-      UTestRunner.RunRecursive<ConfigSavingTest>().Log();
+      UTestRunner.RunRecursive<ConfigTest>().Log();
 
 
       Experiment();

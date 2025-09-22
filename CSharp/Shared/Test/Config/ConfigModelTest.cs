@@ -10,7 +10,7 @@ using Barotrauma;
 
 namespace BaroJunk
 {
-  public class ConfigModelTest : UTestPack
+  public class ConfigModelTest : ConfigTest
   {
     public override void CreateTests()
     {

@@ -10,7 +10,7 @@ using Barotrauma;
 
 namespace BaroJunk
 {
-  public class ConfigManipulationsTest : UTestPack
+  public class ConfigManipulationsTest : ConfigTest
   {
     public class EqualsTest : ConfigManipulationsTest
     {

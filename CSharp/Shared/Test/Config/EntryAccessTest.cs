@@ -11,7 +11,7 @@ using Barotrauma;
 namespace BaroJunk
 {
 
-  public class EntryAccessTest : UTestPack
+  public class EntryAccessTest : ConfigTest
   {
 
     public class GetEntryTest : EntryAccessTest
