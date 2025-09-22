@@ -22,10 +22,10 @@ namespace BaroJunk
         husked.NestedConfigB.IntProp = 123;
         husked.NestedConfigB.NestedConfigC = null;
 
-        Tests.Add(new UTest(!husked.EqualsTo(husked2)));
+        Tests.Add(new UTest(!husked.EqualsTo(husked2), true));
         husked2.NestedConfigB.IntProp = 123;
         husked2.NestedConfigB.NestedConfigC = null;
-        Tests.Add(new UTest(husked.EqualsTo(husked2)));
+        Tests.Add(new UTest(husked.EqualsTo(husked2), true));
       }
     }
 
@@ -37,10 +37,10 @@ namespace BaroJunk
 
         husked.NestedConfigB = null;
 
-        Tests.Add(new UTest(husked.NestedConfigB is null));
+        Tests.Add(new UTest(husked.NestedConfigB is null, true));
         husked.Self().Restore();
-        Tests.Add(new UTest(husked.NestedConfigB is not null));
-        Tests.Add(new UTest(husked.NestedConfigB.NestedConfigC is not null));
+        Tests.Add(new UTest(husked.NestedConfigB is not null, true));
+        Tests.Add(new UTest(husked.NestedConfigB.NestedConfigC is not null, true));
       }
 
     }
@@ -69,9 +69,9 @@ namespace BaroJunk
 
         ExampleConfigs.ConfigA husked2 = new();
 
-        Tests.Add(new UTest(!husked.EqualsTo(husked2)));
+        Tests.Add(new UTest(!husked.EqualsTo(husked2), true));
         husked.Self().CopyTo(husked2);
-        Tests.Add(new UTest(husked.EqualsTo(husked2)));
+        Tests.Add(new UTest(husked.EqualsTo(husked2), true));
       }
     }
   }

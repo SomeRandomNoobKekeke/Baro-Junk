@@ -32,9 +32,9 @@ namespace BaroJunk
       loaded.Self().Facades.IOFacade = IOFacade;
       loaded.Clear();
 
-      Tests.Add(new UTest(!config.EqualsTo(loaded)));
+      Tests.Add(new UTest(!config.EqualsTo(loaded), true));
       loaded.Load($"ModSettings\\Configs\\{config.Self().ID}.xml");
-      Tests.Add(new UTest(config.EqualsTo(loaded)));
+      Tests.Add(new UTest(config.EqualsTo(loaded), true));
     }
 
   }
