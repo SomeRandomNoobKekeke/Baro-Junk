@@ -18,7 +18,7 @@ namespace BaroJunk
 
       FakeIOAccess IOFacade = new FakeIOAccess();
 
-      config.Self().IOFacade = IOFacade;
+      config.Self().Facades.IOFacade = IOFacade;
       config.Save($"ModSettings\\Configs\\{config.Self().ID}.xml");
 
       Tests.Add(new UDictTest(IOFacade.Storage, new Dictionary<string, string>()
@@ -29,7 +29,7 @@ namespace BaroJunk
 
 
       ExampleConfigs.ConfigA loaded = new();
-      loaded.Self().IOFacade = IOFacade;
+      loaded.Self().Facades.IOFacade = IOFacade;
       loaded.Clear();
 
       Tests.Add(new UTest(!config.EqualsTo(loaded)));

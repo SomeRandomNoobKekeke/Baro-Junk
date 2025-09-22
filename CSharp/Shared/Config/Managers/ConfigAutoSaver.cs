@@ -29,8 +29,7 @@ namespace BaroJunk
       set
       {
         enabled = value;
-        if (enabled) Initialize();
-        else Deactivate();
+        if (enabled) Initialize(); else Deactivate();
       }
     }
 
@@ -43,13 +42,13 @@ namespace BaroJunk
       if (Config.Settings.LoadOnInit) Config.LoadSave(Config.Settings.SavePath);
 
 
-      GameMain.LuaCs.Hook.Add("stop", $"save {Config.ID} config on quit", (object[] args) =>
+      Config.Facades.HooksFacade.AddHook("stop", $"save {Config.ID} config on quit", (object[] args) =>
       {
         if (Config.Settings.SaveOnQuit && ShouldSave) Config?.Save(Config.Settings.SavePath);
         return null;
       });
 
-      GameMain.LuaCs.Hook.Add("roundEnd", $"save {Config.ID} config on round end", (object[] args) =>
+      Config.Facades.HooksFacade.AddHook("roundEnd", $"save {Config.ID} config on round end", (object[] args) =>
       {
         if (Config.Settings.SaveEveryRound && ShouldSave) Config?.Save(Config.Settings.SavePath);
         return null;
@@ -58,8 +57,8 @@ namespace BaroJunk
 
     private void Deactivate()
     {
-      GameMain.LuaCs.Hook.Add("stop", $"save {Config.ID} config on quit", (object[] args) => null);
-      GameMain.LuaCs.Hook.Add("roundEnd", $"save {Config.ID} config on round end", (object[] args) => null);
+      Config.Facades.HooksFacade.AddHook("stop", $"save {Config.ID} config on quit", (object[] args) => null);
+      Config.Facades.HooksFacade.AddHook("roundEnd", $"save {Config.ID} config on round end", (object[] args) => null);
     }
 
 

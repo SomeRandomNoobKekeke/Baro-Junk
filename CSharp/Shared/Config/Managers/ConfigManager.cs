@@ -15,8 +15,7 @@ namespace BaroJunk
   {
     public IConfig Config;
 
-    public IIOFacade IOFacade { get; set; } = new IOFacade();
-    public INetFacade NetFacade { get; set; } = new NetFacade();
+
 
 
     public ConfigAutoSaver AutoSaver;
@@ -24,7 +23,7 @@ namespace BaroJunk
     public ConfigServerNetManager ServerNetController;
     public ConfigCommandsManager CommandsManager;
 
-    //HACK bruh
+    //HACK (cringe)
     public bool NetSync
     {
       get

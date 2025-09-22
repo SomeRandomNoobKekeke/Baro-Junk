@@ -30,8 +30,8 @@ namespace BaroJunk
     private void Initialize()
     {
       if (!GameMain.IsMultiplayer) return;
-      Config.NetFacade.ListenForServer(Config.NetHeader + "_sync", Receive);
-      Config.NetFacade.ClientSend(Config.NetHeader + "_ask");
+      Config.Facades.NetFacade.ListenForServer(Config.NetHeader + "_sync", Receive);
+      Config.Facades.NetFacade.ClientSend(Config.NetHeader + "_ask");
     }
 
     public void Receive(IReadMessage msg)

@@ -23,15 +23,11 @@ namespace BaroJunk
       get => Mixin.ConfigManager;
       set => Mixin.ConfigManager = value;
     }
-    public IIOFacade IOFacade
+
+    public ConfigFacades Facades
     {
-      get => Mixin.ConfigManager.IOFacade;
-      set => Mixin.ConfigManager.IOFacade = value;
-    }
-    public INetFacade NetFacade
-    {
-      get => Mixin.ConfigManager.NetFacade;
-      set => Mixin.ConfigManager.NetFacade = value;
+      get => Mixin.Facades;
+      set => Mixin.Facades = value;
     }
 
     public ConfigLogger Logger

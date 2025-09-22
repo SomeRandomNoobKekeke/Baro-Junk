@@ -18,20 +18,20 @@ namespace BaroJunk
 
     public bool AutoSave
     {
-      get => Config.Mixin.ConfigManager.AutoSaver.Enabled;
-      set => Config.Mixin.ConfigManager.AutoSaver.Enabled = value;
+      get => Config.Manager.AutoSaver.Enabled;
+      set => Config.Manager.AutoSaver.Enabled = value;
     }
 
     public bool NetSync
     {
-      get => Config.Mixin.ConfigManager.NetSync;
-      set => Config.Mixin.ConfigManager.NetSync = value;
+      get => Config.Manager.NetSync;
+      set => Config.Manager.NetSync = value;
     }
 
     public string CommandName
     {
-      get => Config.Mixin.ConfigManager.CommandsManager.CommandName;
-      set => Config.Mixin.ConfigManager.CommandsManager.CommandName = value;
+      get => Config.Manager.CommandsManager.CommandName;
+      set => Config.Manager.CommandsManager.CommandName = value;
     }
 
     public bool ShouldSaveInMultiplayer { get; set; } = false;

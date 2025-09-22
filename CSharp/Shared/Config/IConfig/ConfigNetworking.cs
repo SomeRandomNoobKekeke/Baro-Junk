@@ -41,7 +41,7 @@ namespace BaroJunk
     public SimpleResult Ask()
     {
       if (GameMain.IsSingleplayer) return SimpleResult.Failure("It's not multiplayer");
-      NetFacade.ClientSend(NetHeader + "_ask");
+      Facades.NetFacade.ClientSend(NetHeader + "_ask");
       return SimpleResult.Success();
     }
 
@@ -50,11 +50,11 @@ namespace BaroJunk
       if (GameMain.IsSingleplayer) return SimpleResult.Failure("It's not multiplayer");
 
       //TODO why ConsoleCommands permission is hardcoded here?
-      if (!NetFacade.DoIHavePermissions()) return SimpleResult.Failure(
+      if (!Facades.NetFacade.DoIHavePermissions()) return SimpleResult.Failure(
         "You need to be the host or have ConsoleCommands permission to use it"
       );
 
-      NetFacade.ClientEncondeAndSend(NetHeader + "_sync", this);
+      Facades.NetFacade.ClientEncondeAndSend(NetHeader + "_sync", this);
       return SimpleResult.Success();
     }
 
@@ -63,7 +63,7 @@ namespace BaroJunk
     public SimpleResult Sync()
     {
       if (GameMain.IsSingleplayer) return SimpleResult.Failure("It's not multiplayer");
-      NetFacade.ServerEncondeAndBroadcast(NetHeader + "_sync", this);
+      Facades.NetFacade.ServerEncondeAndBroadcast(NetHeader + "_sync", this);
       return SimpleResult.Success();
     }
 #endif

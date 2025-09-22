@@ -22,8 +22,9 @@ namespace BaroJunk
 
     public ConfigModel Model;
     public ConfigManager ConfigManager;
-    public ConfigLogger Logger = new();
+    public ConfigLogger Logger;
     public ConfigSettings Settings;
+    public ConfigFacades Facades;
 
 
     public ConfigMixin(IConfig config)
@@ -32,6 +33,8 @@ namespace BaroJunk
       Model = new ConfigModel(config);
       ConfigManager = new ConfigManager(config);
       Settings = new ConfigSettings(config);
+      Logger = new ConfigLogger();
+      Facades = new ConfigFacades();
     }
   }
 

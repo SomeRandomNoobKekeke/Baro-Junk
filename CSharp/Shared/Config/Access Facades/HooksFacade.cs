@@ -14,13 +14,31 @@ namespace BaroJunk
 {
   public interface IHooksFacade
   {
-
+    public void CallHook(string name);
+    public void CallPatch(MethodBase method);
+    public void AddHook(string name, string identifier, LuaCsFunc func);
+    public void Patch(
+      string identifier,
+      MethodBase method,
+      LuaCsPatchFunc patch,
+      LuaCsHook.HookMethodType hookType = LuaCsHook.HookMethodType.Before
+    );
   }
 
   public class HooksFacade : IHooksFacade
   {
-    public event Action OnStop;
-    public event Action OnRoundEnd;
+    public void CallHook(string name) { }
+    public void CallPatch(MethodBase method) { }
+    public void AddHook(string name, string identifier, LuaCsFunc func)
+      => GameMain.LuaCs.Hook.Add(name, identifier, func);
+
+    public void Patch(
+      string identifier,
+      MethodBase method,
+      LuaCsPatchFunc patch,
+      LuaCsHook.HookMethodType hookType = LuaCsHook.HookMethodType.Before
+    ) => GameMain.LuaCs.Hook.Patch(identifier, method, patch, hookType);
+
   }
 
 

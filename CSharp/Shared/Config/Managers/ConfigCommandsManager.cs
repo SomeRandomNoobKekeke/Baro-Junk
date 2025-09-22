@@ -30,16 +30,16 @@ namespace BaroJunk
 
     private void UpdateCommand(string name)
     {
-      if (Command is not null) DebugConsole.Commands.Remove(Command);
+      if (Command is not null) Config.Facades.ConsoleFacade.Remove(Command);
       if (name is null) return;
 
       Command = new DebugConsole.Command(CommandName, "", EditConfig_VanillaCommand, Config.ToHints());
-      DebugConsole.Commands.Insert(0, Command);
+      Config.Facades.ConsoleFacade.Insert(Command);
     }
 
     private void AddHooks()
     {
-      GameMain.LuaCs.Hook.Add("stop", $"remove {Config.ID} config command", (object[] args) =>
+      Config.Facades.HooksFacade.AddHook("stop", $"remove {Config.ID} config command", (object[] args) =>
       {
         if (Command is not null)
         {
@@ -49,19 +49,22 @@ namespace BaroJunk
       });
 
 
-      GameMain.LuaCs.Hook.Patch(Config.ID + ".PermitConfigCommand", typeof(DebugConsole).GetMethod("IsCommandPermitted", BindingFlags.NonPublic | BindingFlags.Static),
-      (object instance, LuaCsHook.ParameterTable ptable) =>
-      {
-        if (Command is null) return null;
-
-        if (((Identifier)ptable["command"]) == Command.Names[0])
+      Config.Facades.HooksFacade.Patch(
+        Config.ID + ".PermitConfigCommand",
+        typeof(DebugConsole).GetMethod("IsCommandPermitted", BindingFlags.NonPublic | BindingFlags.Static),
+        (object instance, LuaCsHook.ParameterTable ptable) =>
         {
-          ptable.ReturnValue = true;
-          ptable.PreventExecution = true;
-        }
+          if (Command is null) return null;
 
-        return null;
-      });
+          if (((Identifier)ptable["command"]) == Command.Names[0])
+          {
+            ptable.ReturnValue = true;
+            ptable.PreventExecution = true;
+          }
+
+          return null;
+        }
+      );
     }
 
     public void EditConfig_VanillaCommand(string[] args)

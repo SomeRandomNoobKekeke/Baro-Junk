@@ -25,11 +25,11 @@ namespace BaroJunk
     {
       try
       {
-        IOFacade.EnsureDirectory(Path.GetDirectoryName(path));
+        Facades.IOFacade.EnsureDirectory(Path.GetDirectoryName(path));
 
         XDocument xdoc = new XDocument();
         xdoc.Add(ToXML());
-        IOFacade.SaveXDoc(xdoc, path);
+        Facades.IOFacade.SaveXDoc(xdoc, path);
       }
       catch (Exception e)
       {
@@ -47,11 +47,11 @@ namespace BaroJunk
 
     public SimpleResult Load(string path)
     {
-      if (!IOFacade.FileExists(path)) return SimpleResult.Failure($"Can't load config: [{path}] not found");
+      if (!Facades.IOFacade.FileExists(path)) return SimpleResult.Failure($"Can't load config: [{path}] not found");
 
       try
       {
-        XDocument xdoc = IOFacade.LoadXDoc(path);
+        XDocument xdoc = Facades.IOFacade.LoadXDoc(path);
         this.FromXML(xdoc.Root);
       }
       catch (Exception e)

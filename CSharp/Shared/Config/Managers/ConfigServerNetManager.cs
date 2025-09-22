@@ -30,9 +30,9 @@ namespace BaroJunk
     private void Initialize()
     {
       if (!GameMain.IsMultiplayer) return;
-      Config.NetFacade.ListenForClients(Config.NetHeader + "_ask", Give);
-      Config.NetFacade.ListenForClients(Config.NetHeader + "_sync", Receive);
-      Config.NetFacade.ServerEncondeAndBroadcast(Config.NetHeader + "_sync", Config);
+      Config.Facades.NetFacade.ListenForClients(Config.NetHeader + "_ask", Give);
+      Config.Facades.NetFacade.ListenForClients(Config.NetHeader + "_sync", Receive);
+      Config.Facades.NetFacade.ServerEncondeAndBroadcast(Config.NetHeader + "_sync", Config);
     }
 
     //TODO how to not fail silently here?
@@ -40,17 +40,17 @@ namespace BaroJunk
     {
       if (!Enabled) return;
       if (Config is null) return;
-      Config.NetFacade.ServerEncondeAndSend(Config.NetHeader + "_sync", Config, client);
+      Config.Facades.NetFacade.ServerEncondeAndSend(Config.NetHeader + "_sync", Config, client);
     }
 
     public void Receive(IReadMessage msg, Client client)
     {
       if (!Enabled) return;
       if (Config is null) return;
-      if (!Config.NetFacade.DoesClientHasPermissions(client)) return;
+      if (!Config.Facades.NetFacade.DoesClientHasPermissions(client)) return;
 
       Config.NetDecode(msg);
-      Config.NetFacade.ServerEncondeAndBroadcast(Config.NetHeader + "_sync", Config);
+      Config.Facades.NetFacade.ServerEncondeAndBroadcast(Config.NetHeader + "_sync", Config);
     }
   }
 
