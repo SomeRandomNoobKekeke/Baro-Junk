@@ -106,6 +106,7 @@ namespace BaroJunk
       foreach (Type T in assembly.GetTypes())
       {
         if (T.IsAbstract) continue;
+        if (T == typeof(UTestPack)) continue;
 
         if (T.IsAssignableTo(typeof(UTestPack)))
         {
