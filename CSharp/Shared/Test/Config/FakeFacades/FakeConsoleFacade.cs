@@ -22,6 +22,15 @@ namespace BaroJunk
     public void Insert(DebugConsole.Command command)
       => Commands.Insert(0, command);
 
+    public void Execute(string command)
+    {
+      if (command is null) return;
+      string[] parts = command.Split(' ');
+
+      Commands.Find(c => c.Names[0] == parts[0])?.Execute(parts.Skip(1).ToArray());
+    }
+
+
   }
 
 }

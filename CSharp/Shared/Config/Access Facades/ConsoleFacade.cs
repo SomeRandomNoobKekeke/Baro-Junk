@@ -16,6 +16,7 @@ namespace BaroJunk
   {
     public void Remove(DebugConsole.Command command);
     public void Insert(DebugConsole.Command command);
+    public void Execute(string command);
   }
 
   public class ConsoleFacade : IConsoleFacade
@@ -25,7 +26,8 @@ namespace BaroJunk
 
     public void Insert(DebugConsole.Command command)
       => DebugConsole.Commands.Insert(0, command);
-
+    public void Execute(string command)
+      => DebugConsole.ExecuteCommand(command);
   }
 
 }

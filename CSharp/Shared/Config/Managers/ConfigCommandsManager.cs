@@ -100,8 +100,16 @@ namespace BaroJunk
 
         try
         {
-          flat[args[0]].Value = Parser.Parse(args[1], flat[args[0]].Type);
-          if (GameMain.IsMultiplayer) Config.Sync();
+          SimpleResult result = Parser.Parse(args[1], flat[args[0]].Type);
+          if (result.Ok)
+          {
+            flat[args[0]].Value = result.Result;
+            if (GameMain.IsMultiplayer) Config.Sync();
+          }
+          else
+          {
+            Config.Logger.Warning(result.Details);
+          }
         }
         catch (Exception e)
         {

@@ -23,17 +23,19 @@ namespace BaroJunk
       return new UTest(ConsoleFacade.Commands.First()?.Names[0], "bruh");
     }
 
-    // public UTest ShouldAddCommmandWhenYouSetName()
-    // {
-    //   ExampleConfigs.ConfigA config = new();
-    //   FakeConsoleFacade ConsoleFacade = new FakeConsoleFacade();
+    public UTest CommandShouldBeAbleToChangeConfig()
+    {
+      ExampleConfigs.ConfigA config = new();
+      FakeConsoleFacade ConsoleFacade = new FakeConsoleFacade();
 
-    //   config.Self().Facades.ConsoleFacade = ConsoleFacade;
+      config.Self().Facades.ConsoleFacade = ConsoleFacade;
 
-    //   config.Settings().CommandName = "bruh";
+      config.Settings().CommandName = "bruh";
 
-    //   return new UTest(ConsoleFacade.Commands.First()?.Names[0], "bruh");
-    // }
+      ConsoleFacade.Execute("bruh NestedConfigB.StringProp bebebe");
+
+      return new UTest(config.NestedConfigB.StringProp, "bebebe");
+    }
 
 
   }

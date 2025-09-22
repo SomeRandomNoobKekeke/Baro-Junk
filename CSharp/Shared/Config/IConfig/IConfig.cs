@@ -32,6 +32,7 @@ namespace BaroJunk
       set => Mixin.Facades = value;
     }
 
+    //TODO logger probably shouldn't be exposed like this, it should be behind some facade, i'm unable to test log output because of this
     public ConfigLogger Logger
     {
       get => Mixin.Logger;
