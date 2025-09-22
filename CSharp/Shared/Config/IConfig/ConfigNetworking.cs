@@ -40,14 +40,14 @@ namespace BaroJunk
 #if CLIENT
     public SimpleResult Ask()
     {
-      if (GameMain.IsSingleplayer) return SimpleResult.Failure("It's not multiplayer");
+      if (!Facades.NetFacade.IsMultiplayer) return SimpleResult.Failure("It's not multiplayer");
       Facades.NetFacade.ClientSend(NetHeader + "_ask");
       return SimpleResult.Success();
     }
 
     public SimpleResult Sync()
     {
-      if (GameMain.IsSingleplayer) return SimpleResult.Failure("It's not multiplayer");
+      if (!Facades.NetFacade.IsMultiplayer) return SimpleResult.Failure("It's not multiplayer");
 
       //TODO why ConsoleCommands permission is hardcoded here?
       if (!Facades.NetFacade.DoIHavePermissions()) return SimpleResult.Failure(
@@ -62,7 +62,7 @@ namespace BaroJunk
 
     public SimpleResult Sync()
     {
-      if (GameMain.IsSingleplayer) return SimpleResult.Failure("It's not multiplayer");
+      if (!Facades.NetFacade.IsMultiplayer) return SimpleResult.Failure("It's not multiplayer");
       Facades.NetFacade.ServerEncondeAndBroadcast(NetHeader + "_sync", this);
       return SimpleResult.Success();
     }
