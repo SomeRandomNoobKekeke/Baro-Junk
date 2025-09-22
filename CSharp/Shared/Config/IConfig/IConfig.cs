@@ -13,7 +13,9 @@ namespace BaroJunk
 
   public partial interface IConfig : IConfigEntry
   {
-    public string ID => $"{this.GetType().Namespace}_{this.GetType().Name}";
+    public static string TypeID<T>() => TypeID(typeof(T));
+    public static string TypeID(Type T) => $"{T.Namespace}_{T.Name}";
+    public string ID => TypeID(this.GetType());
 
     public ConfigMixin Mixin => ConfigMixin.Mixins.GetValue(this, c => new ConfigMixin(c));
 

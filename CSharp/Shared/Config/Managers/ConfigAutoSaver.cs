@@ -13,8 +13,6 @@ namespace BaroJunk
 {
   public class ConfigAutoSaver
   {
-
-
     public static string DefaultSavePathFor(IConfig config)
       => Path.Combine("ModSettings", "Configs", $"{config.ID}.xml");
 
@@ -39,8 +37,7 @@ namespace BaroJunk
     private void Initialize()
     {
       Config.Settings.SavePath ??= DefaultSavePathFor(Config);
-      if (Config.Settings.LoadOnInit) Config.LoadSave(Config.Settings.SavePath);
-
+      Config.LoadSave(Config.Settings.SavePath);
 
       Config.Facades.HooksFacade.AddHook("stop", $"save {Config.ID} config on quit", (object[] args) =>
       {

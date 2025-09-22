@@ -48,6 +48,11 @@ namespace BaroJunk
           if (!other.Values.Contains(kvp.Key)) return false;
           if (!Object.Equals(other.Values[kvp.Key], kvp.Value)) return false;
         }
+        foreach (System.Collections.DictionaryEntry kvp in other.Values)
+        {
+          if (!Values.Contains(kvp.Key)) return false;
+          if (!Object.Equals(Values[kvp.Key], kvp.Value)) return false;
+        }
         return true;
       }
       return Values == other.Values;

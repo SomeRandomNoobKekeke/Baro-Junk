@@ -35,7 +35,6 @@ namespace BaroJunk
     }
 
     public bool ShouldSaveInMultiplayer { get; set; } = false;
-    public bool LoadOnInit { get; set; } = false;
     public bool SaveOnQuit { get; set; } = true;
     public bool SaveEveryRound { get; set; } = true;
     public string SavePath { get; set; } = null;

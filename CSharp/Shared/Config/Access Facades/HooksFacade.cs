@@ -14,7 +14,7 @@ namespace BaroJunk
 {
   public interface IHooksFacade
   {
-    public void CallHook(string name);
+    public void CallHook(string name, params object[] args);
     public void CallPatch(MethodBase method);
     public void AddHook(string name, string identifier, LuaCsFunc func);
     public void Patch(
@@ -27,7 +27,7 @@ namespace BaroJunk
 
   public class HooksFacade : IHooksFacade
   {
-    public void CallHook(string name) { }
+    public void CallHook(string name, params object[] args) { }
     public void CallPatch(MethodBase method) { }
     public void AddHook(string name, string identifier, LuaCsFunc func)
       => GameMain.LuaCs.Hook.Add(name, identifier, func);

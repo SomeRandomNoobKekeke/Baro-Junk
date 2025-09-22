@@ -33,7 +33,12 @@ namespace BaroJunk
     public object Result;
     public Exception Exception;
 
-    public override string ToString() => $"{(Ok ? $"Ok [{Result}]" : Details)}";
+    public override string ToString() => $"{(Ok ? $"Ok {Result?.GetType().Name}[{Result}]" : Details)}";
+    public override bool Equals(object obj)
+    {
+      if (obj is not SimpleResult other) return false;
+      return Ok == other.Ok && Object.Equals(Result, other.Result);
+    }
   }
 
 

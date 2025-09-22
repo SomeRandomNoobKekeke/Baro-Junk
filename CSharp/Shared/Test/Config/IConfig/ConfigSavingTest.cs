@@ -7,7 +7,6 @@ using System.Linq;
 
 using Barotrauma;
 
-
 namespace BaroJunk
 {
   public class ConfigSavingTest : ConfigTest

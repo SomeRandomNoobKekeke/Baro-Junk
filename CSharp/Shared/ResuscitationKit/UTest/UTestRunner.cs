@@ -57,7 +57,7 @@ namespace BaroJunk
       }
       catch (Exception e)
       {
-        pack.Error = new UTestRunException(T, e);
+        pack.Error = new UTestRunException(T, e.InnerException);
       }
 
       return pack;

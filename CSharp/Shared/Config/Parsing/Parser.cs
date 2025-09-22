@@ -29,7 +29,7 @@ namespace BaroJunk
     }
 
 
-
+    public static SimpleResult Parse<T>(string raw) => Parse(raw, typeof(T));
     public static SimpleResult Parse(string raw, Type T)
     {
       if (raw == null) return SimpleResult.Success(null);
