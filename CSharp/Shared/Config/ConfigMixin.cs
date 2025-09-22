@@ -24,7 +24,7 @@ namespace BaroJunk
     public ConfigManager ConfigManager;
     public ConfigLogger Logger;
     public ConfigSettings Settings;
-    public ConfigFacades Facades;
+    public IConfigFacades Facades;
 
 
     public ConfigMixin(IConfig config)

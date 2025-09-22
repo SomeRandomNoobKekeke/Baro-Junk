@@ -29,6 +29,11 @@ namespace BaroJunk
 
     public class ConfigA : IConfig
     {
+      public ConfigA()
+      {
+        (this as IConfig).Facades = new FakeFacades();
+      }
+
       public static ConfigA Create => new ConfigA();
       public static ConfigA Filled => new ConfigA()
       {

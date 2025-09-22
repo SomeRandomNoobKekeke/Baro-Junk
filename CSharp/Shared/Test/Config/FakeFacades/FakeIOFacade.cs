@@ -12,7 +12,7 @@ using System.Xml.Linq;
 
 namespace BaroJunk
 {
-  public class FakeIOAccess : IIOFacade
+  public class FakeIOFacade : IIOFacade
   {
     public Dictionary<string, string> Storage = new();
 

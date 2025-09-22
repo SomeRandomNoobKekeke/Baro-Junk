@@ -16,7 +16,7 @@ namespace BaroJunk
     {
       ExampleConfigs.ConfigA config = new();
 
-      FakeIOAccess IOFacade = new FakeIOAccess();
+      FakeIOFacade IOFacade = new FakeIOFacade();
 
       config.Self().Facades.IOFacade = IOFacade;
       config.Save($"ModSettings\\Configs\\{config.Self().ID}.xml");

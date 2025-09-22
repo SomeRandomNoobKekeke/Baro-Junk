@@ -24,7 +24,7 @@ namespace BaroJunk
       set => Mixin.ConfigManager = value;
     }
 
-    public ConfigFacades Facades
+    public IConfigFacades Facades
     {
       get => Mixin.Facades;
       set => Mixin.Facades = value;

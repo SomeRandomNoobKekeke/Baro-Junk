@@ -72,8 +72,6 @@ namespace BaroJunk
         Tests.Add(new UTest(!husked.EqualsTo(husked2)));
         husked.Self().CopyTo(husked2);
         Tests.Add(new UTest(husked.EqualsTo(husked2)));
-
-        Mod.Logger.Log(husked.ToText());
       }
     }
   }
