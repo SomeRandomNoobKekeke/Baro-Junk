@@ -38,6 +38,9 @@ namespace BaroJunk
     /// Set this to true to see the source of the logs
     /// </summary>
     public bool PrintFilePath { get; set; }
+    public bool PrintLogs { get; set; } = true;
+    public bool PrintWarnings { get; set; } = true;
+    public bool PrintErrors { get; set; } = true;
 
     public ISerializer Serializer { get; set; } = new MicroSerializer();
 
@@ -46,7 +49,7 @@ namespace BaroJunk
     /// Log with LogColor
     /// </summary>
     public void Log(object msg, [CallerFilePath] string source = "", [CallerLineNumber] int lineNumber = 0)
-      => Print(msg, LogColor, source, lineNumber);
+    { if (PrintLogs) Print(msg, LogColor, source, lineNumber); }
     public void Log(object msg1, object msg2, [CallerFilePath] string source = "", [CallerLineNumber] int lineNumber = 0)
     {
       Log(msg1, LogColor, source, lineNumber);
@@ -64,13 +67,13 @@ namespace BaroJunk
     /// </summary>
     /// /// 
     public void Warning(object msg, [CallerFilePath] string source = "", [CallerLineNumber] int lineNumber = 0)
-      => Print(msg, WarningColor, source, lineNumber);
+    { if (PrintWarnings) Print(msg, WarningColor, source, lineNumber); }
 
     /// <summary>
     /// Log with ErrorColor
     /// </summary>
     public void Error(object msg, [CallerFilePath] string source = "", [CallerLineNumber] int lineNumber = 0)
-      => Print(msg, ErrorColor, source, lineNumber);
+    { if (PrintErrors) Print(msg, ErrorColor, source, lineNumber); }
 
     /// <summary>
     /// Log with Color
