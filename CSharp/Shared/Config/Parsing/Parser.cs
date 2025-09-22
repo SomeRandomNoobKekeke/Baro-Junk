@@ -22,7 +22,6 @@ namespace BaroJunk
     /// Null is serialized into this, so you could distinguish null and empty string
     /// </summary>
     public static string NullTerm = "{{null}}";
-    public static bool Verbose = true;
     public static object DefaultFor(Type T)
     {
       if (T == typeof(string)) return null;//HACK
@@ -30,12 +29,12 @@ namespace BaroJunk
     }
 
 
-    public static T Parse<T>(string raw) => (T)Parse(raw, typeof(T));
-    public static object Parse(string raw, Type T)
+
+    public static SimpleResult Parse(string raw, Type T)
     {
-      if (raw == null) return null;
-      if (raw == NullTerm) return null;
-      if (T == typeof(string)) return raw;
+      if (raw == null) return SimpleResult.Success(null);
+      if (raw == NullTerm) return SimpleResult.Success(null);
+      if (T == typeof(string)) return SimpleResult.Success(raw);
 
       if (T.IsPrimitive)
       {
@@ -47,15 +46,19 @@ namespace BaroJunk
 
         try
         {
-          return parse.Invoke(null, new object[] { raw });
+          return SimpleResult.Success(
+            parse.Invoke(null, new object[] { raw })
+          );
         }
         catch (Exception e)
         {
-          if (Verbose)
+          return new SimpleResult()
           {
-            IConfig.Logger.Warning($"-- Parser couldn't parse [{raw}] into primitive type [{T}] because [{e.Message}]");
-          }
-          return DefaultFor(T);
+            Ok = false,
+            Details = $"-- Parser couldn't parse [{raw}] into primitive type [{T}] because [{e.Message}]",
+            Exception = e,
+            Result = DefaultFor(T),
+          };
         }
       }
 
@@ -63,15 +66,19 @@ namespace BaroJunk
       {
         try
         {
-          return Enum.Parse(T, raw);
+          return SimpleResult.Success(
+            Enum.Parse(T, raw)
+          );
         }
         catch (Exception e)
         {
-          if (Verbose)
+          return new SimpleResult()
           {
-            IConfig.Logger.Warning($"-- Parser couldn't parse [{raw}] into Enum [{T}] because [{e.Message}]");
-          }
-          return DefaultFor(T);
+            Ok = false,
+            Details = $"-- Parser couldn't parse [{raw}] into Enum [{T}] because [{e.Message}]",
+            Exception = e,
+            Result = DefaultFor(T),
+          };
         }
       }
 
@@ -93,28 +100,35 @@ namespace BaroJunk
 
         if (parse == null)
         {
-          if (Verbose)
+          return new SimpleResult()
           {
-            IConfig.Logger.Warning($"-- Parser couldn't parse [{raw}] into [{T}] because it doesn't have the Parse method");
-          }
-          return DefaultFor(T);
+            Ok = false,
+            Details = $"-- Parser couldn't parse [{raw}] into [{T}] because it doesn't have the Parse method",
+            Result = DefaultFor(T),
+          };
         }
 
         try
         {
-          return parse.Invoke(null, new object[] { raw });
+          return SimpleResult.Success(
+            parse.Invoke(null, new object[] { raw })
+          );
         }
         catch (Exception e)
         {
-          if (Verbose)
+          return new SimpleResult()
           {
-            IConfig.Logger.Warning($"-- Parser couldn't parse [{raw}] into [{T}] because [{e.Message}]");
-          }
-          return DefaultFor(T);
+            Ok = false,
+            Details = $"-- Parser couldn't parse [{raw}] into [{T}] because [{e.Message}]",
+            Exception = e,
+            Result = DefaultFor(T),
+          };
         }
       }
 
-      return DefaultFor(T);
+      return SimpleResult.Success(
+        DefaultFor(T)
+      );
     }
 
     public static string Serialize(object o)
@@ -132,7 +146,8 @@ namespace BaroJunk
       }
       catch (Exception e)
       {
-        if (Verbose) IConfig.Logger.Warning($"-- Parser couldn't serialize object of [{o.GetType()}] type because [{e.Message}]");
+        //TODO this is cringe
+        // if (Verbose) IConfig.Logger.Warning($"-- Parser couldn't serialize object of [{o.GetType()}] type because [{e.Message}]");
       }
 
       return result;

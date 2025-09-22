@@ -33,23 +33,21 @@ namespace BaroJunk
       }
       catch (Exception e)
       {
-        return new SimpleResult(false)
+        return new SimpleResult()
         {
+          Ok = false,
           Details = $"Can't save config: {e.Message}",
           Exception = e,
         };
       }
 
-      return new SimpleResult(true);
+      return SimpleResult.Success();
     }
 
 
     public SimpleResult Load(string path)
     {
-      if (!IOFacade.FileExists(path)) return new SimpleResult(false)
-      {
-        Details = $"Can't load config: [{path}] not found",
-      };
+      if (!IOFacade.FileExists(path)) return SimpleResult.Failure($"Can't load config: [{path}] not found");
 
       try
       {
@@ -58,14 +56,15 @@ namespace BaroJunk
       }
       catch (Exception e)
       {
-        return new SimpleResult(false)
+        return new SimpleResult()
         {
+          Ok = false,
           Details = $"Can't load config: {e.Message}",
           Exception = e,
         };
       }
 
-      return new SimpleResult(true);
+      return SimpleResult.Success();
     }
   }
 

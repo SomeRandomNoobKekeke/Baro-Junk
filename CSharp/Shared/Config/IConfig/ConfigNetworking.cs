@@ -17,7 +17,7 @@ namespace BaroJunk
 
   public partial interface IConfig
   {
-    public string NetHeader => IConfig.HookId;
+    public string NetHeader => ID;
     public void NetEncode(IWriteMessage msg)
     {
       foreach (ConfigEntry entry in GetEntriesRec())
@@ -33,6 +33,8 @@ namespace BaroJunk
         entry.Value = NetParser.Decode(msg, entry.Type);
       }
     }
+
+
   }
 
 }

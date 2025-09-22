@@ -11,13 +11,30 @@ using System.Text;
 
 namespace BaroJunk
 {
+  /// <summary>
+  /// Omg it's so fluent
+  /// </summary>
   public class SimpleResult
   {
-    public bool Success;
+    public static SimpleResult Success(object result = null) => new SimpleResult()
+    {
+      Ok = true,
+      Result = result,
+    };
+    public static SimpleResult Failure(string details = null, Exception ex = null) => new SimpleResult()
+    {
+      Ok = false,
+      Details = details,
+      Exception = ex,
+    };
+
+    public bool Ok;
     public string Details;
+    public object Result;
     public Exception Exception;
 
-    public SimpleResult(bool success) => Success = success;
-    public override string ToString() => $"{(Success ? "Ok" : Details)}";
+    public override string ToString() => $"{(Ok ? $"Ok [{Result}]" : Details)}";
   }
+
+
 }

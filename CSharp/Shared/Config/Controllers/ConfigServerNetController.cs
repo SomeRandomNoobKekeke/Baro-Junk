@@ -14,15 +14,10 @@ namespace BaroJunk
 {
   public class ConfigServerNetController
   {
-    private IConfig config; public IConfig Config
-    {
-      get => config;
-      set
-      {
-        config = value;
-        Init();
-      }
-    }
+    public IConfig Config;
+    public ConfigServerNetController(IConfig config) => Config = config;
+
+    public bool Enabled { get; set; }
 
     private void Init()
     {
@@ -35,12 +30,14 @@ namespace BaroJunk
     //TODO how to not fail silently here?
     public void Give(IReadMessage msg, Client client)
     {
+      if (!Enabled) return;
       if (Config is null) return;
       Config.NetFacade.ServerEncondeAndSend(Config.NetHeader + "_sync", Config, client);
     }
 
     public void Receive(IReadMessage msg, Client client)
     {
+      if (!Enabled) return;
       if (Config is null) return;
       if (!Config.NetFacade.DoesClientHasPermissions(client)) return;
 

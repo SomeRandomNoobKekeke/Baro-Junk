@@ -38,7 +38,7 @@ namespace BaroJunk
         Tests.Add(new UTest(EntryAccess.GetProp(config, "bebebe"), null));
         Tests.Add(new UTest(EntryAccess.GetProp(config, ""), null));
         Tests.Add(new UTest(EntryAccess.GetProp(config, null), null));
-        Tests.Add(new UTest(EntryAccess.GetProp(config, ".."), null));
+        Tests.Add(new UTest(EntryAccess.GetProp(config, ".Settings."), null));
         Tests.Add(new UTest(EntryAccess.GetProp(config, "NestedConfigB.qweqe"), null));
         Tests.Add(new UTest(EntryAccess.GetProp(config, ".NestedConfigB.IntProp"), null));
 

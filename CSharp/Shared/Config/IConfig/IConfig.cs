@@ -13,38 +13,42 @@ namespace BaroJunk
 
   public partial interface IConfig : IConfigEntry
   {
-    public static string HookId => Assembly.GetExecutingAssembly().GetName().Name;
-
-
-    private static IConfig _current;
-    public static IConfig Current
-    {
-      get => _current;
-      set
-      {
-        _current = value;
-
-      }
-    }
+    public string ID => $"{this.GetType().Namespace}_{this.GetType().Name}";
 
     public ConfigMixin Mixin => ConfigMixin.Mixins.GetValue(this, c => new ConfigMixin(c));
 
+
+    public ConfigManager Manager
+    {
+      get => Mixin.ConfigManager;
+      set => Mixin.ConfigManager = value;
+    }
     public IIOFacade IOFacade
     {
-      get => Mixin.IOFacade;
-      set => Mixin.IOFacade = value;
+      get => Mixin.ConfigManager.IOFacade;
+      set => Mixin.ConfigManager.IOFacade = value;
     }
     public INetFacade NetFacade
     {
-      get => Mixin.NetFacade;
-      set => Mixin.NetFacade = value;
+      get => Mixin.ConfigManager.NetFacade;
+      set => Mixin.ConfigManager.NetFacade = value;
     }
 
-    public static ConfigLogger Logger = new();
+    public ConfigLogger Logger
+    {
+      get => Mixin.Logger;
+      set => Mixin.Logger = value;
+    }
+
+    public ConfigSettings Settings
+    {
+      get => Mixin.Settings;
+      set => Mixin.Settings = value;
+    }
 
     public void OnPropChanged(Action<string, object> action) => Mixin.Model.OnPropChanged(action);
 
-    public string ID => $"{this.GetType().Namespace}_{this.GetType().Name}";
+
 
 
     object IConfigEntry.Value { get => this; set { /*bruh*/ } }

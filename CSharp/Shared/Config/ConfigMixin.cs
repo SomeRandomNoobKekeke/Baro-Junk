@@ -19,14 +19,19 @@ namespace BaroJunk
     public static ConditionalWeakTable<IConfig, ConfigMixin> Mixins = new();
 
     public IConfig Config;
+
     public ConfigModel Model;
-    public IIOFacade IOFacade = new IOFacade();
-    public INetFacade NetFacade = new NetFacade();
+    public ConfigManager ConfigManager;
+    public ConfigLogger Logger = new();
+    public ConfigSettings Settings;
+
 
     public ConfigMixin(IConfig config)
     {
       Config = config;
       Model = new ConfigModel(config);
+      ConfigManager = new ConfigManager(config);
+      Settings = new ConfigSettings(config);
     }
   }
 

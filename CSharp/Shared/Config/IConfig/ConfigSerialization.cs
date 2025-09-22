@@ -83,7 +83,9 @@ namespace BaroJunk
         }
         else
         {
-          entry.Value = XMLParser.Parse(child, entry.Type);
+          SimpleResult result = XMLParser.Parse(child, entry.Type);
+          entry.Value = result.Result;
+          if (!result.Ok) Logger.Warning(result.Details);
         }
       }
     }

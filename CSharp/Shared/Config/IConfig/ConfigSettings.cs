@@ -11,16 +11,25 @@ using System.Text;
 
 namespace BaroJunk
 {
-
-  public partial interface IConfig
+  public class ConfigSettings
   {
-    public static bool ShouldSaveInMultiplayer { get; set; } = false;
-    public static bool LoadOnInit { get; set; } = false;
-    public static bool SyncOnInit { get; set; } = false;
-    public static bool SaveOnQuit { get; set; } = true;
-    public static bool SaveEveryRound { get; set; } = true;
-    public static string SavePath { get; set; } = null;
+    public IConfig Config;
+    public ConfigSettings(IConfig config) => Config = config;
 
+    private bool autoSave; public bool AutoSave
+    {
+      get => autoSave;
+      set
+      {
+        autoSave = value;
+      }
+    }
+
+    public bool ShouldSaveInMultiplayer { get; set; } = false;
+    public bool LoadOnInit { get; set; } = false;
+    public bool SyncOnInit { get; set; } = false;
+    public bool SaveOnQuit { get; set; } = true;
+    public bool SaveEveryRound { get; set; } = true;
+    public string SavePath { get; set; } = null;
   }
-
 }
