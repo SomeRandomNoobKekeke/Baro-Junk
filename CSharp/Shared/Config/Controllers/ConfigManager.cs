@@ -23,6 +23,28 @@ namespace BaroJunk
     public ConfigClientNetController ClientNetController;
     public ConfigServerNetController ServerNetController;
 
+    //HACK bruh
+    public bool NetSync
+    {
+      get
+      {
+#if CLIENT
+        return ClientNetController.Enabled;
+#elif SERVER
+        return ServerNetController.Enabled;
+#endif
+      }
+
+      set
+      {
+#if CLIENT
+        ClientNetController.Enabled = value;
+#elif SERVER
+        ServerNetController.Enabled = value;
+#endif
+      }
+    }
+
     public ConfigManager(IConfig config)
     {
       Config = config;

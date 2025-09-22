@@ -17,7 +17,15 @@ namespace BaroJunk
     public IConfig Config;
     public ConfigClientNetController(IConfig config) => Config = config;
 
-    public bool Enabled { get; set; }
+    private bool enabled; public bool Enabled
+    {
+      get => enabled;
+      set
+      {
+        enabled = value;
+        if (enabled) Initialize();
+      }
+    }
 
     private void Initialize()
     {

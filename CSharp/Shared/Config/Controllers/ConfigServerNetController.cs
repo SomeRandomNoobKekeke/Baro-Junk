@@ -17,9 +17,17 @@ namespace BaroJunk
     public IConfig Config;
     public ConfigServerNetController(IConfig config) => Config = config;
 
-    public bool Enabled { get; set; }
+    private bool enabled; public bool Enabled
+    {
+      get => enabled;
+      set
+      {
+        enabled = value;
+        if (enabled) Initialize();
+      }
+    }
 
-    private void Init()
+    private void Initialize()
     {
       if (!GameMain.IsMultiplayer) return;
       Config.NetFacade.ListenForClients(Config.NetHeader + "_ask", Give);

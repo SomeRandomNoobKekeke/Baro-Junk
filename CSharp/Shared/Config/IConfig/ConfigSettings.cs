@@ -16,13 +16,16 @@ namespace BaroJunk
     public IConfig Config;
     public ConfigSettings(IConfig config) => Config = config;
 
-    private bool autoSave; public bool AutoSave
+    public bool AutoSave
     {
-      get => autoSave;
-      set
-      {
-        autoSave = value;
-      }
+      get => Config.Mixin.ConfigManager.AutoSaver.Enabled;
+      set => Config.Mixin.ConfigManager.AutoSaver.Enabled = value;
+    }
+
+    public bool NetSync
+    {
+      get => Config.Mixin.ConfigManager.NetSync;
+      set => Config.Mixin.ConfigManager.NetSync = value;
     }
 
     public bool ShouldSaveInMultiplayer { get; set; } = false;
