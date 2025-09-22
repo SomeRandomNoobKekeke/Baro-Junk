@@ -14,6 +14,8 @@ namespace BaroJunk
 {
   public interface INetFacade
   {
+    public bool IsMultiplayer { get; }
+    public bool IsClient { get; }
     public void ClientSend(string header);
     public void ClientEncondeAndSend(string header, IConfig config);
     public void ServerSend(string header, Client client);
@@ -29,8 +31,11 @@ namespace BaroJunk
   {
     //TODO think, where should it be
     public ClientPermissions RequiredPermissions = ClientPermissions.ConsoleCommands;
+    public bool IsMultiplayer => GameMain.IsMultiplayer;
 
 #if CLIENT
+    public bool IsClient =>true;
+
     public bool DoIHavePermissions()
       => GameMain.IsSingleplayer || GameMain.Client?.IsServerOwner == true || GameMain.Client?.HasPermission(RequiredPermissions) == true;
 
@@ -62,6 +67,8 @@ namespace BaroJunk
 #endif
 
 #if SERVER
+    public bool IsClient =>false;
+
     public bool DoesClientHasPermissions(Client client)
       => client.Connection == GameMain.Server.OwnerConnection || client.HasPermission(RequiredPermissions);
 

@@ -22,7 +22,7 @@ namespace BaroJunk
   public class UTestRunException : System.Exception
   {
     public Type TestType;
-    public UTestRunException(Type testType, System.Exception inner) : base($"[{testType.Name}] test pack failed, [{inner.Message}]", inner)
+    public UTestRunException(Type testType, System.Exception inner) : base($"[{testType.Name}] test pack failed, [{inner?.Message}]", inner)
     {
       TestType = testType;
     }
@@ -57,7 +57,8 @@ namespace BaroJunk
       }
       catch (Exception e)
       {
-        pack.Error = new UTestRunException(T, e.InnerException);
+        //HACK
+        pack.Error = new UTestRunException(T, e.InnerException ?? e);
       }
 
       return pack;

@@ -28,20 +28,19 @@ namespace BaroJunk
     {
       get
       {
-#if CLIENT
-        return ClientNetController.Enabled;
-#elif SERVER
-        return ServerNetController.Enabled;
-#endif
+        return Config.Facades.NetFacade.IsClient ? ClientNetController.Enabled : ServerNetController.Enabled;
       }
 
       set
       {
-#if CLIENT
-        ClientNetController.Enabled = value;
-#elif SERVER
-        ServerNetController.Enabled = value;
-#endif
+        if (Config.Facades.NetFacade.IsClient)
+        {
+          ClientNetController.Enabled = value;
+        }
+        else
+        {
+          ServerNetController.Enabled = value;
+        }
       }
     }
 

@@ -30,7 +30,7 @@ namespace BaroJunk
     {
       foreach (ConfigEntry entry in GetEntriesRec())
       {
-        entry.Value = NetParser.Decode(msg, entry.Type);
+        entry.Value = NetParser.Decode(msg, entry.Type).Result;
       }
     }
 
