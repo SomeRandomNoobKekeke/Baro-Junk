@@ -15,6 +15,8 @@ namespace BaroJunk
 
   public class FakeClientNetFacade : INetFacade
   {
+    public string Name { get; set; } = "FakeClientNetFacade";
+    public override string ToString() => Name;
     public bool HasPermissions = true;
     public bool IsMultiplayer => true;
     public bool IsClient => true;

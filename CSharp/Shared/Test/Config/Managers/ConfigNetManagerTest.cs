@@ -11,35 +11,44 @@ namespace BaroJunk
 {
   public class ConfigClientNetManagerTest : ConfigManagersTest
   {
-    public class OrderTest : ConfigClientNetManagerTest
+    public class GreetingTest : ConfigClientNetManagerTest
     {
       public record SentMessage(string Header, object target);
 
       public override void CreateTests()
       {
-        FakeClientNetFacade clientNetFacade = new FakeClientNetFacade();
-        FakeServerNetFacade serverNetFacade = new FakeServerNetFacade();
-        ExampleConfigs.ConfigA clientConfig = new ExampleConfigs.ConfigA();
+        FakeServerNetFacade serverNetFacade = new FakeServerNetFacade() { Name = "server" };
+        FakeClientNetFacade client1NetFacade = new FakeClientNetFacade() { Name = "client1" };
+        FakeClientNetFacade client2NetFacade = new FakeClientNetFacade() { Name = "client2" };
+
+        ExampleConfigs.ConfigA client1Config = new ExampleConfigs.ConfigA();
+        ExampleConfigs.ConfigA client2Config = new ExampleConfigs.ConfigA();
         ExampleConfigs.ConfigA serverConfig = new ExampleConfigs.ConfigA();
 
-        clientConfig.Self().Facades.NetFacade = clientNetFacade;
+        client1Config.Self().Facades.NetFacade = client1NetFacade;
+        client2Config.Self().Facades.NetFacade = client2NetFacade;
         serverConfig.Self().Facades.NetFacade = serverNetFacade;
-
-        serverNetFacade.Connect(clientNetFacade);
 
         List<SentMessage> SentMessages = new();
 
-        string lastSentMessage = null;
-        clientNetFacade.MessageSent += (header, msg) => SentMessages.Add(new SentMessage(header, clientNetFacade.Server));
+        client1NetFacade.MessageSent += (header, msg) => SentMessages.Add(new SentMessage(header, client1NetFacade.Server));
+        client2NetFacade.MessageSent += (header, msg) => SentMessages.Add(new SentMessage(header, client2NetFacade.Server));
         serverNetFacade.MessageSent += (header, msg, target) => SentMessages.Add(new SentMessage(header, target));
 
 
-        serverConfig.Settings().NetSync = true;
-        clientConfig.Settings().NetSync = true;
+        serverNetFacade.Connect(client1NetFacade);
+        serverConfig.Settings().NetSync = true; // server is on -> broadcasting settings
+        client1Config.Settings().NetSync = true; // client is on -> ask for server settings
+        serverNetFacade.Connect(client2NetFacade);
+        client2Config.Settings().NetSync = true; // client is on -> ask for server settings
+
 
         Tests.Add(new UListTest(SentMessages, new List<SentMessage>(){
-          new SentMessage($"{clientConfig.Self().ID}_ask",serverNetFacade),
-          new SentMessage($"{clientConfig.Self().ID}_sync",clientNetFacade),
+          new SentMessage($"{IConfig.TypeID<ExampleConfigs.ConfigA>()}_sync", client1NetFacade ),
+          new SentMessage($"{IConfig.TypeID<ExampleConfigs.ConfigA>()}_ask", serverNetFacade),
+          new SentMessage($"{IConfig.TypeID<ExampleConfigs.ConfigA>()}_sync", client1NetFacade),
+          new SentMessage($"{IConfig.TypeID<ExampleConfigs.ConfigA>()}_ask", serverNetFacade),
+          new SentMessage($"{IConfig.TypeID<ExampleConfigs.ConfigA>()}_sync", client2NetFacade),
         }));
       }
 

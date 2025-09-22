@@ -15,7 +15,8 @@ namespace BaroJunk
 
   public class FakeServerNetFacade : INetFacade
   {
-
+    public string Name { get; set; } = "FakeServerNetFacade";
+    public override string ToString() => Name;
     public bool IsMultiplayer => true;
     public bool IsClient => false;
     public Dictionary<string, Action<IReadMessage, Client>> RecieveCallbacks = new();
@@ -37,10 +38,11 @@ namespace BaroJunk
 
     public List<FakeClientNetFacade> Clients = new();
     public FakeClientNetFacade LastClient;
-    public void Connect(FakeClientNetFacade client)
+    public void Connect(INetFacade client)
     {
-      Clients.Add(client);
-      client.Server = this;
+      if (client is not FakeClientNetFacade clf) return;
+      Clients.Add(clf);
+      clf.Server = this;
     }
 
     public void SelectLastClient(FakeClientNetFacade client) => LastClient = client;
@@ -55,6 +57,7 @@ namespace BaroJunk
     {
       FakeReadWriteMessage outMsg = new FakeReadWriteMessage();
       config.NetEncode(outMsg);
+      MessageSent?.Invoke(header, outMsg, LastClient);
       LastClient?.Recieve(header, outMsg);
     }
     public void ServerEncondeAndBroadcast(string header, IConfig config)
@@ -63,6 +66,7 @@ namespace BaroJunk
       config.NetEncode(outMsg);
       foreach (FakeClientNetFacade client in Clients)
       {
+        MessageSent?.Invoke(header, outMsg, client);
         client.Recieve(header, outMsg.Copy());
       }
     }
