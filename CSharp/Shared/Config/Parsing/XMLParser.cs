@@ -27,7 +27,7 @@ namespace BaroJunk
         return SimpleResult.Success(ExtraXMLParsingMethods.Parse[T].Invoke(null, new object[] { element }));
       }
 
-      return SimpleResult.Success(Parser.Parse(element.Value, T));
+      return SimpleResult.Success(Parser.Parse(element.Value, T).Result);
     }
 
     public static XElement Serialize(IConfigEntry entry)

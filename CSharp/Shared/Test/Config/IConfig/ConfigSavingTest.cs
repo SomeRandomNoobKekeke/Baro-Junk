@@ -25,16 +25,21 @@ namespace BaroJunk
       {
         [$"ModSettings\\Configs"] = "dir",
         [$"ModSettings\\Configs\\{config.Self().ID}.xml"] = config.ToXML().ToString(),
-      }));
+      }, "config is properly saved"));
 
 
       ExampleConfigs.ConfigA loaded = new();
       loaded.Self().Facades.IOFacade = IOFacade;
       loaded.Clear();
 
-      Tests.Add(new UTest(!config.EqualsTo(loaded), true));
-      loaded.Load($"ModSettings\\Configs\\{config.Self().ID}.xml");
-      Tests.Add(new UTest(config.EqualsTo(loaded), true));
+      SimpleResult result = loaded.Load($"ModSettings\\Configs\\{config.Self().ID}.xml");
+      Tests.Add(new UTest(config.EqualsTo(loaded), true, "loaded config equals to original"));
+
+      if (!Tests.Last().Passed)
+      {
+        UTestLogger.Log(result);
+        UTestLogger.Log(config.CompareTo(loaded));
+      }
     }
 
   }

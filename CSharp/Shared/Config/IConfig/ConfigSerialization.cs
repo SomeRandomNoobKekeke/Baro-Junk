@@ -65,7 +65,6 @@ namespace BaroJunk
     {
       foreach (XElement child in element.Elements())
       {
-
         IConfigEntry entry = Get(child.Name.ToString());
         if (!entry.IsValid) continue;
 
