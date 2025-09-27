@@ -24,6 +24,7 @@ namespace BaroJunk
 
     public static IConfigEntry Get(this IConfig config, string entryPath) => config.Get(entryPath);
     public static IEnumerable<IConfigEntry> GetEntries(this IConfig config) => config.Entries;
+    public static IEnumerable<IConfig> GetSubConfigs(this IConfig config) => config.SubConfigs;
 
 
     public static string ToText(this IConfig config) => config.ToText();
@@ -43,7 +44,9 @@ namespace BaroJunk
     public static bool EqualsTo(this IConfig config, IConfig other) => config.EqualsTo(other);
     public static ConfigCompareResult CompareTo(this IConfig config, IConfig other) => config.CompareTo(other);
     public static void Clear(this IConfig config) => config.Clear();
-
+    public static void Restore(this IConfig config) => config.Restore();
+    public static void Copy(this IConfig config) => config.Copy();
+    public static void CopyTo(this IConfig config, IConfig other) => config.CopyTo(other);
   }
 
 }
