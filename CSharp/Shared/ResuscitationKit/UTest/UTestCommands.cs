@@ -18,7 +18,7 @@ namespace BaroJunk
     }
 
     public static string[][] UTest_Hints()
-      => new string[][] { UTestExplorer.TestNames.Append("all").ToArray() };
+      => new string[][] { UTestExplorer.TestNames.Append("all").OrderBy(s => s.Length).ToArray() };
 
     public static int depth = 0;
     public static void UTest_Command(string[] args)
