@@ -31,24 +31,35 @@ namespace BaroJunk
           return;
         }
 
-        Type start = String.Equals(args[0], "all", StringComparison.OrdinalIgnoreCase) ?
-          UTestExplorer.TestTree.RootType : UTestExplorer.TestByName.GetValueOrDefault(args[0]);
+        void RunTestPack(Type T)
+        {
+          List<UTestPack> results = UTestRunner.RunRecursive(T);
+
+          foreach (UTestPack pack in results)
+          {
+            if (pack.NotEmpty) pack.Log();
+          }
+        }
+
+        if (String.Equals(args[0], "all", StringComparison.OrdinalIgnoreCase))
+        {
+          foreach (Type T in UTestExplorer.TestTree.Roots.Select(root => root.Type))
+          {
+            RunTestPack(T);
+          }
+          return;
+        }
+
+        Type start = UTestExplorer.TestByName.GetValueOrDefault(args[0]);
 
         if (start is null)
         {
           UTestLogger.Warning($"Can't find [{args[0]}] test");
           return;
         }
-
-        List<UTestPack> results = UTestRunner.RunRecursive(start);
-
-        foreach (UTestPack pack in results)
-        {
-          if (pack.NotEmpty) pack.Log();
-        }
+        RunTestPack(start);
       }
       catch (Exception e) { UTestLogger.Warning($"utest failed with: {e.Message}"); }
-      ;
     }
 
     public static void RemoveCommands()
