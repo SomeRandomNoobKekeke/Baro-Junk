@@ -33,7 +33,7 @@ namespace BaroJunk
       return (Dictionary<string, object>)GUI.Canvas.GUIComponent.UserData;
     }
 
-    public static object Get<TValue>(string key) => (TValue)Get(key);
+    public static TValue Get<TValue>(string key) => (TValue)Get(key);
     public static object Get(string key)
     {
       Dictionary<string, object> repo = GetOrCreateRepo();

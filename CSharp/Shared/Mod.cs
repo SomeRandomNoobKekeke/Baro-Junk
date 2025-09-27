@@ -19,16 +19,12 @@ namespace BaroJunk
       UTestCommands.AddCommands();
 
       UTestExplorer.ScanCategory("internal");
-      UTestRunner.RunRecursive<ConfigCommandsManagerTest>().Log();
-
 
       Experiment();
       if (ModInfo.ModDir<Mod>().Contains("LocalMods"))
       {
         Logger.Log($"{ModInfo.AssemblyName} compiled");
       }
-
-
     }
 
 
