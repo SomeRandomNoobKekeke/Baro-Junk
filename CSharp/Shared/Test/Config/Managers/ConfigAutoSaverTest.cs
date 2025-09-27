@@ -44,5 +44,21 @@ namespace BaroJunk
       });
     }
 
+    public UTest ShouldTriggerConfigUpdatedOnLoad()
+    {
+      ExampleConfigs.ConfigA config = new();
+      FakeIOFacade IOFacade = new FakeIOFacade();
+      config.Self().Facades.IOFacade = IOFacade;
+
+      bool wasTriggered = false;
+      config.OnConfigUpdated(() => wasTriggered = true);
+
+      IOFacade.Storage[ConfigAutoSaver.DefaultSavePathFor(config)] = "<ConfigA><NestedConfigB><IntProp>123</IntProp></NestedConfigB></ConfigA>";
+
+      config.EnableAutoSaving();
+
+      return new UTest(wasTriggered, true, "ConfigUpdated event should be raised when config is loaded");
+    }
+
   }
 }
