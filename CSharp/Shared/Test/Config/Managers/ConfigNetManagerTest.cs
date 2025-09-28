@@ -108,11 +108,42 @@ namespace BaroJunk
 
         client1NetFacade.HasPermissions = false;
         client1Config.NestedConfigB.StringProp = "bebebe";
-        Mod.Logger.Log(client1Config.Self().Sync());
 
         Tests.Add(new UTest(serverConfig.NestedConfigB.StringProp, "bruh"));
         Tests.Add(new UTest(client1Config.NestedConfigB.StringProp, "bebebe"));
         Tests.Add(new UTest(client2Config.NestedConfigB.StringProp, "bruh"));
+      }
+
+    }
+
+    public class UpdateTest : ConfigNetManagerTest
+    {
+      public override void CreateTests()
+      {
+        FakeServerNetFacade serverNetFacade = new FakeServerNetFacade() { Name = "server" };
+        FakeClientNetFacade client1NetFacade = new FakeClientNetFacade() { Name = "client1" };
+
+        ExampleConfigs.ConfigA client1Config = new ExampleConfigs.ConfigA();
+        ExampleConfigs.ConfigA serverConfig = new ExampleConfigs.ConfigA();
+
+        client1Config.Self().Facades.NetFacade = client1NetFacade;
+        serverConfig.Self().Facades.NetFacade = serverNetFacade;
+
+
+        bool ClientUpdated = false;
+        bool ServerUpdated = false;
+
+        client1Config.OnConfigUpdated(() => { ClientUpdated = true; });
+        serverConfig.OnConfigUpdated(() => { ServerUpdated = true; });
+
+        serverConfig.Settings().NetSync = true;
+        serverNetFacade.Connect(client1NetFacade);
+        client1Config.Settings().NetSync = true;
+
+        Tests.Add(new UTest(ClientUpdated, true, "net sync should trigger OnConfigUpdated"));
+        Tests.Add(new UTest(ServerUpdated, false, "not yet"));
+        client1Config.Sync();
+        Tests.Add(new UTest(ServerUpdated, true, "server config should be updated on sync"));
       }
 
     }
