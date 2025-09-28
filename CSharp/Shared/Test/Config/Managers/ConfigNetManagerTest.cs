@@ -77,7 +77,7 @@ namespace BaroJunk
         client2Config.Settings().NetSync = true;
 
         client1Config.NestedConfigB.StringProp = "bebebe";
-        Mod.Logger.Log(client1Config.Self().Sync());
+        client1Config.Self().Sync();
 
         Tests.Add(new UTest(serverConfig.NestedConfigB.StringProp, "bebebe"));
         Tests.Add(new UTest(client2Config.NestedConfigB.StringProp, "bebebe"));

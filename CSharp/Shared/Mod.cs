@@ -12,7 +12,10 @@ namespace BaroJunk
 {
   public partial class Mod : IAssemblyPlugin
   {
-    public static Logger Logger = new Logger();
+    public static Logger Logger = new Logger()
+    {
+      PrintFilePath = false
+    };
 
     public void Initialize()
     {
