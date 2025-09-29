@@ -17,6 +17,8 @@ namespace BaroJunk
   /// </summary>
   public class SimpleParser
   {
+    public IExtraParsingMethods ExtraParsingMethods { get; set; } = new BasicExtraParsingMethods();
+
     public object DefaultFor(Type T)
     {
       if (T == typeof(string)) return null;
@@ -28,7 +30,6 @@ namespace BaroJunk
     /// </summary>
     public string NullTerm = "{{null}}";
 
-    public SimpleResult Parse<T>(string raw) => Parse(raw, typeof(T));
     public SimpleResult Parse(string raw, Type T)
     {
       if (raw == null) return SimpleResult.Success(null);
@@ -83,35 +84,36 @@ namespace BaroJunk
 
       if (!T.IsPrimitive)
       {
-        MethodInfo parse = null;
-        if (ExtraParsingMethods.Parse.ContainsKey(T))
+        try
         {
-          parse = ExtraParsingMethods.Parse[T];
-        }
-        else
-        {
-          parse = T.GetMethod(
+          if (ExtraParsingMethods.Parse.ContainsKey(T))
+          {
+            return SimpleResult.Success(
+              ExtraParsingMethods.Parse[T].Invoke(raw)
+            );
+          }
+
+          MethodInfo parse = T.GetMethod(
             "Parse",
             BindingFlags.Public | BindingFlags.Static,
             new Type[] { typeof(string) }
           );
-        }
 
-        if (parse == null)
-        {
-          return new SimpleResult()
+          if (parse == null)
           {
-            Ok = false,
-            Details = $"-- Parser couldn't parse [{raw}] into [{T}] because it doesn't have the Parse method",
-            Result = DefaultFor(T),
-          };
-        }
-
-        try
-        {
-          return SimpleResult.Success(
-            parse.Invoke(null, new object[] { raw })
-          );
+            return new SimpleResult()
+            {
+              Ok = false,
+              Details = $"-- Parser couldn't parse [{raw}] into [{T}] because it doesn't have the Parse method",
+              Result = DefaultFor(T),
+            };
+          }
+          else
+          {
+            return SimpleResult.Success(
+              parse.Invoke(null, new object[] { raw })
+            );
+          }
         }
         catch (Exception e)
         {
@@ -135,15 +137,11 @@ namespace BaroJunk
       if (o is null) return SimpleResult.Success(NullTerm);
       if (o.GetType() == typeof(string)) return SimpleResult.Success((string)o);
 
-
-      MethodInfo serialize = ExtraParsingMethods.Serialize.GetValueOrDefault(o.GetType());
-      string result = null;
-
       try
       {
-        if (serialize is not null)
+        if (ExtraParsingMethods.Serialize.ContainsKey(o.GetType()))
         {
-          return SimpleResult.Success((string)serialize.Invoke(null, new object[] { o }));
+          return SimpleResult.Success(ExtraParsingMethods.Serialize[o.GetType()].Invoke(o));
         }
 
         return SimpleResult.Success(o.ToString());

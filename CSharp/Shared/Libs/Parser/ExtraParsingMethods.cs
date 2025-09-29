@@ -10,24 +10,26 @@ using Microsoft.Xna.Framework;
 
 namespace BaroJunk
 {
-  public static class ExtraParsingMethods
+  public interface IExtraParsingMethods
   {
-    //FIXME why MethodInfo? why not Func?
-    public static Dictionary<Type, MethodInfo> Parse = new()
+    public Dictionary<Type, Func<string, object>> Parse { get; set; }
+    public Dictionary<Type, Func<object, string>> Serialize { get; set; }
+  }
+  public class BasicExtraParsingMethods : IExtraParsingMethods
+  {
+
+    public Dictionary<Type, Func<string, object>> Parse { get; set; } = new()
     {
-      [typeof(Vector2)] = typeof(ExtraParsingMethods).GetMethod("ParseVector2"),
-      [typeof(Color)] = typeof(ExtraParsingMethods).GetMethod("ParseColor"),
+      [typeof(Vector2)] = (raw) => ParseVector2(raw),
+      [typeof(Color)] = (raw) => ParseColor(raw),
     };
-    public static Dictionary<Type, MethodInfo> Serialize = new()
+    public Dictionary<Type, Func<object, string>> Serialize { get; set; } = new()
     {
-      [typeof(Vector2)] = typeof(ExtraParsingMethods).GetMethod("Vector2ToString"),
-      [typeof(Color)] = typeof(ExtraParsingMethods).GetMethod("ColorToString"),
+      [typeof(Vector2)] = (o) => Vector2ToString((Vector2)o),
+      [typeof(Color)] = (o) => ColorToString((Color)o),
     };
 
-    public static string ColorToString(Color cl) => XMLExtensions.ColorToString(cl);
     public static Color ParseColor(string raw) => XMLExtensions.ParseColor(raw);
-
-    public static string Vector2ToString(Vector2 v) => $"[{v.X},{v.Y}]";
     public static Vector2 ParseVector2(string raw)
     {
       if (raw == null || raw == "") return new Vector2(0, 0);
@@ -44,5 +46,9 @@ namespace BaroJunk
 
       return new Vector2(x, y);
     }
+
+    public static string ColorToString(Color cl) => XMLExtensions.ColorToString(cl);
+    public static string Vector2ToString(Vector2 v) => $"[{v.X},{v.Y}]";
+
   }
 }
