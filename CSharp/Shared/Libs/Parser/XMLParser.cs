@@ -14,11 +14,11 @@ using System.Xml.Linq;
 
 namespace BaroJunk
 {
-  public static class XMLParser
+  public class XMLParser
   {
-    public static SimpleParser Parser { get; set; } = new SimpleParser();
+    public SimpleParser Parser { get; set; } = new SimpleParser();
 
-    public static SimpleResult Parse(XElement element, Type T)
+    public SimpleResult Parse(XElement element, Type T)
     {
       MethodInfo fromxml = T.GetMethod("FromXML", BindingFlags.Public | BindingFlags.Instance);
       if (fromxml != null)
@@ -29,19 +29,21 @@ namespace BaroJunk
         }
         catch (Exception e)
         {
-          return SimpleResult.Failure(
-            $"Couldn't parse [{T}] from xml: {Parser.Custom.ExceptionMessage(e)}"
-          );
+          return SimpleResult.Failure($"Couldn't parse [{T}] from xml: {Parser.Custom.ExceptionMessage(e)}", e);
         }
       }
 
-      return SimpleResult.Success(Parser.Parse(element.Value, T).Result);
+      try
+      {
+        return SimpleResult.Success(Parser.Parse(element.Value, T).Result);
+      }
+      catch (Exception e)
+      {
+        return SimpleResult.Failure($"Couldn't parse [{T}] from xml: {Parser.Custom.ExceptionMessage(e)}", e);
+      }
     }
 
-    public static XElement Serialize(IConfigEntry entry)
-      => Serialize(entry.Value, entry.Name);
-
-    public static XElement Serialize(object o, string name)
+    public XElement Serialize(object o, string name)
     {
       if (o is null) return new XElement(name, Parser.Serialize(o).Result);
 
@@ -50,5 +52,8 @@ namespace BaroJunk
 
       return new XElement(name, Parser.Serialize(o).Result);
     }
+
+    public XMLParser() { }
+    public XMLParser(SimpleParser parser) => Parser = parser;
   }
 }

@@ -13,7 +13,7 @@ using Barotrauma.Networking;
 
 namespace BaroJunk
 {
-  public static class NetParser
+  public class NetParser
   {
     public static Dictionary<Type, Action<IWriteMessage, object>> EncodeTable = new()
     {
@@ -32,9 +32,26 @@ namespace BaroJunk
       [typeof(Color)] = (IWriteMessage msg, object data) => msg.WriteColorR8G8B8A8((Color)data),
     };
 
-    public static SimpleResult Encode(IWriteMessage msg, ConfigEntry entry)
-      => Encode(msg, entry.Value, entry.Type);
-    public static SimpleResult Encode(IWriteMessage msg, object data, Type dataType)
+    public static Dictionary<Type, Func<IReadMessage, object>> DecodeTable = new()
+    {
+      [typeof(bool)] = (IReadMessage msg) => msg.ReadBoolean(),
+      [typeof(byte)] = (IReadMessage msg) => msg.ReadByte(),
+      [typeof(UInt16)] = (IReadMessage msg) => msg.ReadUInt16(),
+      [typeof(Int16)] = (IReadMessage msg) => msg.ReadInt16(),
+      [typeof(UInt32)] = (IReadMessage msg) => msg.ReadUInt32(),
+      [typeof(Int32)] = (IReadMessage msg) => msg.ReadInt32(),
+      [typeof(UInt64)] = (IReadMessage msg) => msg.ReadUInt64(),
+      [typeof(Int64)] = (IReadMessage msg) => msg.ReadInt64(),
+      [typeof(Single)] = (IReadMessage msg) => msg.ReadSingle(),
+      [typeof(Double)] = (IReadMessage msg) => msg.ReadDouble(),
+      [typeof(string)] = (IReadMessage msg) => msg.ReadString(),
+      [typeof(Identifier)] = (IReadMessage msg) => msg.ReadIdentifier(),
+      [typeof(Color)] = (IReadMessage msg) => msg.ReadColorR8G8B8A8(),
+    };
+
+    public SimpleParser Parser { get; set; } = new SimpleParser();
+
+    public SimpleResult Encode(IWriteMessage msg, object data, Type dataType)
     {
       //HACK IWriteMessage can't write null string
       if (dataType == typeof(string) && data is null)
@@ -78,7 +95,7 @@ namespace BaroJunk
             }
             catch (Exception e)
             {
-              return SimpleResult.Failure($"-- NetParser couldn't encode [{dataType}] into IWriteMessage because [{e.Message}]", e);
+              return SimpleResult.Failure($"-- NetParser couldn't encode [{dataType}] into IWriteMessage because {Parser.Custom.ExceptionMessage(e)}", e);
             }
           }
 
@@ -90,25 +107,7 @@ namespace BaroJunk
       return SimpleResult.Failure();
     }
 
-    public static Dictionary<Type, Func<IReadMessage, object>> DecodeTable = new()
-    {
-      [typeof(bool)] = (IReadMessage msg) => msg.ReadBoolean(),
-      [typeof(byte)] = (IReadMessage msg) => msg.ReadByte(),
-      [typeof(UInt16)] = (IReadMessage msg) => msg.ReadUInt16(),
-      [typeof(Int16)] = (IReadMessage msg) => msg.ReadInt16(),
-      [typeof(UInt32)] = (IReadMessage msg) => msg.ReadUInt32(),
-      [typeof(Int32)] = (IReadMessage msg) => msg.ReadInt32(),
-      [typeof(UInt64)] = (IReadMessage msg) => msg.ReadUInt64(),
-      [typeof(Int64)] = (IReadMessage msg) => msg.ReadInt64(),
-      [typeof(Single)] = (IReadMessage msg) => msg.ReadSingle(),
-      [typeof(Double)] = (IReadMessage msg) => msg.ReadDouble(),
-      [typeof(string)] = (IReadMessage msg) => msg.ReadString(),
-      [typeof(Identifier)] = (IReadMessage msg) => msg.ReadIdentifier(),
-      [typeof(Color)] = (IReadMessage msg) => msg.ReadColorR8G8B8A8(),
-    };
-
-    public static SimpleResult Decode<T>(IReadMessage msg) => Decode(msg, typeof(T));
-    public static SimpleResult Decode(IReadMessage msg, Type T)
+    public SimpleResult Decode(IReadMessage msg, Type T)
     {
       if (DecodeTable.ContainsKey(T))
       {
@@ -166,6 +165,9 @@ namespace BaroJunk
         };
       }
     }
+
+    public NetParser() { }
+    public NetParser(SimpleParser parser) => Parser = parser;
 
   }
 }

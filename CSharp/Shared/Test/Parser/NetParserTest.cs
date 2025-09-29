@@ -10,7 +10,8 @@ using Microsoft.Xna.Framework;
 
 namespace BaroJunk
 {
-  public class ParserTest : ConfigTest
+  //TODO finish
+  public class NetParserTest : ParserTest
   {
     public class SomeClass
     {

@@ -22,7 +22,11 @@ namespace BaroJunk
     {
       foreach (ConfigEntry entry in GetEntriesRec())
       {
-        NetParser.Encode(msg, entry);
+        SimpleResult result = DefaultNetParser.Encode(msg, entry.Value, entry.Type);
+        if (!result.Ok)
+        {
+          Logger.Warning(result.Details);
+        }
       }
     }
 
@@ -30,7 +34,9 @@ namespace BaroJunk
     {
       foreach (ConfigEntry entry in GetEntriesRec())
       {
-        entry.Value = NetParser.Decode(msg, entry.Type).Result;
+        SimpleResult result = DefaultNetParser.Decode(msg, entry.Type);
+        if (result.Ok) entry.Value = result.Result;
+        else Logger.Warning(result.Details);
       }
       this.Mixin.Model.RaiseOnConfigUpdated();
     }

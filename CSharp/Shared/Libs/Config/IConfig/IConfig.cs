@@ -13,8 +13,10 @@ namespace BaroJunk
 
   public partial interface IConfig : IConfigEntry
   {
+    //TODO also probably shouldn't be static
     public static SimpleParser DefaultParser = new SimpleParser();
-
+    public static NetParser DefaultNetParser = new NetParser(DefaultParser);
+    public static XMLParser DefaultXMLParser = new XMLParser(DefaultParser);
 
     public static string TypeID<T>() => TypeID(typeof(T));
     public static string TypeID(Type T) => $"{T.Namespace}_{T.Name}";

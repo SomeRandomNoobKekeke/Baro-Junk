@@ -94,7 +94,7 @@ namespace BaroJunk
         {
           if (!entry.IsConfig)
           {
-            element.Add(XMLParser.Serialize(entry));
+            element.Add(DefaultXMLParser.Serialize(entry.Value, entry.Name));
           }
         }
 
@@ -125,7 +125,7 @@ namespace BaroJunk
         }
         else
         {
-          SimpleResult result = XMLParser.Parse(child, entry.Type);
+          SimpleResult result = DefaultXMLParser.Parse(child, entry.Type);
           entry.Value = result.Result;
           if (!result.Ok) Logger.Warning(result.Details);
         }
