@@ -17,20 +17,16 @@ namespace BaroJunk
     public object Target { get; private set; }
 
     public object Get(string prop) => Target.GetType().GetProperty(prop, pls)?.GetValue(Target);
-    public void Set(string prop, object value)
-    {
-      PropertyInfo pi = Target.GetType().GetProperty(prop, pls);
-      pi?.SetValue(Target, value);
-    }
+    public void Set(string prop, object value) => Target.GetType().GetProperty(prop, pls)?.SetValue(Target, value);
     public bool Has(string prop) => Target.GetType().GetProperty(prop, pls) is not null;
     public IEnumerable<string> Props => Target.GetType().GetProperties(pls).Select(pi => pi.Name);
 
-    public override string ToString() => Logger.PropsToString(Target);
-
+    public override string ToString() => Target.ToString();
     public ReflectionProxy(object target)
     {
       ArgumentNullException.ThrowIfNull(target);
       Target = target;
     }
   }
+
 }

@@ -18,6 +18,7 @@ namespace BaroJunk
   public class SimpleParser
   {
     public IExtraParsingMethods ExtraParsingMethods { get; set; } = new BasicExtraParsingMethods();
+    public CustomSerializeMethods Custom { get; set; } = new CustomSerializeMethods();
 
     public object DefaultFor(Type T)
     {
@@ -55,7 +56,7 @@ namespace BaroJunk
           return new SimpleResult()
           {
             Ok = false,
-            Details = $"-- Parser couldn't parse [{raw}] into primitive type [{T}] because [{e.Message}{(e.InnerException is null ? null : $" - {e.InnerException.Message}")}]",
+            Details = $"-- Parser couldn't parse [{raw}] into primitive type [{T}] because {Custom.ExceptionMessage(e)}",
             Exception = e,
             Result = DefaultFor(T),
           };
@@ -75,7 +76,7 @@ namespace BaroJunk
           return new SimpleResult()
           {
             Ok = false,
-            Details = $"-- Parser couldn't parse [{raw}] into Enum [{T}] because [{e.Message}{(e.InnerException is null ? null : $" - {e.InnerException.Message}")}]",
+            Details = $"-- Parser couldn't parse [{raw}] into Enum [{T}] because {Custom.ExceptionMessage(e)}",
             Exception = e,
             Result = DefaultFor(T),
           };
@@ -120,7 +121,7 @@ namespace BaroJunk
           return new SimpleResult()
           {
             Ok = false,
-            Details = $"-- Parser couldn't parse [{raw}] into [{T}] because [{e.Message}{(e.InnerException is null ? null : $" - {e.InnerException.Message}")}]",
+            Details = $"-- Parser couldn't parse [{raw}] into [{T}] because {Custom.ExceptionMessage(e)}",
             Exception = e,
             Result = DefaultFor(T),
           };
@@ -151,7 +152,7 @@ namespace BaroJunk
         return new SimpleResult()
         {
           Ok = false,
-          Details = $"-- Parser couldn't serialize object of [{o.GetType()}] type because [{e.Message}{(e.InnerException is null ? null : $" - {e.InnerException.Message}")}]",
+          Details = $"-- Parser couldn't serialize object of [{o.GetType()}] type because {Custom.ExceptionMessage(e)}",
           Exception = e,
           Result = NullTerm,
         };
