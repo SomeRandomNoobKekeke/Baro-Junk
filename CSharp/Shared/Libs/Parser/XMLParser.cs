@@ -22,11 +22,6 @@ namespace BaroJunk
       MethodInfo fromxml = T.GetMethod("FromXML", BindingFlags.Public | BindingFlags.Instance);
       if (fromxml != null) return SimpleResult.Success(fromxml.Invoke(null, new object[] { element }));
 
-      if (ExtraXMLParsingMethods.Parse.ContainsKey(T))
-      {
-        return SimpleResult.Success(ExtraXMLParsingMethods.Parse[T].Invoke(null, new object[] { element }));
-      }
-
       return SimpleResult.Success(Parser.Parse(element.Value, T).Result);
     }
 
@@ -39,11 +34,6 @@ namespace BaroJunk
 
       MethodInfo toxml = o.GetType().GetMethod("ToXml", BindingFlags.Public | BindingFlags.Instance);
       if (toxml != null) return (XElement)toxml.Invoke(o, new object[] { });
-
-      if (ExtraXMLParsingMethods.Serialize.ContainsKey(o.GetType()))
-      {
-        return (XElement)ExtraXMLParsingMethods.Serialize[o.GetType()].Invoke(null, new object[] { o });
-      }
 
       return new XElement(name, Parser.Serialize(o));
     }
