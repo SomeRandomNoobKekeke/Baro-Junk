@@ -22,6 +22,7 @@ namespace BaroJunk
       UTestCommands.AddCommands();
 
       UTestExplorer.ScanCategory("internal");
+      UTestRunner.RunRecursive<RealNetParserTest>();
 
       Experiment();
       if (ModInfo.ModDir<Mod>().Contains("LocalMods"))
