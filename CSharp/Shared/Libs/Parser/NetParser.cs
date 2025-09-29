@@ -15,6 +15,8 @@ namespace BaroJunk
 {
   public class NetParser
   {
+    public static string NullTerm = "[null]";//HACK bruh
+
     public static Dictionary<Type, Action<IWriteMessage, object>> EncodeTable = new()
     {
       [typeof(bool)] = (IWriteMessage msg, object data) => msg.WriteBoolean((bool)data),
@@ -27,7 +29,11 @@ namespace BaroJunk
       [typeof(Int64)] = (IWriteMessage msg, object data) => msg.WriteInt64((Int64)data),
       [typeof(Single)] = (IWriteMessage msg, object data) => msg.WriteSingle((Single)data),
       [typeof(Double)] = (IWriteMessage msg, object data) => msg.WriteDouble((Double)data),
-      [typeof(string)] = (IWriteMessage msg, object data) => msg.WriteString((string)data),
+      [typeof(string)] = (IWriteMessage msg, object data) =>
+      {
+        data ??= NullTerm;
+        msg.WriteString((string)data);
+      },
       [typeof(Identifier)] = (IWriteMessage msg, object data) => msg.WriteIdentifier((Identifier)data),
       [typeof(Color)] = (IWriteMessage msg, object data) => msg.WriteColorR8G8B8A8((Color)data),
     };
@@ -44,48 +50,37 @@ namespace BaroJunk
       [typeof(Int64)] = (IReadMessage msg) => msg.ReadInt64(),
       [typeof(Single)] = (IReadMessage msg) => msg.ReadSingle(),
       [typeof(Double)] = (IReadMessage msg) => msg.ReadDouble(),
-      [typeof(string)] = (IReadMessage msg) => msg.ReadString(),
+      [typeof(string)] = (IReadMessage msg) =>
+      {
+        string s = msg.ReadString();
+        return s == NullTerm ? null : s;
+      },
       [typeof(Identifier)] = (IReadMessage msg) => msg.ReadIdentifier(),
       [typeof(Color)] = (IReadMessage msg) => msg.ReadColorR8G8B8A8(),
     };
 
     public SimpleParser Parser { get; set; } = new SimpleParser();
 
+    public SimpleResult Encode(IWriteMessage msg, object data) => Encode(msg, data, data.GetType());
     public SimpleResult Encode(IWriteMessage msg, object data, Type dataType)
     {
-      //HACK IWriteMessage can't write null string
-      if (dataType == typeof(string) && data is null)
-      {
-        data = IConfig.DefaultParser.NullTerm;
-      }
-
       if (EncodeTable.ContainsKey(dataType))
       {
-        EncodeTable[dataType](msg, data);
+        try
+        {
+          EncodeTable[dataType](msg, data);
+          return SimpleResult.Success();
+        }
+        catch (Exception e)
+        {
+          return SimpleResult.Failure($"-- NetParser couldn't encode [{dataType}] into IWriteMessage because {Parser.Custom.ExceptionMessage(e)}", e);
+        }
       }
       else
       {
         if (!dataType.IsPrimitive)
         {
-          //Static
-          MethodInfo encode = dataType.GetMethod("NetEncode", BindingFlags.Public | BindingFlags.Static);
-          if (encode is not null)
-          {
-            try
-            {
-              encode.Invoke(null, new object[] { msg, data });
-              return SimpleResult.Success();
-            }
-            catch (Exception e)
-            {
-              return SimpleResult.Failure($"-- NetParser couldn't encode [{dataType}] into IWriteMessage because [{e.Message}]", e);
-            }
-          }
-
-          //instance
-          // THINK about putting it in a method
-          encode = dataType.GetMethod("NetEncode", BindingFlags.Public | BindingFlags.Instance);
-
+          MethodInfo encode = dataType.GetMethod("NetEncode", BindingFlags.Public | BindingFlags.Instance);
           if (encode is not null)
           {
             try
@@ -99,12 +94,13 @@ namespace BaroJunk
             }
           }
 
-
-          return SimpleResult.Failure($"-- NetParser couldn't encode [{dataType}] into IWriteMessage because it doesn't have {ConfigLogger.WrapInColor($"public static void NetEncode(IWriteMessage msg, {dataType} data)", "white")} method");
+          return SimpleResult.Failure($"-- NetParser couldn't encode [{dataType}] into IWriteMessage because it doesn't have {ConfigLogger.WrapInColor($"public void NetEncode(IWriteMessage msg)", "white")} method");
+        }
+        else
+        {
+          return SimpleResult.Failure($"-- NetParser couldn't encode primitive [{dataType}] into IWriteMessage because lazy dev forgor to add it to EncodeTable");
         }
       }
-
-      return SimpleResult.Failure();
     }
 
     public SimpleResult Decode(IReadMessage msg, Type T)
@@ -113,25 +109,15 @@ namespace BaroJunk
       {
         try
         {
-          //HACK IReadMessage can't read null string
-          if (T == typeof(string))
-          {
-            string s = msg.ReadString();
-            if (s == IConfig.DefaultParser.NullTerm) return SimpleResult.Success(null);
-            return SimpleResult.Success(s);
-          }
-          else
-          {
-            return SimpleResult.Success(DecodeTable[T](msg));
-          }
+          return SimpleResult.Success(DecodeTable[T](msg));
         }
         catch (Exception e)
         {
           return new SimpleResult()
           {
             Ok = false,
-            Result = IConfig.DefaultParser.DefaultFor(T),
-            Details = $"-- NetParser couldn't decode [{T}] from IReadMessage because [{e.Message}]",
+            Result = Parser.DefaultFor(T),
+            Details = $"-- NetParser couldn't decode [{T}] from IReadMessage because {Parser.Custom.ExceptionMessage(e)}",
             Exception = e,
           };
         }
@@ -150,8 +136,8 @@ namespace BaroJunk
             return new SimpleResult()
             {
               Ok = false,
-              Result = IConfig.DefaultParser.DefaultFor(T),
-              Details = $"-- NetParser couldn't decode [{T}] from IReadMessage because [{e.Message}]",
+              Result = Parser.DefaultFor(T),
+              Details = $"-- NetParser couldn't decode [{T}] from IReadMessage because {Parser.Custom.ExceptionMessage(e)}",
               Exception = e,
             };
           }
@@ -160,7 +146,7 @@ namespace BaroJunk
         return new SimpleResult()
         {
           Ok = false,
-          Result = IConfig.DefaultParser.DefaultFor(T),
+          Result = Parser.DefaultFor(T),
           Details = $"-- NetParser couldn't decode [{T}] from IReadMessage because [{T}] doesn't have {ConfigLogger.WrapInColor($"public static {T.Name} NetDecode(IReadMessage msg)", "white")} method",
         };
       }
