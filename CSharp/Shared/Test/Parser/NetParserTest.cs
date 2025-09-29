@@ -31,7 +31,7 @@ namespace BaroJunk
 
     public override void CreateTests()
     {
-      SimpleParser parser = new SimpleParser();
+      NetParser parser = new NetParser();
 
       Tests.Add(new UTest(parser.Parse(null, typeof(object)), SimpleResult.Success(null)));
       Tests.Add(new UTest(parser.Parse("123", typeof(int)), SimpleResult.Success(123)));
