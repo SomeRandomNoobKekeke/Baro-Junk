@@ -14,8 +14,7 @@ namespace BaroJunk
 {
   public partial interface IConfig
   {
-    //TODO put it somewhere else
-    //Also lol, i didn't know XmlWriter can write to stringbuilder
+    //MOVE it somewhere else
     public static string Beautify(XDocument doc)
     {
       StringBuilder sb = new StringBuilder();

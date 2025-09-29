@@ -13,7 +13,7 @@ using Barotrauma;
 
 namespace BaroJunk
 {
-  //TODO mb i should make it instance and add similar classes for access to dicts and lua tables 
+  //THINK mb i should make it instance and add similar classes for access to dicts and lua tables 
   public static class EntryAccess
   {
     public static object GetProp(object target, string propPath)

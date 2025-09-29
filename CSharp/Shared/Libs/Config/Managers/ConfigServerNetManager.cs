@@ -35,7 +35,7 @@ namespace BaroJunk
       Config.Facades.NetFacade.ServerEncondeAndBroadcast(Config.NetHeader + "_sync", Config);
     }
 
-    //TODO how to not fail silently here?
+    //THINK how to not fail silently here?
     public void Give(IReadMessage msg, Client client)
     {
       if (!Enabled) return;

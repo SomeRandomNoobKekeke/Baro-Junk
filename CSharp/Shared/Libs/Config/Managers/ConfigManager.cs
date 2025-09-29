@@ -23,7 +23,7 @@ namespace BaroJunk
     public ConfigServerNetManager ServerNetController;
     public ConfigCommandsManager CommandsManager;
 
-    //HACK (cringe)
+    //CRINGE
     public bool NetSync
     {
       get

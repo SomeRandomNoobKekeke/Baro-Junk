@@ -35,7 +35,7 @@ namespace BaroJunk
       this.Mixin.Model.RaiseOnConfigUpdated();
     }
 
-    //TODO uncringe
+    //CRINGE
     #region Cringe
 
 #if CLIENT
@@ -50,7 +50,7 @@ namespace BaroJunk
     {
       if (!Facades.NetFacade.IsMultiplayer) return SimpleResult.Failure("It's not multiplayer");
 
-      //TODO why ConsoleCommands permission is hardcoded here?
+      //WHY ConsoleCommands permission is hardcoded here?
       if (!Facades.NetFacade.DoIHavePermissions()) return SimpleResult.Failure(
         "You need to be the host or have ConsoleCommands permission to use it"
       );

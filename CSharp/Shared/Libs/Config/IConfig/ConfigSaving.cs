@@ -45,7 +45,7 @@ namespace BaroJunk
     }
 
 
-    //FIXME should it sync on load?
+    //THINK should it sync on load?
     public SimpleResult Load(string path)
     {
       if (!Facades.IOFacade.FileExists(path)) return SimpleResult.Failure($"Can't load config: [{path}] not found");

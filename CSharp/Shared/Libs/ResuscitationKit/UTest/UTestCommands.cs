@@ -9,8 +9,8 @@ namespace BaroJunk
   public class UTestCommands
   {
     public static List<DebugConsole.Command> AddedCommands = new List<DebugConsole.Command>();
-    //TODO what if multiple mods have this command?
-    //TODO Why this method is the main entry point?
+    //FIXME what if multiple mods have this command?
+    //THINK Why this method is the main entry point?
     public static void AddCommands()
     {
       AddedCommands.Add(new DebugConsole.Command("utest", "", UTest_Command, UTest_Hints));
@@ -18,14 +18,12 @@ namespace BaroJunk
       DebugConsole.Commands.InsertRange(0, AddedCommands);
 
 #if CLIENT
-      //TODO sneaky sneaky
       string lastCommand = ModStorage.Get<string>("lastUtestCommand");
       if (!string.IsNullOrEmpty(lastCommand))
       {
         DebugConsole.ExecuteCommand(lastCommand);
       }
 #endif
-
     }
 
     //TODO remove hidden test from hints

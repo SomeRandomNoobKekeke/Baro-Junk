@@ -18,11 +18,22 @@ namespace BaroJunk
   {
     public static SimpleParser Parser { get; set; } = new SimpleParser();
 
-    //TODO it shouldn't throw
     public static SimpleResult Parse(XElement element, Type T)
     {
       MethodInfo fromxml = T.GetMethod("FromXML", BindingFlags.Public | BindingFlags.Instance);
-      if (fromxml != null) return SimpleResult.Success(fromxml.Invoke(null, new object[] { element }));
+      if (fromxml != null)
+      {
+        try
+        {
+          return SimpleResult.Success(fromxml.Invoke(null, new object[] { element }));
+        }
+        catch (Exception e)
+        {
+          return SimpleResult.Failure(
+            $"Couldn't parse [{T}] from xml: {Parser.Custom.ExceptionMessage(e)}"
+          );
+        }
+      }
 
       return SimpleResult.Success(Parser.Parse(element.Value, T).Result);
     }

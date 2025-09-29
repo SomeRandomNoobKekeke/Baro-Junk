@@ -36,7 +36,7 @@ namespace BaroJunk
       => Encode(msg, entry.Value, entry.Type);
     public static SimpleResult Encode(IWriteMessage msg, object data, Type dataType)
     {
-      //HACK
+      //HACK IWriteMessage can't write null string
       if (dataType == typeof(string) && data is null)
       {
         data = IConfig.DefaultParser.NullTerm;
@@ -66,7 +66,7 @@ namespace BaroJunk
           }
 
           //instance
-          // TODO think about putting it in a method
+          // THINK about putting it in a method
           encode = dataType.GetMethod("NetEncode", BindingFlags.Public | BindingFlags.Instance);
 
           if (encode is not null)
@@ -114,7 +114,7 @@ namespace BaroJunk
       {
         try
         {
-          //HACK
+          //HACK IReadMessage can't read null string
           if (T == typeof(string))
           {
             string s = msg.ReadString();

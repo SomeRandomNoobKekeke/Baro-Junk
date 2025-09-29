@@ -29,7 +29,7 @@ namespace BaroJunk
 
   public class NetFacade : INetFacade
   {
-    //TODO think, where should it be
+    //THINK where should it be
     public ClientPermissions RequiredPermissions = ClientPermissions.ConsoleCommands;
     public bool IsMultiplayer => GameMain.IsMultiplayer;
 
