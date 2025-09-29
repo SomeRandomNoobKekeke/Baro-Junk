@@ -105,7 +105,7 @@ namespace BaroJunk
 
         try
         {
-          SimpleResult result = Parser.Parse(args[1], entry.Type);
+          SimpleResult result = IConfig.DefaultParser.Parse(args[1], entry.Type);
           if (result.Ok)
           {
             entry.Value = result.Result;

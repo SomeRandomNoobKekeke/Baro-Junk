@@ -13,6 +13,9 @@ namespace BaroJunk
 
   public partial interface IConfig : IConfigEntry
   {
+    public static SimpleParser DefaultParser = new SimpleParser();
+
+
     public static string TypeID<T>() => TypeID(typeof(T));
     public static string TypeID(Type T) => $"{T.Namespace}_{T.Name}";
     public string ID => TypeID(this.GetType());

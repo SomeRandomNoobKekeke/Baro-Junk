@@ -15,19 +15,18 @@ namespace BaroJunk
   {
     public static BindingFlags pls = BindingFlags.Instance | BindingFlags.Public;
     public object Target { get; private set; }
-    public object Get(string prop)
-      => Target.GetType().GetProperty(prop, pls)?.GetValue(Target);
-    public void Set(string prop, string value)
+
+    public object Get(string prop) => Target.GetType().GetProperty(prop, pls)?.GetValue(Target);
+    public void Set(string prop, object value)
     {
       PropertyInfo pi = Target.GetType().GetProperty(prop, pls);
-      pi?.SetValue(Target, Parser.Parse(value, pi.PropertyType).Result);
+      pi?.SetValue(Target, value);
     }
-    public bool Has(string prop)
-      => Target.GetType().GetProperty(prop, pls) is not null;
-    public IEnumerable<string> Props
-      => Target.GetType().GetProperties(pls).Select(pi => pi.Name);
+    public bool Has(string prop) => Target.GetType().GetProperty(prop, pls) is not null;
+    public IEnumerable<string> Props => Target.GetType().GetProperties(pls).Select(pi => pi.Name);
 
     public override string ToString() => Logger.PropsToString(Target);
+
     public ReflectionProxy(object target)
     {
       ArgumentNullException.ThrowIfNull(target);

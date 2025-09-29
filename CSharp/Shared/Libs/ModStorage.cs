@@ -1,3 +1,4 @@
+#if CLIENT
 using System;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -6,13 +7,12 @@ using System.Collections.Immutable;
 using System.Linq;
 
 using Barotrauma;
-using HarmonyLib;
 using Microsoft.Xna.Framework;
 
 namespace BaroJunk
 {
   /// <summary>
-  /// Global data repository  
+  /// Global data repository, works only on client
   /// Treat it as Dictionary<string, object>  
   /// In fact data is stored in GUI.Canvas.GUIComponent.Userdata
   /// </summary>
@@ -51,3 +51,4 @@ namespace BaroJunk
     }
   }
 }
+#endif

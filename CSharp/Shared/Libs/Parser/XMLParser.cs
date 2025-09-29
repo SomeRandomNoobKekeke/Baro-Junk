@@ -16,6 +16,8 @@ namespace BaroJunk
 {
   public static class XMLParser
   {
+    public static SimpleParser Parser { get; set; } = new SimpleParser();
+
     //TODO it shouldn't throw
     public static SimpleResult Parse(XElement element, Type T)
     {
@@ -30,12 +32,12 @@ namespace BaroJunk
 
     public static XElement Serialize(object o, string name)
     {
-      if (o is null) return new XElement(name, Parser.Serialize(o));
+      if (o is null) return new XElement(name, Parser.Serialize(o).Result);
 
       MethodInfo toxml = o.GetType().GetMethod("ToXml", BindingFlags.Public | BindingFlags.Instance);
       if (toxml != null) return (XElement)toxml.Invoke(o, new object[] { });
 
-      return new XElement(name, Parser.Serialize(o));
+      return new XElement(name, Parser.Serialize(o).Result);
     }
   }
 }

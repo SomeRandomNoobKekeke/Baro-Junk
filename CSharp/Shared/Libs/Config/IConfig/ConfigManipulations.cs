@@ -31,7 +31,7 @@ namespace BaroJunk
     {
       foreach (ConfigEntry entry in this.GetEntriesRec())
       {
-        entry.Value = Parser.DefaultFor(entry.Type);
+        entry.Value = IConfig.DefaultParser.DefaultFor(entry.Type);
       }
     }
 
@@ -50,7 +50,7 @@ namespace BaroJunk
           {
             if (pi.GetValue(o) is null)
             {
-              pi.SetValue(o, Parser.DefaultFor(pi.PropertyType));
+              pi.SetValue(o, IConfig.DefaultParser.DefaultFor(pi.PropertyType));
             }
 
             RestoreRec(pi.GetValue(o));

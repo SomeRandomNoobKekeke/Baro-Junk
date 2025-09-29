@@ -73,7 +73,7 @@ namespace BaroJunk
 
         foreach (string key in Different.Keys)
         {
-          sb.Append($"{key} [ {ConfigLogger.WrapInColor(Parser.Serialize(Different[key].Item1), "white")} / {ConfigLogger.WrapInColor(Parser.Serialize(Different[key].Item2), "white")} ]\n");
+          sb.Append($"{key} [ {ConfigLogger.WrapInColor(IConfig.DefaultParser.Serialize(Different[key].Item1).Result, "white")} / {ConfigLogger.WrapInColor(IConfig.DefaultParser.Serialize(Different[key].Item2).Result, "white")} ]\n");
         }
       }
 

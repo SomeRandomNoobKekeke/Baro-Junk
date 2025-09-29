@@ -12,26 +12,24 @@ using System.IO;
 
 namespace BaroJunk
 {
-
-  //TODO parser should be in an instace class in a separate package 
   /// <summary>
   /// Parse primitive types, can be extended with ExtraParsingMethods
   /// </summary>
-  public static class Parser
+  public class SimpleParser
   {
-    /// <summary>
-    /// Null is serialized into this, so you could distinguish null and empty string
-    /// </summary>
-    public static string NullTerm = "{{null}}";
-    public static object DefaultFor(Type T)
+    public object DefaultFor(Type T)
     {
-      if (T == typeof(string)) return null;//HACK
+      if (T == typeof(string)) return null;
       return Activator.CreateInstance(T);
     }
 
+    /// <summary>
+    /// Null is serialized into this, so you could distinguish null and empty string
+    /// </summary>
+    public string NullTerm = "{{null}}";
 
-    public static SimpleResult Parse<T>(string raw) => Parse(raw, typeof(T));
-    public static SimpleResult Parse(string raw, Type T)
+    public SimpleResult Parse<T>(string raw) => Parse(raw, typeof(T));
+    public SimpleResult Parse(string raw, Type T)
     {
       if (raw == null) return SimpleResult.Success(null);
       if (raw == NullTerm) return SimpleResult.Success(null);
@@ -56,7 +54,7 @@ namespace BaroJunk
           return new SimpleResult()
           {
             Ok = false,
-            Details = $"-- Parser couldn't parse [{raw}] into primitive type [{T}] because [{e.Message} - {e.InnerException?.Message}]",
+            Details = $"-- Parser couldn't parse [{raw}] into primitive type [{T}] because [{e.Message}{(e.InnerException is null ? null : $" - {e.InnerException.Message}")}]",
             Exception = e,
             Result = DefaultFor(T),
           };
@@ -76,7 +74,7 @@ namespace BaroJunk
           return new SimpleResult()
           {
             Ok = false,
-            Details = $"-- Parser couldn't parse [{raw}] into Enum [{T}] because [{e.Message} - {e.InnerException?.Message}]",
+            Details = $"-- Parser couldn't parse [{raw}] into Enum [{T}] because [{e.Message}{(e.InnerException is null ? null : $" - {e.InnerException.Message}")}]",
             Exception = e,
             Result = DefaultFor(T),
           };
@@ -120,7 +118,7 @@ namespace BaroJunk
           return new SimpleResult()
           {
             Ok = false,
-            Details = $"-- Parser couldn't parse [{raw}] into [{T}] because [{e.Message} - {e.InnerException?.Message}]",
+            Details = $"-- Parser couldn't parse [{raw}] into [{T}] because [{e.Message}{(e.InnerException is null ? null : $" - {e.InnerException.Message}")}]",
             Exception = e,
             Result = DefaultFor(T),
           };
@@ -132,10 +130,10 @@ namespace BaroJunk
       );
     }
 
-    public static string Serialize(object o)
+    public SimpleResult Serialize(object o)
     {
-      if (o is null) return NullTerm;
-      if (o.GetType() == typeof(string)) return (string)o;
+      if (o is null) return SimpleResult.Success(NullTerm);
+      if (o.GetType() == typeof(string)) return SimpleResult.Success((string)o);
 
 
       MethodInfo serialize = ExtraParsingMethods.Serialize.GetValueOrDefault(o.GetType());
@@ -143,15 +141,23 @@ namespace BaroJunk
 
       try
       {
-        result = serialize == null ? o.ToString() : (string)serialize.Invoke(null, new object[] { o });
+        if (serialize is not null)
+        {
+          return SimpleResult.Success((string)serialize.Invoke(null, new object[] { o }));
+        }
+
+        return SimpleResult.Success(o.ToString());
       }
       catch (Exception e)
       {
-        //TODO this is cringe
-        // if (Verbose) IConfig.Logger.Warning($"-- Parser couldn't serialize object of [{o.GetType()}] type because [{e.Message}]");
+        return new SimpleResult()
+        {
+          Ok = false,
+          Details = $"-- Parser couldn't serialize object of [{o.GetType()}] type because [{e.Message}{(e.InnerException is null ? null : $" - {e.InnerException.Message}")}]",
+          Exception = e,
+          Result = NullTerm,
+        };
       }
-
-      return result;
     }
   }
 }

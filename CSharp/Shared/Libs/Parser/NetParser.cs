@@ -39,7 +39,7 @@ namespace BaroJunk
       //HACK
       if (dataType == typeof(string) && data is null)
       {
-        data = Parser.NullTerm;
+        data = IConfig.DefaultParser.NullTerm;
       }
 
       if (EncodeTable.ContainsKey(dataType))
@@ -118,7 +118,7 @@ namespace BaroJunk
           if (T == typeof(string))
           {
             string s = msg.ReadString();
-            if (s == Parser.NullTerm) return SimpleResult.Success(null);
+            if (s == IConfig.DefaultParser.NullTerm) return SimpleResult.Success(null);
             return SimpleResult.Success(s);
           }
           else
@@ -131,7 +131,7 @@ namespace BaroJunk
           return new SimpleResult()
           {
             Ok = false,
-            Result = Parser.DefaultFor(T),
+            Result = IConfig.DefaultParser.DefaultFor(T),
             Details = $"-- NetParser couldn't decode [{T}] from IReadMessage because [{e.Message}]",
             Exception = e,
           };
@@ -151,7 +151,7 @@ namespace BaroJunk
             return new SimpleResult()
             {
               Ok = false,
-              Result = Parser.DefaultFor(T),
+              Result = IConfig.DefaultParser.DefaultFor(T),
               Details = $"-- NetParser couldn't decode [{T}] from IReadMessage because [{e.Message}]",
               Exception = e,
             };
@@ -161,7 +161,7 @@ namespace BaroJunk
         return new SimpleResult()
         {
           Ok = false,
-          Result = Parser.DefaultFor(T),
+          Result = IConfig.DefaultParser.DefaultFor(T),
           Details = $"-- NetParser couldn't decode [{T}] from IReadMessage because [{T}] doesn't have {ConfigLogger.WrapInColor($"public static {T.Name} NetDecode(IReadMessage msg)", "white")} method",
         };
       }
