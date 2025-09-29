@@ -14,18 +14,62 @@ namespace BaroJunk
 {
   public partial interface IConfig
   {
+    //TODO put it somewhere else
+    //Also lol, i didn't know XmlWriter can write to stringbuilder
+    public static string Beautify(XDocument doc)
+    {
+      StringBuilder sb = new StringBuilder();
+      XmlWriterSettings settings = new XmlWriterSettings
+      {
+        Indent = true,
+        IndentChars = "    ",
+        NewLineChars = "\r\n",
+        NewLineHandling = NewLineHandling.Replace,
+        OmitXmlDeclaration = true
+      };
+      using (XmlWriter writer = XmlWriter.Create(sb, settings))
+      {
+        doc.Save(writer);
+      }
+      return sb.ToString();
+    }
+
     public string ToText()
     {
-      Dictionary<string, ConfigEntry> flat = GetFlat();
+      if (Settings.PrintAsXML)
+      {
+        XDocument xdoc = new XDocument();
+        xdoc.Add(ToXML());
+        return Beautify(xdoc);
+      }
+
       StringBuilder sb = new StringBuilder();
 
-      sb.Append("{\n");
-      foreach (string key in flat.Keys)
+      void ToTextRec(string offset, IConfig config)
       {
-        sb.Append($"    {key}: [{ConfigLogger.WrapInColor(flat[key].Value, "white")}],\n");
-      }
-      sb.Append("}");
+        foreach (IConfigEntry entry in config.Entries)
+        {
+          if (entry.IsConfig)
+          {
+            IConfig subConfig = entry.Value as IConfig;
+            if (subConfig is null) continue;
+            sb.Append($"{offset}{entry.Name}:\n");
+            ToTextRec($"{offset}       |", subConfig);
+            sb.Append($"{offset}        \n");
+          }
+        }
 
+        foreach (IConfigEntry entry in config.Entries)
+        {
+          if (!entry.IsConfig)
+          {
+            sb.Append($"{offset}{entry.Name}: {ConfigLogger.WrapInColor(entry.Value, "white")}\n");
+          }
+        }
+      }
+
+      ToTextRec("", this);
+      sb.Remove(sb.Length - 1, 1);
       return sb.ToString();
     }
 
