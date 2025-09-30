@@ -94,6 +94,25 @@ namespace BaroJunk
             }
           }
 
+          // try Encode as string
+          try
+          {
+            SimpleResult result = Parser.Serialize(data);
+            if (result.Ok)
+            {
+              EncodeTable[typeof(string)].Invoke(msg, result.Result);
+              return SimpleResult.Success();
+            }
+            else
+            {
+              return SimpleResult.Failure($"-- NetParser couldn't encode [{dataType}] into IWriteMessage because {result.Details}", result.Exception);
+            }
+          }
+          catch (Exception e)
+          {
+            return SimpleResult.Failure($"-- NetParser couldn't encode [{dataType}] into IWriteMessage because {Parser.Custom.ExceptionMessage(e)}", e);
+          }
+
           return SimpleResult.Failure($"-- NetParser couldn't encode [{dataType}] into IWriteMessage because it doesn't have {ConfigLogger.WrapInColor($"public void NetEncode(IWriteMessage msg)", "white")} method");
         }
         else
@@ -141,6 +160,25 @@ namespace BaroJunk
               Exception = e,
             };
           }
+        }
+
+        // try Decode as string
+        try
+        {
+          SimpleResult result = Parser.Parse((string)DecodeTable[typeof(string)].Invoke(msg), T);
+          if (result.Ok)
+          {
+            return SimpleResult.Success(result.Result);
+          }
+          else
+          {
+            return SimpleResult.Failure($"-- NetParser couldn't decode [{T}] from IReadMessage because {result.Details}", result.Exception);
+          }
+
+        }
+        catch (Exception e)
+        {
+          return SimpleResult.Failure($"-- NetParser couldn't decode [{T}] from IReadMessage because {Parser.Custom.ExceptionMessage(e)}", e);
         }
 
         return new SimpleResult()

@@ -33,7 +33,7 @@ namespace BaroJunk
     /// <summary>
     /// Set this to true to see the source of the logs
     /// </summary>
-    public bool PrintFilePath { get; set; }
+    public bool PrintFilePath { get; set; } = false;
     public bool PrintLogs { get; set; } = true;
     public bool PrintWarnings { get; set; } = true;
     public bool PrintErrors { get; set; } = true;
