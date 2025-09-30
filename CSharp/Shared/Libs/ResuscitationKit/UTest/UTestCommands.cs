@@ -13,9 +13,19 @@ namespace BaroJunk
     //THINK Why this method is the main entry point?
     public static void AddCommands()
     {
-      AddedCommands.Add(new DebugConsole.Command("utest", "", UTest_Command, UTest_Hints));
+      DebugConsole.Command utestCommand = new DebugConsole.Command("utest", "", UTest_Command, UTest_Hints);
 
+#if CLIENT
+      utestCommand.RelayToServer = false;
+#endif
+
+      AddedCommands.Add(utestCommand);
       DebugConsole.Commands.InsertRange(0, AddedCommands);
+
+#if CLIENT
+      PermitCommands();
+#endif
+
 
 #if CLIENT
       string lastCommand = ModStorage.Get<string>("lastUtestCommand");
@@ -25,7 +35,25 @@ namespace BaroJunk
       }
 #endif
     }
+#if CLIENT
+    private static void PermitCommands()
+    {
+      GameMain.LuaCs.Hook.Patch(
+        "permit utest",
+        typeof(DebugConsole).GetMethod("IsCommandPermitted", BindingFlags.NonPublic | BindingFlags.Static),
+        (object instance, LuaCsHook.ParameterTable ptable) =>
+        {
+          if (AddedCommands.Any(command => ((Identifier)ptable["command"]).Value == command.Names[0]))
+          {
+            ptable.ReturnValue = true;
+            ptable.PreventExecution = true;
+          }
 
+          return null;
+        }
+      );
+    }
+#endif
     //TODO remove hidden test from hints
     public static string[][] UTest_Hints()
       => new string[][] { UTestExplorer.TestNames.Append("all").Append("none").OrderBy(s => s.Length).ToArray() };
