@@ -22,15 +22,22 @@ namespace BaroJunk
       get => enabled;
       set
       {
+        bool wasEnabled = enabled;
         enabled = value;
-        if (enabled) Initialize();
+        if (!wasEnabled && enabled) Initialize();
       }
+    }
+
+    public void UseStrategy(NetManagerStrategy strategy)
+    {
+      Enabled = strategy.NetSync;
     }
 
     private void Initialize()
     {
       if (!Config.Facades.NetFacade.IsMultiplayer) return;
       Config.Facades.NetFacade.ListenForServer(Config.NetHeader + "_sync", Receive);
+
       Config.Facades.NetFacade.ClientSend(Config.NetHeader + "_ask");
     }
 

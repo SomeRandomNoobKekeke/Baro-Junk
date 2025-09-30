@@ -21,9 +21,9 @@ namespace BaroJunk
       => config.OnPropChanged(action);
     public static void OnConfigUpdated(this IConfig config, Action action)
       => config.OnConfigUpdated(action);
-    public static void EnableAutoSaving(this IConfig config) => config.Settings.AutoSave = true;
 
 
+    public static void UseStrategy(this IConfig config, ConfigStrategy strategy) => config.UseStrategy(strategy);
 
 
     public static IConfigEntry Get(this IConfig config, string entryPath) => config.Get(entryPath);

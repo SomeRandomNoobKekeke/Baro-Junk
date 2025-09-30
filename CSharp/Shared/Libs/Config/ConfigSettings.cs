@@ -11,22 +11,15 @@ using System.Text;
 
 namespace BaroJunk
 {
+
+  public enum ConfigBehaviour
+  {
+    None,
+  }
   public class ConfigSettings
   {
     public IConfig Config;
     public ConfigSettings(IConfig config) => Config = config;
-
-    public bool AutoSave
-    {
-      get => Config.Manager.AutoSaver.Enabled;
-      set => Config.Manager.AutoSaver.Enabled = value;
-    }
-
-    public bool NetSync
-    {
-      get => Config.Manager.NetSync;
-      set => Config.Manager.NetSync = value;
-    }
 
     public string CommandName
     {
@@ -34,10 +27,6 @@ namespace BaroJunk
       set => Config.Manager.CommandsManager.CommandName = value;
     }
 
-    public bool ShouldSaveInMultiplayer { get; set; } = false;
-    public bool LoadOnInit { get; set; } = true;
-    public bool SaveOnQuit { get; set; } = true;
-    public bool SaveEveryRound { get; set; } = true;
     public string SavePath { get; set; } = null;
     public bool PrintAsXML { get; set; } = false;
   }

@@ -50,6 +50,8 @@ namespace BaroJunk
       set => Mixin.Settings = value;
     }
 
+    public void UseStrategy(ConfigStrategy strategy) => Manager.UseStrategy(strategy);
+
     public void OnPropChanged(Action<string, object> action) => Mixin.Model.OnPropChanged(action);
     public void OnConfigUpdated(Action action) => Mixin.Model.OnConfigUpdated(action);
 

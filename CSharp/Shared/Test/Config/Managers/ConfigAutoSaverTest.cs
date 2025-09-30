@@ -19,7 +19,7 @@ namespace BaroJunk
 
       IOFacade.Storage[ConfigAutoSaver.DefaultSavePathFor(config)] = "<ConfigA><NestedConfigB><IntProp>123</IntProp></NestedConfigB></ConfigA>";
 
-      config.EnableAutoSaving();
+      config.UseStrategy(ConfigStrategy.OnlyAutosave);
 
       return new UTest(config.NestedConfigB.IntProp, 123, "config should be autoloaded when you enable autosaving");
     }
@@ -33,7 +33,7 @@ namespace BaroJunk
       config.Self().Facades.IOFacade = IOFacade;
       config.Self().Facades.HooksFacade = HooksFacade;
 
-      config.EnableAutoSaving();
+      config.UseStrategy(ConfigStrategy.OnlyAutosave);
       IOFacade.Storage.Clear();
       HooksFacade.CallHook("stop");
 
@@ -55,7 +55,7 @@ namespace BaroJunk
 
       IOFacade.Storage[ConfigAutoSaver.DefaultSavePathFor(config)] = "<ConfigA><NestedConfigB><IntProp>123</IntProp></NestedConfigB></ConfigA>";
 
-      config.EnableAutoSaving();
+      config.UseStrategy(ConfigStrategy.OnlyAutosave);
 
       return new UTest(wasTriggered, true, "ConfigUpdated event should be raised when config is loaded");
     }

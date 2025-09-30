@@ -37,10 +37,10 @@ namespace BaroJunk
 
 
         serverNetFacade.Connect(client1NetFacade);
-        serverConfig.Settings().NetSync = true; // server is on -> broadcasting settings
-        client1Config.Settings().NetSync = true; // client is on -> ask server for settings
+        serverConfig.UseStrategy(ConfigStrategy.OnlyNetworking); // server is on -> broadcasting settings
+        client1Config.UseStrategy(ConfigStrategy.OnlyNetworking); // client is on -> ask server for settings
         serverNetFacade.Connect(client2NetFacade);
-        client2Config.Settings().NetSync = true; // client is on -> ask server for settings
+        client2Config.UseStrategy(ConfigStrategy.OnlyNetworking); // client is on -> ask server for settings
 
 
         Tests.Add(new UListTest(SentMessages, new List<SentMessage>(){
@@ -72,9 +72,9 @@ namespace BaroJunk
 
         serverNetFacade.Connect(client1NetFacade);
         serverNetFacade.Connect(client2NetFacade);
-        serverConfig.Settings().NetSync = true;
-        client1Config.Settings().NetSync = true;
-        client2Config.Settings().NetSync = true;
+        serverConfig.UseStrategy(ConfigStrategy.OnlyNetworking);
+        client1Config.UseStrategy(ConfigStrategy.OnlyNetworking);
+        client2Config.UseStrategy(ConfigStrategy.OnlyNetworking);
 
         client1Config.NestedConfigB.StringProp = "bebebe";
         client1Config.Self().Sync();
@@ -102,9 +102,9 @@ namespace BaroJunk
 
         serverNetFacade.Connect(client1NetFacade);
         serverNetFacade.Connect(client2NetFacade);
-        serverConfig.Settings().NetSync = true;
-        client1Config.Settings().NetSync = true;
-        client2Config.Settings().NetSync = true;
+        serverConfig.UseStrategy(ConfigStrategy.OnlyNetworking);
+        client1Config.UseStrategy(ConfigStrategy.OnlyNetworking);
+        client2Config.UseStrategy(ConfigStrategy.OnlyNetworking);
 
         client1NetFacade.HasPermissions = false;
         client1Config.NestedConfigB.StringProp = "bebebe";
@@ -136,9 +136,9 @@ namespace BaroJunk
         client1Config.OnConfigUpdated(() => { ClientUpdated = true; });
         serverConfig.OnConfigUpdated(() => { ServerUpdated = true; });
 
-        serverConfig.Settings().NetSync = true;
+        serverConfig.UseStrategy(ConfigStrategy.OnlyNetworking);
         serverNetFacade.Connect(client1NetFacade);
-        client1Config.Settings().NetSync = true;
+        client1Config.UseStrategy(ConfigStrategy.OnlyNetworking);
 
         Tests.Add(new UTest(ClientUpdated, true, "net sync should trigger OnConfigUpdated"));
         Tests.Add(new UTest(ServerUpdated, false, "not yet"));

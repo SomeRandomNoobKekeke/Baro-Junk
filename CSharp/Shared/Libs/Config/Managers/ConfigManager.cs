@@ -15,41 +15,33 @@ namespace BaroJunk
   {
     public IConfig Config;
 
+    public void UseStrategy(ConfigStrategy strategy)
+    {
+      AutoSaver.UseStrategy(strategy.AutoSaverStrategy);
 
+      if (Config.Facades.NetFacade.IsClient)
+      {
+        ClientNetManager.UseStrategy(strategy.NetManagerStrategy);
+      }
+      else
+      {
+        ServerNetManager.UseStrategy(strategy.NetManagerStrategy);
+      }
+    }
 
 
     public ConfigAutoSaver AutoSaver;
-    public ConfigClientNetManager ClientNetController;
-    public ConfigServerNetManager ServerNetController;
+    public ConfigClientNetManager ClientNetManager;
+    public ConfigServerNetManager ServerNetManager;
     public ConfigCommandsManager CommandsManager;
 
-    //CRINGE
-    public bool NetSync
-    {
-      get
-      {
-        return Config.Facades.NetFacade.IsClient ? ClientNetController.Enabled : ServerNetController.Enabled;
-      }
-
-      set
-      {
-        if (Config.Facades.NetFacade.IsClient)
-        {
-          ClientNetController.Enabled = value;
-        }
-        else
-        {
-          ServerNetController.Enabled = value;
-        }
-      }
-    }
 
     public ConfigManager(IConfig config)
     {
       Config = config;
       AutoSaver = new ConfigAutoSaver(config);
-      ClientNetController = new ConfigClientNetManager(config);
-      ServerNetController = new ConfigServerNetManager(config);
+      ClientNetManager = new ConfigClientNetManager(config);
+      ServerNetManager = new ConfigServerNetManager(config);
       CommandsManager = new ConfigCommandsManager(config);
     }
   }
