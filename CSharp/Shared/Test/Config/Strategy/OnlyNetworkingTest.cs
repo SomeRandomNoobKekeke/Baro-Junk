@@ -24,13 +24,12 @@ namespace BaroJunk
         client2NetFacade.ConnectTo(serverNetFacade);
         client2Config.UseStrategy(ConfigStrategy.OnlyNetworking);
 
+        client1Config.Get("NestedConfigB.IntProp").Value = 123;
+        HooksFacade.CallHook("stop");
+
 
         Tests.Add(new UListTest(WhatHappened, new List<string>(){
-          "server sent BaroJunk_ConfigA_sync msg to client1",
-          "client1 sent BaroJunk_ConfigA_ask msg to server",
-          "server sent BaroJunk_ConfigA_sync msg to client1",
-          "client2 sent BaroJunk_ConfigA_ask msg to server",
-          "server sent BaroJunk_ConfigA_sync msg to client2",
+          "client1Config prop [NestedConfigB.IntProp] changed to [123]",
         }));
       }
     }
