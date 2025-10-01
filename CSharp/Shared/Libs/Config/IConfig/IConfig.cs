@@ -72,7 +72,7 @@ namespace BaroJunk
 
 
 
-
+    //BRUH why am i exposing EntryAccess? Now i don't know which operations are reactive
     public object GetProp(string propPath) => EntryAccess.GetProp(this, propPath);
     public void SetProp(string propPath, object value) => EntryAccess.SetProp(this, propPath, value);
     public ConfigEntry GetEntry(string propPath) => EntryAccess.GetEntry(this, propPath);

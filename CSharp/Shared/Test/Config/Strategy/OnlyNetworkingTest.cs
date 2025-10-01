@@ -29,7 +29,20 @@ namespace BaroJunk
 
 
         Tests.Add(new UListTest(WhatHappened, new List<string>(){
+          "server sent BaroJunk_ConfigA_sync msg to client1",
+          "client1 sent BaroJunk_ConfigA_ask msg to server",
+          "server sent BaroJunk_ConfigA_sync msg to client1",
+          "client1Config updated",
+          "client2 sent BaroJunk_ConfigA_ask msg to server",
+          "server sent BaroJunk_ConfigA_sync msg to client2",
+          "client2Config updated",
           "client1Config prop [NestedConfigB.IntProp] changed to [123]",
+          "client1 sent BaroJunk_ConfigA_sync msg to server",
+          "serverConfig updated",
+          "server sent BaroJunk_ConfigA_sync msg to client1",
+          "client1Config updated",
+          "server sent BaroJunk_ConfigA_sync msg to client2",
+          "client2Config updated",
         }));
       }
     }
