@@ -34,6 +34,12 @@ namespace BaroJunk
       }
     }
 
+    public void ConnectTo(INetFacade server)
+    {
+      if (server is not FakeServerNetFacade svf) return;
+      svf.Connect(this);
+    }
+
     public event Action<string, IWriteMessage> MessageSent;
     public event Action<string, IReadMessage> MessageRecieved;
 

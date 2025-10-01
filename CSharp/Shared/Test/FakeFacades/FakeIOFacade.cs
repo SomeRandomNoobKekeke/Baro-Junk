@@ -16,11 +16,15 @@ namespace BaroJunk
   {
     public Dictionary<string, string> Storage = new();
 
+    public event Action<string> SomethingHappened;
+
     public XDocument LoadXDoc(string path)
     {
       ArgumentNullException.ThrowIfNull(path);
       if (path.Trim() == "") throw new ArgumentException(path);
       if (!Storage.ContainsKey(path)) throw new Exception("File not found"); //bruh
+
+      SomethingHappened?.Invoke($"xdoc loaded from {path}");
 
       return XDocument.Parse(Storage[path]);
     }
@@ -29,10 +33,19 @@ namespace BaroJunk
       ArgumentNullException.ThrowIfNull(path);
       if (path.Trim() == "") throw new ArgumentException(path);
       Storage[path] = xdoc.ToString();
+
+      SomethingHappened?.Invoke($"xdoc saved to {path}");
     }
     public bool FileExists(string path)
-      => Storage.ContainsKey(path);
+    {
+      SomethingHappened?.Invoke($"checked file at {path}");
+      return Storage.ContainsKey(path);
+    }
+
     public void EnsureDirectory(string path)
-      => Storage[path] = "dir";
+    {
+      SomethingHappened?.Invoke($"dir ensured {path}");
+      Storage[path] = "dir";
+    }
   }
 }
