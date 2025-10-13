@@ -113,7 +113,7 @@ namespace BaroJunk
             return SimpleResult.Failure($"-- NetParser couldn't encode [{dataType}] into IWriteMessage because {Parser.Custom.ExceptionMessage(e)}", e);
           }
 
-          return SimpleResult.Failure($"-- NetParser couldn't encode [{dataType}] into IWriteMessage because it doesn't have {ConfigLogger.WrapInColor($"public void NetEncode(IWriteMessage msg)", "white")} method");
+          return SimpleResult.Failure($"-- NetParser couldn't encode [{dataType}] into IWriteMessage because it doesn't have {Parser.Custom.WrapInColor($"public void NetEncode(IWriteMessage msg)", "white")} method");
         }
         else
         {
@@ -185,7 +185,7 @@ namespace BaroJunk
         {
           Ok = false,
           Result = Parser.DefaultFor(T),
-          Details = $"-- NetParser couldn't decode [{T}] from IReadMessage because [{T}] doesn't have {ConfigLogger.WrapInColor($"public static {T.Name} NetDecode(IReadMessage msg)", "white")} method",
+          Details = $"-- NetParser couldn't decode [{T}] from IReadMessage because [{T}] doesn't have {Parser.Custom.WrapInColor($"public static {T.Name} NetDecode(IReadMessage msg)", "white")} method",
         };
       }
     }
