@@ -5,16 +5,20 @@ using System.Linq;
 
 namespace BaroJunk
 {
-  public class ConfigMixin : IConfiglikeProvider
+  public class ConfigMixin : IDirectEntryLocatorTarget, IDirectEntryLocatorHost
   {
     public object RawTarget { get; private set; }
-    public IConfiglike Target { get; private set; }
+    public IConfiglike Host { get; private set; }
+
+    public DirectEntryLocator Locator { get; }
 
 
     public ConfigMixin(object target)
     {
       RawTarget = target;
-      Target = ConfiglikeWrapper.Wrap(target);
+      Host = ConfiglikeWrapper.Wrap(target);
+
+      Locator = new DirectEntryLocator(this);
 
     }
   }

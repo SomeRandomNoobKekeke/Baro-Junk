@@ -11,15 +11,26 @@ namespace BaroJunk
     public static BindingFlags pls = BindingFlags.Public | BindingFlags.Instance;
 
     public object Target { get; private set; }
+    public bool IsValid { get; private set; }
+    public bool AmISubConfig { get; private set; }
 
-    public bool IsValid => Target is not null;
-    public bool IsSubConfig => IsValid && Target.GetType().IsAssignableTo(SubConfigType);
+    public bool HasProp(string key)
+      => Target?.GetType()?.GetProperty(key, pls) is not null;
 
-    public object GetValue(string propName)
-      => Target?.GetType()?.GetProperty(propName, pls)?.GetValue(Target);
+    public Type TypeOf(string key)
+      => Target?.GetType()?.GetProperty(key, pls).PropertyType;
 
-    public void SetValue(string propName, object value)
-      => Target?.GetType()?.GetProperty(propName, pls)?.SetValue(Target, value);
+    public bool IsSubConfig(string key)
+      => Target?.GetType()?.GetProperty(key, pls).PropertyType == SubConfigType;
+
+    public object GetValue(string key)
+      => Target?.GetType()?.GetProperty(key, pls)?.GetValue(Target);
+
+    public void SetValue(string key, object value)
+      => Target?.GetType()?.GetProperty(key, pls)?.SetValue(Target, value);
+
+    public IConfiglike GetConfig(string key)
+      => new ConfiglikeObject(Target?.GetType()?.GetProperty(key, pls)?.GetValue(Target));
 
     public IEnumerable<string> Keys
     {
@@ -39,6 +50,12 @@ namespace BaroJunk
       }
     }
 
-    public ConfiglikeObject(object target) => Target = target;
+    public ConfiglikeObject(object target)
+    {
+      Target = target;
+      IsValid = Target is not null;
+      AmISubConfig = IsValid && Target.GetType() == SubConfigType;
+
+    }
   }
 }

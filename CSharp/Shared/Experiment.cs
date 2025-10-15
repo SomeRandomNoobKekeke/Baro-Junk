@@ -10,22 +10,15 @@ using HarmonyLib;
 
 namespace BaroJunk
 {
-
-
   public partial class Mod : IAssemblyPlugin
   {
-    public class ConfigC : IConfig
-    {
-      public int IntProp { get; set; } = 6;
-      public float FloatProp { get; set; } = 7.0f;
-      public string StringProp { get; set; } = "bruh";
-      public string NullStringProp { get; set; }
-    }
 
     public void Experiment()
     {
+      ExampleConfigs.ConfigA config = new ExampleConfigs.ConfigA();
+      ConfigMixin mixin = new ConfigMixin(config);
 
-
+      Mod.Logger.Log(mixin.Locator.GetEntry("NestedConfigB.IntProp"));
 
     }
   }

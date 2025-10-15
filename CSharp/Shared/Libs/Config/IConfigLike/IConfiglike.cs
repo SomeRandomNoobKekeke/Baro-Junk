@@ -7,10 +7,14 @@ namespace BaroJunk
 {
   public interface IConfiglike
   {
-    public bool IsSubConfig { get; }
     public bool IsValid { get; }
-    public object GetValue(string propName);
-    public void SetValue(string propName, object value);
+    public bool AmISubConfig { get; }
+    public bool HasProp(string key);
+    public Type TypeOf(string key);
+    public bool IsSubConfig(string key);
+    public object GetValue(string key);
+    public void SetValue(string key, object value);
+    public IConfiglike GetConfig(string key);
     public IEnumerable<string> Keys { get; }
     public IEnumerable<object> Values { get; }
   }
