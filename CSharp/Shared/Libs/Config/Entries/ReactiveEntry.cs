@@ -16,11 +16,11 @@ namespace BaroJunk
   /// <summary>
   /// ReactiveEntry is a reactive proxy for ConfigEntry
   /// It has all IConfigEntry methods, but doesn't implement it
-  /// This is made on purpose so you couldn't confuse reactive services with passive ones
+  /// This is made on purpose so you couldn't confuse reactive services with direct ones
   /// </summary>
-  public class ReactiveEntry : IConfigEntry
+  public class ReactiveEntry //: IConfigEntry
   {
-    // public IEntryLocator Locator { get; }
+    public ReactiveEntryLocator Locator { get; private set; }
 
     public ReactiveCore ReactiveCore { get; private set; }
     public IConfigEntry Entry { get; private set; }
@@ -41,10 +41,12 @@ namespace BaroJunk
     public Type Type => Entry.Type;
 
 
-    public ReactiveEntry(ReactiveCore core, IConfigEntry entry)
+    public ReactiveEntry(ReactiveCore core, ConfigEntry entry, string path)
     {
       ReactiveCore = core;
       Entry = entry;
+      Path = path;
+      Locator = new ReactiveEntryLocator(core, entry.Host);
     }
     public override string ToString() => Entry.ToString();
   }

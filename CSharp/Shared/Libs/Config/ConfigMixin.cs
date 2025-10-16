@@ -7,10 +7,12 @@ namespace BaroJunk
 {
   public class ConfigMixin
   {
-    public object RawTarget { get; private set; }
-    public IConfiglike Host { get; private set; }
+    public object RawTarget { get; }
+    public IConfiglike Host { get; }
+    public ReactiveCore ReactiveCore { get; }
 
     public DirectEntryLocator Locator { get; }
+    public ReactiveEntryLocator ReactiveLocator { get; }
 
 
     public ConfigMixin(object target)
@@ -19,7 +21,8 @@ namespace BaroJunk
       Host = ConfiglikeWrapper.Wrap(target);
 
       Locator = new DirectEntryLocator(Host);
-
+      ReactiveCore = new ReactiveCore();
+      ReactiveLocator = new ReactiveEntryLocator(ReactiveCore, Host);
     }
   }
 }

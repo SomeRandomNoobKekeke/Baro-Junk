@@ -13,6 +13,9 @@ using Barotrauma;
 
 namespace BaroJunk
 {
+  /// <summary>
+  /// It's just an object where you can listen for reactive events
+  /// </summary>
   public class ReactiveCore
   {
     public event Action<string, object> PropChanged;
