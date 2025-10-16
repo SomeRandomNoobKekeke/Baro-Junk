@@ -13,6 +13,7 @@ namespace BaroJunk
     public object Target { get; private set; }
     public bool IsValid { get; private set; }
     public bool AmISubConfig { get; private set; }
+    public DirectEntryLocator Locator { get; private set; }
 
     public bool HasProp(string key)
       => Target?.GetType()?.GetProperty(key, pls) is not null;
@@ -20,8 +21,12 @@ namespace BaroJunk
     public Type TypeOf(string key)
       => Target?.GetType()?.GetProperty(key, pls).PropertyType;
 
-    public bool IsSubConfig(string key)
+    public bool IsSubConfigProp(string key)
       => Target?.GetType()?.GetProperty(key, pls).PropertyType == SubConfigType;
+
+    public bool IsSubConfig(object o) => o?.GetType() == SubConfigType;
+
+    public bool IsSubConfig(Type T) => T == SubConfigType;
 
     public object GetValue(string key)
       => Target?.GetType()?.GetProperty(key, pls)?.GetValue(Target);
@@ -31,6 +36,8 @@ namespace BaroJunk
 
     public IConfiglike GetConfig(string key)
       => new ConfiglikeObject(Target?.GetType()?.GetProperty(key, pls)?.GetValue(Target));
+
+    public IConfiglike ToConfig(object o) => new ConfiglikeObject(o);
 
     public IEnumerable<string> Keys
     {
@@ -50,12 +57,17 @@ namespace BaroJunk
       }
     }
 
+    public Dictionary<string, object> AsDict
+      => !IsValid ? new Dictionary<string, object>()
+         : Target.GetType().GetProperties(pls)
+         .ToDictionary(pi => pi.Name, pi => pi.GetValue(Target));
+
     public ConfiglikeObject(object target)
     {
       Target = target;
       IsValid = Target is not null;
       AmISubConfig = IsValid && Target.GetType() == SubConfigType;
-
+      Locator = new DirectEntryLocator(this);
     }
   }
 }

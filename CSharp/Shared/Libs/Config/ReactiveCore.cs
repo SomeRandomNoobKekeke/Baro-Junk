@@ -13,10 +13,11 @@ using Barotrauma;
 
 namespace BaroJunk
 {
-  public interface IDirectEntryLocatorTarget
+  public class ReactiveCore
   {
-    public IConfiglike Host { get; }
-  }
+    public event Action<string, object> PropChanged;
 
+    public void RaiseOnPropChanged(string key, object value) => PropChanged?.Invoke(key, value);
+  }
 
 }

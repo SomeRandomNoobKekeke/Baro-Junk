@@ -13,34 +13,40 @@ using Barotrauma;
 
 namespace BaroJunk
 {
-  // public class ReactiveEntry : IConfigEntry
-  // {
-  //   public IEntryLocator Locator { get; }
+  /// <summary>
+  /// ReactiveEntry is a reactive proxy for ConfigEntry
+  /// It has all IConfigEntry methods, but doesn't implement it
+  /// This is made on purpose so you couldn't confuse reactive services with passive ones
+  /// </summary>
+  public class ReactiveEntry : IConfigEntry
+  {
+    // public IEntryLocator Locator { get; }
 
-  //   public ReactiveCore ReactiveCore;
-  //   public IConfigEntry Entry { get; private set; }
+    public ReactiveCore ReactiveCore { get; private set; }
+    public IConfigEntry Entry { get; private set; }
+    public string Path { get; private set; }
 
-  //   public object Value
-  //   {
-  //     get => Entry.Value;
-  //     set
-  //     {
-  //       Entry.Value = value;
-  //       Model.RaiseOnPropChanged(Path, value);
-  //     }
-  //   }
-  //   public bool IsConfig => Entry.IsConfig;
-  //   public bool IsValid => Entry.IsValid;
-  //   public string Name => Entry.Name;
-  //   public Type Type => Entry.Type;
+    public object Value
+    {
+      get => Entry.Value;
+      set
+      {
+        Entry.Value = value;
+        ReactiveCore.RaiseOnPropChanged(Path, value);
+      }
+    }
+    public bool IsConfig => Entry.IsConfig;
+    public bool IsValid => Entry.IsValid;
+    public string Key => Entry.Key;
+    public Type Type => Entry.Type;
 
 
-  //   public ReactiveEntryProxy(ReactiveCore core, IConfigEntry entry)
-  //   {
-  //     Entry = entry;
-  //     ReactiveCore = core;
-  //   }
-  //   public override string ToString() => Entry.ToString();
-  // }
+    public ReactiveEntry(ReactiveCore core, IConfigEntry entry)
+    {
+      ReactiveCore = core;
+      Entry = entry;
+    }
+    public override string ToString() => Entry.ToString();
+  }
 
 }

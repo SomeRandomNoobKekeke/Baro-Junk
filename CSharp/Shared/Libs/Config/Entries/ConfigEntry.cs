@@ -13,7 +13,7 @@ using Barotrauma;
 
 namespace BaroJunk
 {
-  public class ConfigEntry : IConfigEntry, IDirectEntryLocatorTarget, IDirectEntryLocatorHost
+  public class ConfigEntry : IConfigEntry
   {
     public static ConfigEntry Empty => new ConfigEntry(null, "");
 
@@ -34,7 +34,7 @@ namespace BaroJunk
     {
       Host = host;
       Key = key ?? "";
-      Locator = new DirectEntryLocator(this);
+      Locator = new DirectEntryLocator(host);
     }
 
     public override string ToString() => $"[{(IsValid ? "" : "!")}{Value}]";
