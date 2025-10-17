@@ -14,6 +14,8 @@ namespace BaroJunk
 {
   public class Logger
   {
+    public static string WrapInColor(object msg, string color) => $"‖color:{color}‖{msg}‖end‖";
+
     public interface ISerializer { public string Serialize(object o); }
     public class MicroSerializer : ISerializer
     {
@@ -126,6 +128,53 @@ namespace BaroJunk
       var fi = new FileInfo(source);
       LuaCsLogger.LogMessage($"{fi.Directory.Name}/{fi.Name}:{lineNumber}", color * 0.8f, color);
     }
+
+    public void LogVars(object arg1,
+      [CallerArgumentExpression("arg1")] string exp1 = null
+    )
+    {
+      _Print($"{exp1}: [{WrapInColor(arg1, "white")}]", LogColor);
+    }
+
+    public void LogVars(object arg1, object arg2,
+      [CallerArgumentExpression("arg1")] string exp1 = null,
+      [CallerArgumentExpression("arg2")] string exp2 = null
+    )
+    {
+      _Print($"{exp1}: [{WrapInColor(arg1, "white")}], {exp2}: [{WrapInColor(arg2, "white")}]", LogColor);
+    }
+
+
+    public void LogVars(object arg1, object arg2, object arg3,
+      [CallerArgumentExpression("arg1")] string exp1 = null,
+      [CallerArgumentExpression("arg2")] string exp2 = null,
+      [CallerArgumentExpression("arg3")] string exp3 = null
+    )
+    {
+      _Print($"{exp1}: [{WrapInColor(arg1, "white")}], {exp2}: [{WrapInColor(arg2, "white")}], {exp3}: [{WrapInColor(arg3, "white")}]", LogColor);
+    }
+
+    public void LogVars(object arg1, object arg2, object arg3, object arg4,
+      [CallerArgumentExpression("arg1")] string exp1 = null,
+      [CallerArgumentExpression("arg2")] string exp2 = null,
+      [CallerArgumentExpression("arg3")] string exp3 = null,
+      [CallerArgumentExpression("arg4")] string exp4 = null
+    )
+    {
+      _Print($"{exp1}: [{WrapInColor(arg1, "white")}], {exp2}: [{WrapInColor(arg2, "white")}], {exp3}: [{WrapInColor(arg3, "white")}], {exp4}: [{WrapInColor(arg4, "white")}]", LogColor);
+    }
+
+    public void LogVars(object arg1, object arg2, object arg3, object arg4, object arg5,
+      [CallerArgumentExpression("arg1")] string exp1 = null,
+      [CallerArgumentExpression("arg2")] string exp2 = null,
+      [CallerArgumentExpression("arg3")] string exp3 = null,
+      [CallerArgumentExpression("arg4")] string exp4 = null,
+      [CallerArgumentExpression("arg5")] string exp5 = null
+    )
+    {
+      _Print($"{exp1}: [{WrapInColor(arg1, "white")}], {exp2}: [{WrapInColor(arg2, "white")}], {exp3}: [{WrapInColor(arg3, "white")}], {exp4}: [{WrapInColor(arg4, "white")}], {exp5}: [{WrapInColor(arg5, "white")}]", LogColor);
+    }
+
 
   }
 }
