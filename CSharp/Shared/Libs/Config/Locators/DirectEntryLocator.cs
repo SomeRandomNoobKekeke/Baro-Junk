@@ -174,6 +174,8 @@ namespace BaroJunk
     {
       Host = host;
     }
+
+    public override string ToString() => $"DirectEntryLocator [{GetHashCode()}] Host: [{Host}]";
   }
 
 

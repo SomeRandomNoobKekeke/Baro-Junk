@@ -15,12 +15,16 @@ namespace BaroJunk
 {
   public class ReactiveEntryLocator
   {
-    public ReactiveCore Core { get; private set; }
-    public IConfiglike Host { get; private set; }
+    public ReactiveCore Core { get; }
+    public IConfiglike Host { get; }
+    public string CurrentPath { get; }
+
+    public string RelativePath(string path)
+      => string.IsNullOrEmpty(CurrentPath) ? path : String.Join('.', CurrentPath, path);
 
 
     public ReactiveEntry GetEntry(string propPath)
-      => new ReactiveEntry(Core, Host.Locator.GetEntry(propPath), propPath);
+      => new ReactiveEntry(Core, Host.Locator.GetEntry(propPath), RelativePath(propPath));
 
     public object GetValue(string propPath) => GetEntry(propPath).Value;
 
@@ -34,7 +38,7 @@ namespace BaroJunk
       {
         if (!Host.IsSubConfigProp(key))
         {
-          yield return new ReactiveEntry(Core, new ConfigEntry(Host, key), key);
+          yield return new ReactiveEntry(Core, new ConfigEntry(Host, key), RelativePath(key));
         }
       }
     }
@@ -45,7 +49,7 @@ namespace BaroJunk
 
       foreach (var (key, value) in props)
       {
-        yield return new ReactiveEntry(Core, new ConfigEntry(Host, key), key);
+        yield return new ReactiveEntry(Core, new ConfigEntry(Host, key), RelativePath(key));
       }
     }
 
@@ -70,7 +74,7 @@ namespace BaroJunk
           }
           else
           {
-            yield return new ReactiveEntry(Core, new ConfigEntry(cfg, newPath), newPath);
+            yield return new ReactiveEntry(Core, new ConfigEntry(cfg, newPath), RelativePath(newPath));
           }
         }
       }
@@ -91,7 +95,7 @@ namespace BaroJunk
         {
           string newPath = path is null ? key : String.Join('.', path, key);
 
-          yield return new ReactiveEntry(Core, new ConfigEntry(cfg, newPath), newPath);
+          yield return new ReactiveEntry(Core, new ConfigEntry(cfg, newPath), RelativePath(newPath));
 
           if (cfg.IsSubConfig(value))
           {
@@ -114,23 +118,26 @@ namespace BaroJunk
     public Dictionary<string, ReactiveEntry> GetFlat()
       => Host.Locator.GetFlat().ToDictionary(
         kvp => kvp.Key,
-        kvp => new ReactiveEntry(Core, kvp.Value, kvp.Key)
+        kvp => new ReactiveEntry(Core, kvp.Value, RelativePath(kvp.Key))
       );
 
     public Dictionary<string, ReactiveEntry> GetAllFlat()
       => Host.Locator.GetAllFlat().ToDictionary(
         kvp => kvp.Key,
-        kvp => new ReactiveEntry(Core, kvp.Value, kvp.Key)
+        kvp => new ReactiveEntry(Core, kvp.Value, RelativePath(kvp.Key))
       );
 
     public Dictionary<string, object> GetFlatValues() => Host.Locator.GetFlatValues();
     public Dictionary<string, object> GetAllFlatValues() => Host.Locator.GetFlatValues();
 
-    public ReactiveEntryLocator(ReactiveCore core, IConfiglike host)
+    public ReactiveEntryLocator(ReactiveCore core, IConfiglike host, string path)
     {
       Core = core;
       Host = host;
+      CurrentPath = path;
     }
+
+    public override string ToString() => $"ReactiveEntryLocator [{GetHashCode()}] Core: [{Core}] Host: [{Host}] CurrentPath: [{CurrentPath}]";
   }
 
 

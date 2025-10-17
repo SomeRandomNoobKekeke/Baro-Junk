@@ -23,7 +23,7 @@ namespace BaroJunk
     public ReactiveEntryLocator Locator { get; private set; }
 
     public ReactiveCore ReactiveCore { get; private set; }
-    public IConfigEntry Entry { get; private set; }
+    public ConfigEntry Entry { get; private set; }
     public string Path { get; private set; }
 
     public object Value
@@ -46,9 +46,10 @@ namespace BaroJunk
       ReactiveCore = core;
       Entry = entry;
       Path = path;
-      Locator = new ReactiveEntryLocator(core, entry.Host);
+      Locator = new ReactiveEntryLocator(core, entry.Host, path);
     }
     public override string ToString() => Entry.ToString();
+    public string DebugLog => $"ReactiveEntry [{GetHashCode()}]  core: [{ReactiveCore}] Entry: [{Entry.DebugLog}] Path: [{Path}] Locator: [{Locator}]";
   }
 
 }

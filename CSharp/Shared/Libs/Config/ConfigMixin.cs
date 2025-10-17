@@ -21,8 +21,8 @@ namespace BaroJunk
       Host = ConfiglikeWrapper.Wrap(target);
 
       Locator = new DirectEntryLocator(Host);
-      ReactiveCore = new ReactiveCore();
-      ReactiveLocator = new ReactiveEntryLocator(ReactiveCore, Host);
+      ReactiveCore = new ReactiveCore(Host);
+      ReactiveLocator = ReactiveCore.Locator;
     }
   }
 }

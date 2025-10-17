@@ -38,5 +38,6 @@ namespace BaroJunk
     }
 
     public override string ToString() => $"[{(IsValid ? "" : "!")}{Value}]";
+    public string DebugLog => $"ConfigEntry [{GetHashCode()}] Host: [{Host}] Locator: [{Locator}]";
   }
 }
