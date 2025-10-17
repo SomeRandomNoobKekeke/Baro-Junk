@@ -5,6 +5,9 @@ using System.Linq;
 
 namespace BaroJunk
 {
+  /// <summary>
+  /// This class is supposed to wrap raw object in appropriate configlike
+  /// </summary>
   public class ConfiglikeWrapper
   {
     public static IConfiglike Wrap(object o)
