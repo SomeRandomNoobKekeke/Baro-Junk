@@ -23,7 +23,7 @@ namespace BaroJunk
       public static string ExceptionMessage(Exception e)
         => $"[{e.Message}{(e.InnerException is null ? null : $" - {e.InnerException.Message}")}]";
       public static string IEnumerable(IEnumerable<object> array)
-        => $"[{String.Join(", ", array?.Select(o => o?.ToString()) ?? new string[] { })}]";
+        => $"[{String.Join(", ", array?.Select(o => WrapInColor(o?.ToString(), "white")) ?? new string[] { })}]";
 
       public static string IDictionary(System.Collections.IDictionary dict)
       {

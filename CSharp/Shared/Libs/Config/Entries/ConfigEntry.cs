@@ -13,13 +13,13 @@ using Barotrauma;
 
 namespace BaroJunk
 {
-  public class ConfigEntry : IConfigEntry
+  public class ConfigEntry : IConfigEntry, IDirectEntryLocatorTarget
   {
     public static ConfigEntry Empty => new ConfigEntry(null, "");
 
     public DirectEntryLocator Locator { get; }
-    public IConfiglike Host { get; private set; }
-    public string Key { get; private set; }
+    public IConfiglike Host { get; }
+    public string Key { get; }
 
     public bool IsConfig => Host.IsSubConfig(Key);
     public bool IsValid => Host.HasProp(Key);
@@ -34,7 +34,11 @@ namespace BaroJunk
     {
       Host = host;
       Key = key ?? "";
-      Locator = new DirectEntryLocator(host);
+      //CRINGE
+      Locator = new DirectEntryLocator(new ConfigEntryValuePromise(this));
+
+      Mod.Logger.Log($"ConfigEntry created");
+      Mod.Logger.LogVars(Host, key, Locator);
     }
 
     public override bool Equals(object obj)

@@ -15,12 +15,14 @@ namespace BaroJunk
 {
   public class DirectEntryLocator
   {
-    public IConfiglike Host { get; private set; }
+    public IDirectEntryLocatorTarget Target { get; }
+    public IConfiglike Host => Target.Host;
     public ConfigEntry GetEntry(string propPath)
     {
       if (!Host.IsValid || propPath is null) return ConfigEntry.Empty;
 
       string[] names = propPath.Split('.');
+
       if (names.Length == 0) return ConfigEntry.Empty;
 
       IConfiglike o = Host;
@@ -170,9 +172,17 @@ namespace BaroJunk
     public Dictionary<string, object> GetAllFlatValues()
       => GetAllFlat().ToDictionary(kvp => kvp.Key, kvp => kvp.Value.Value);
 
+    /// <summary>
+    /// gigabruh
+    /// </summary>
     public DirectEntryLocator(IConfiglike host)
     {
-      Host = host;
+      Target = new DirectEntryLocatorTargetWrapper(host);
+    }
+
+    public DirectEntryLocator(IDirectEntryLocatorTarget target)
+    {
+      Target = target;
     }
 
     public override string ToString() => $"DirectEntryLocator [{GetHashCode()}] Host: [{Host}]";
