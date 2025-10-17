@@ -68,6 +68,6 @@ namespace BaroJunk
       Locator = new DirectEntryLocator(this);
     }
 
-    public override string ToString() => $"ConfiglikeObject [{GetHashCode()}]";
+    public override string ToString() => $"ConfiglikeObject [{Target} ({Target.GetHashCode()})]";
   }
 }
