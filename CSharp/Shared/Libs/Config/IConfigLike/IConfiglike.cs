@@ -13,6 +13,7 @@ namespace BaroJunk
   {
     public DirectEntryLocator Locator { get; }
 
+    public object Target { get; }
     public bool IsValid { get; }
     public bool AmISubConfig { get; }
     public bool HasProp(string key);

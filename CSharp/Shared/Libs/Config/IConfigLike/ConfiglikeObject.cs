@@ -10,10 +10,10 @@ namespace BaroJunk
     public static Type SubConfigType = typeof(IConfig);
     public static BindingFlags pls = BindingFlags.Public | BindingFlags.Instance;
 
-    public object Target { get; private set; }
-    public bool IsValid { get; private set; }
-    public bool AmISubConfig { get; private set; }
-    public DirectEntryLocator Locator { get; private set; }
+    public object Target { get; }
+    public bool IsValid { get; }
+    public bool AmISubConfig { get; }
+    public DirectEntryLocator Locator { get; }
 
     public bool HasProp(string key)
       => Target?.GetType()?.GetProperty(key, pls) is not null;
@@ -34,9 +34,7 @@ namespace BaroJunk
     public void SetValue(string key, object value)
       => Target?.GetType()?.GetProperty(key, pls)?.SetValue(Target, value);
 
-    public IConfiglike GetConfig(string key)
-      => new ConfiglikeObject(Target?.GetType()?.GetProperty(key, pls)?.GetValue(Target));
-
+    public IConfiglike GetConfig(string key) => ToConfig(GetValue(key));
     public IConfiglike ToConfig(object o) => new ConfiglikeObject(o);
 
     public IEnumerable<string> Keys

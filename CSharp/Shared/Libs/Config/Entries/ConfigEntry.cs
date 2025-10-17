@@ -37,6 +37,12 @@ namespace BaroJunk
       Locator = new DirectEntryLocator(host);
     }
 
+    public override bool Equals(object obj)
+    {
+      if (obj is not ConfigEntry other) return false;
+      return Object.Equals(Host.Target, other.Host.Target) && Key == other.Key;
+    }
+
     public override string ToString() => $"[{(IsValid ? "" : "!")}{Value}]";
     public string DebugLog => $"ConfigEntry [{GetHashCode()}] Host: [{Host}] Locator: [{Locator}]";
   }

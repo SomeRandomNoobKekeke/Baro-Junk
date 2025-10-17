@@ -13,6 +13,33 @@ namespace BaroJunk
   //TODO test invalid input
   public class ConfigEntryTest : ConfigTest
   {
+
+    /// <summary>
+    /// ЪУЪ
+    /// </summary>
+    public class ConfigEntryLocatorTest : ConfigEntryTest
+    {
+      public override void CreateTests()
+      {
+        ExampleConfigs.ConfigA config = new();
+
+        ConfigEntry entry1 = new ConfigEntry(new ConfiglikeObject(config), "IntProp");
+        ConfigEntry entry2 = new ConfigEntry(new ConfiglikeObject(config.NestedConfigB), "IntProp");
+        ConfigEntry entry3 = new ConfigEntry(new ConfiglikeObject(config.NestedConfigB.NestedConfigC), "IntProp");
+
+        Tests.Add(new UTest(entry1.Locator.Host.Target, config));
+        Tests.Add(new UTest(entry2.Locator.Host.Target, config.NestedConfigB));
+        Tests.Add(new UTest(entry3.Locator.Host.Target, config.NestedConfigB.NestedConfigC));
+
+        ConfigEntry configb = new ConfigEntry(new ConfiglikeObject(config), "NestedConfigB");
+        ConfigEntry configc = configb.Locator.GetEntry("NestedConfigC");
+        ConfigEntry deepIntProp = configc.Locator.GetEntry("IntProp");
+        Tests.Add(new UTest(configc.Locator.Host.Target, config.NestedConfigB));
+        Tests.Add(new UTest(deepIntProp.Locator.Host.Target, config.NestedConfigB.NestedConfigC));
+      }
+    }
+
+
     public override void CreateTests()
     {
       ExampleConfigs.ConfigA config = new();
