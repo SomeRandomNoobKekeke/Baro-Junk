@@ -12,7 +12,7 @@ using System.Text;
 
 namespace BaroJunk
 {
-  public class Logger
+  public partial class Logger
   {
     public static string WrapInColor(object msg, string color) => $"‖color:{color}‖{msg}‖end‖";
 
