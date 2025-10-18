@@ -20,7 +20,6 @@ namespace BaroJunk
     public bool IsValid { get; }
 
     public IEnumerable<string> Keys { get; }
-    public IEnumerable<object> Values { get; }
     public Dictionary<string, object> AsDict { get; }
 
     public bool IsSubConfig(object o);

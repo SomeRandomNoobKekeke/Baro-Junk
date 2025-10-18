@@ -16,23 +16,30 @@ namespace BaroJunk
     public DirectEntryLocator Locator { get; }
 
     public bool HasProp(string key)
-      => Target?.GetType()?.GetProperty(key, pls) is not null;
+      => String.IsNullOrEmpty(key) ? false
+      : Target?.GetType()?.GetProperty(key, pls) is not null;
 
     public Type TypeOfProp(string key)
-      => Target?.GetType()?.GetProperty(key, pls).PropertyType;
+      => String.IsNullOrEmpty(key) ? null
+      : Target?.GetType()?.GetProperty(key, pls)?.PropertyType;
 
     public bool IsPropASubConfig(string key)
-      => Target?.GetType()?.GetProperty(key, pls).PropertyType == SubConfigType;
+      => String.IsNullOrEmpty(key) ? false
+      : Target?.GetType()?.GetProperty(key, pls)?.PropertyType.IsAssignableTo(SubConfigType) ?? false;
 
-    public bool IsSubConfig(object o) => o?.GetType() == SubConfigType;
-
-    public bool IsSubConfig(Type T) => T == SubConfigType;
+    public bool IsSubConfig(object o) => o is null ? false : o.GetType().IsAssignableTo(SubConfigType);
+    public bool IsSubConfig(Type T) => T is null ? false : T.IsAssignableTo(SubConfigType);
 
     public object GetValue(string key)
-      => Target?.GetType()?.GetProperty(key, pls)?.GetValue(Target);
+      => String.IsNullOrEmpty(key) ? null
+      : Target?.GetType()?.GetProperty(key, pls)?.GetValue(Target);
 
     public void SetValue(string key, object value)
-      => Target?.GetType()?.GetProperty(key, pls)?.SetValue(Target, value);
+    {
+      if (String.IsNullOrEmpty(key)) return;
+      Target?.GetType()?.GetProperty(key, pls)?.SetValue(Target, value);
+    }
+
 
     public IConfiglike GetPropAsConfig(string key) => ToConfig(GetValue(key));
     public IConfiglike ToConfig(object o) => new ConfiglikeObject(o);
@@ -46,15 +53,6 @@ namespace BaroJunk
       }
     }
 
-    public IEnumerable<object> Values
-    {
-      get
-      {
-        if (!IsValid) return new object[0];
-        return Target.GetType().GetProperties(pls).Select(pi => pi.GetValue(Target));
-      }
-    }
-
     public Dictionary<string, object> AsDict
       => !IsValid ? new Dictionary<string, object>()
          : Target.GetType().GetProperties(pls)
@@ -64,7 +62,7 @@ namespace BaroJunk
     {
       Target = target;
       IsValid = Target is not null;
-      AmISubConfig = IsValid && Target.GetType() == SubConfigType;
+      AmISubConfig = IsValid && Target.GetType().IsAssignableTo(SubConfigType);
       Locator = new DirectEntryLocator(new IConfigLikeLocatorAdapter(this));
     }
 
