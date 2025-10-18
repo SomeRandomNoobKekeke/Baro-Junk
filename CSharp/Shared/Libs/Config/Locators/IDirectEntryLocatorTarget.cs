@@ -13,25 +13,29 @@ using Barotrauma;
 
 namespace BaroJunk
 {
+
   public interface IDirectEntryLocatorTarget
   {
     public IConfiglike Host { get; }
   }
 
   /// <summary>
-  /// far beyond cringe
+  /// Cringe, but i'm rofling at this point
+  /// The other options are:
+  /// Create separate duplicate property just for locator
+  /// Pass a getter
   /// </summary>
-  public class ConfigEntryValuePromise : IDirectEntryLocatorTarget
+  public class ConfigEntryLocatorAdapter : IDirectEntryLocatorTarget
   {
     public ConfigEntry Entry { get; }
     public IConfiglike Host => Entry.Host.GetConfig(Entry.Key);
-    public ConfigEntryValuePromise(ConfigEntry entry) => Entry = entry;
+    public ConfigEntryLocatorAdapter(ConfigEntry entry) => Entry = entry;
   }
 
-  public class DirectEntryLocatorTargetWrapper : IDirectEntryLocatorTarget
+  public class IConfigLikeLocatorAdapter : IDirectEntryLocatorTarget
   {
     public IConfiglike Host { get; }
-    public DirectEntryLocatorTargetWrapper(IConfiglike host) => Host = host;
+    public IConfigLikeLocatorAdapter(IConfiglike host) => Host = host;
   }
 
 }

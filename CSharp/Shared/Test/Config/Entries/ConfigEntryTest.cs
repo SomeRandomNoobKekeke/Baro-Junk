@@ -14,9 +14,6 @@ namespace BaroJunk
   public class ConfigEntryTest : ConfigTest
   {
 
-    /// <summary>
-    /// ЪУЪ
-    /// </summary>
     public class ConfigEntryLocatorTest : ConfigEntryTest
     {
       public override void CreateTests()
@@ -25,7 +22,9 @@ namespace BaroJunk
 
         ConfigEntry configb = new ConfigEntry(new ConfiglikeObject(config), "NestedConfigB");
         ConfigEntry configc = configb.Locator.GetEntry("NestedConfigC");
-        Tests.Add(new UTest(configc.Locator.Host.Target, config.NestedConfigB));
+        ConfigEntry deepIntProp = configc.Locator.GetEntry("IntProp");
+        Tests.Add(new UTest(configb.Locator.Host.Target, config.NestedConfigB));
+        Tests.Add(new UTest(configc.Locator.Host.Target, config.NestedConfigB.NestedConfigC));
       }
     }
 

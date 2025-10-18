@@ -34,11 +34,8 @@ namespace BaroJunk
     {
       Host = host;
       Key = key ?? "";
-      //CRINGE
-      Locator = new DirectEntryLocator(new ConfigEntryValuePromise(this));
 
-      Mod.Logger.Log($"ConfigEntry created");
-      Mod.Logger.LogVars(Host, key, Locator);
+      Locator = new DirectEntryLocator(new ConfigEntryLocatorAdapter(this));
     }
 
     public override bool Equals(object obj)

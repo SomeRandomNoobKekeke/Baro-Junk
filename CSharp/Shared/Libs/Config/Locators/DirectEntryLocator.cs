@@ -172,12 +172,10 @@ namespace BaroJunk
     public Dictionary<string, object> GetAllFlatValues()
       => GetAllFlat().ToDictionary(kvp => kvp.Key, kvp => kvp.Value.Value);
 
-    /// <summary>
-    /// gigabruh
-    /// </summary>
+
     public DirectEntryLocator(IConfiglike host)
     {
-      Target = new DirectEntryLocatorTargetWrapper(host);
+      Target = new IConfigLikeLocatorAdapter(host);
     }
 
     public DirectEntryLocator(IDirectEntryLocatorTarget target)

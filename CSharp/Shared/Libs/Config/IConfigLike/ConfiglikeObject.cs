@@ -65,7 +65,7 @@ namespace BaroJunk
       Target = target;
       IsValid = Target is not null;
       AmISubConfig = IsValid && Target.GetType() == SubConfigType;
-      Locator = new DirectEntryLocator(this);
+      Locator = new DirectEntryLocator(new IConfigLikeLocatorAdapter(this));
     }
 
     public override string ToString() => $"ConfiglikeObject [{Target} ({Target.GetHashCode()})]";
