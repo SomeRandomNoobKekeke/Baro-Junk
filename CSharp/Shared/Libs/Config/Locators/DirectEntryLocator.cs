@@ -30,7 +30,7 @@ namespace BaroJunk
       foreach (string name in names.SkipLast(1))
       {
         if (!o.IsValid) return ConfigEntry.Empty;
-        o = o.GetConfig(name);
+        o = o.GetPropAsConfig(name);
       }
 
       return new ConfigEntry(o, names.Last());
@@ -45,7 +45,7 @@ namespace BaroJunk
 
       foreach (var (key, value) in props)
       {
-        if (!Host.IsSubConfigProp(key))
+        if (!Host.IsPropASubConfig(key))
         {
           yield return new ConfigEntry(Host, key);
         }
@@ -68,7 +68,7 @@ namespace BaroJunk
 
       foreach (var (key, value) in props)
       {
-        if (!Host.IsSubConfigProp(key))
+        if (!Host.IsPropASubConfig(key))
         {
           yield return new ConfigEntry(Host, key);
         }
@@ -76,7 +76,7 @@ namespace BaroJunk
 
       foreach (var (key, value) in props)
       {
-        if (Host.IsSubConfigProp(key))
+        if (Host.IsPropASubConfig(key))
         {
           IConfiglike subConfig = Host.ToConfig(value);
           if (!subConfig.IsValid) continue;
@@ -99,7 +99,7 @@ namespace BaroJunk
 
       foreach (var (key, value) in props)
       {
-        if (Host.IsSubConfigProp(key))
+        if (Host.IsPropASubConfig(key))
         {
           IConfiglike subConfig = Host.ToConfig(value);
           if (!subConfig.IsValid) continue;

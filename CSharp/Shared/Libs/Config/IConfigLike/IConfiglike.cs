@@ -13,20 +13,26 @@ namespace BaroJunk
   {
     public DirectEntryLocator Locator { get; }
 
+    /// <summary>
+    /// Unwrapped thing
+    /// </summary>
     public object Target { get; }
     public bool IsValid { get; }
-    public bool AmISubConfig { get; }
-    public bool HasProp(string key);
-    public Type TypeOf(string key);
-    public bool IsSubConfigProp(string key);
-    public bool IsSubConfig(object o);
-    public bool IsSubConfig(Type T);
-    public object GetValue(string key);
-    public void SetValue(string key, object value);
-    public IConfiglike GetConfig(string key);
-    public IConfiglike ToConfig(object o);
+
     public IEnumerable<string> Keys { get; }
     public IEnumerable<object> Values { get; }
     public Dictionary<string, object> AsDict { get; }
+
+    public bool IsSubConfig(object o);
+    public bool IsSubConfig(Type T);
+    public IConfiglike ToConfig(object o);
+    public bool AmISubConfig { get; }
+
+    public bool HasProp(string key);
+    public Type TypeOfProp(string key);
+    public bool IsPropASubConfig(string key);
+    public object GetValue(string key);
+    public void SetValue(string key, object value);
+    public IConfiglike GetPropAsConfig(string key);
   }
 }

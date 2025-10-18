@@ -18,10 +18,10 @@ namespace BaroJunk
     public bool HasProp(string key)
       => Target?.GetType()?.GetProperty(key, pls) is not null;
 
-    public Type TypeOf(string key)
+    public Type TypeOfProp(string key)
       => Target?.GetType()?.GetProperty(key, pls).PropertyType;
 
-    public bool IsSubConfigProp(string key)
+    public bool IsPropASubConfig(string key)
       => Target?.GetType()?.GetProperty(key, pls).PropertyType == SubConfigType;
 
     public bool IsSubConfig(object o) => o?.GetType() == SubConfigType;
@@ -34,7 +34,7 @@ namespace BaroJunk
     public void SetValue(string key, object value)
       => Target?.GetType()?.GetProperty(key, pls)?.SetValue(Target, value);
 
-    public IConfiglike GetConfig(string key) => ToConfig(GetValue(key));
+    public IConfiglike GetPropAsConfig(string key) => ToConfig(GetValue(key));
     public IConfiglike ToConfig(object o) => new ConfiglikeObject(o);
 
     public IEnumerable<string> Keys

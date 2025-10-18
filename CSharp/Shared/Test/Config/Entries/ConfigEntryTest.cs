@@ -28,6 +28,17 @@ namespace BaroJunk
       }
     }
 
+    public class ConfigEntryGarbageInputTest : ConfigEntryTest
+    {
+      public override void CreateTests()
+      {
+        ExampleConfigs.ConfigA config = new();
+        IConfiglike configlike = new ConfiglikeObject(config);
+
+        ConfigEntry entry = new ConfigEntry(null, null);
+
+      }
+    }
 
     public override void CreateTests()
     {
@@ -61,5 +72,8 @@ namespace BaroJunk
       Tests.Add(new UTest(config.NestedConfigB.NestedNullConfigC is not null, true));
       Tests.Add(new UTest(config.NestedConfigB.FloatProp, 6.0f));
     }
+
+
+
   }
 }

@@ -17,8 +17,8 @@ namespace BaroJunk
       ExampleConfigs.ConfigA config = new();
 
       IConfiglike configlikea = new ConfiglikeObject(config);
-      IConfiglike configlikeb = configlikea.GetConfig("NestedConfigB");
-      IConfiglike configlikec = configlikeb.GetConfig("NestedConfigC");
+      IConfiglike configlikeb = configlikea.GetPropAsConfig("NestedConfigB");
+      IConfiglike configlikec = configlikeb.GetPropAsConfig("NestedConfigC");
 
       Tests.Add(new UTest(configlikea.Target, config));
       Tests.Add(new UTest(configlikeb.Target, config.NestedConfigB));

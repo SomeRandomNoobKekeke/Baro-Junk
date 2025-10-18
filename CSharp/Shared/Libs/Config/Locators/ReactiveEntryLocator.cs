@@ -36,7 +36,7 @@ namespace BaroJunk
 
       foreach (var (key, value) in props)
       {
-        if (!Host.IsSubConfigProp(key))
+        if (!Host.IsPropASubConfig(key))
         {
           yield return new ReactiveEntry(Core, new ConfigEntry(Host, key), RelativePath(key));
         }

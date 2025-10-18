@@ -23,7 +23,7 @@ namespace BaroJunk
 
     public bool IsConfig => Host.IsSubConfig(Key);
     public bool IsValid => Host.HasProp(Key);
-    public Type Type => Host.TypeOf(Key);
+    public Type Type => Host.TypeOfProp(Key);
     public object Value
     {
       get => Host?.GetValue(Key);

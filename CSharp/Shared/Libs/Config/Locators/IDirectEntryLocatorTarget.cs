@@ -28,7 +28,7 @@ namespace BaroJunk
   public class ConfigEntryLocatorAdapter : IDirectEntryLocatorTarget
   {
     public ConfigEntry Entry { get; }
-    public IConfiglike Host => Entry.Host.GetConfig(Entry.Key);
+    public IConfiglike Host => Entry.Host.GetPropAsConfig(Entry.Key);
     public ConfigEntryLocatorAdapter(ConfigEntry entry) => Entry = entry;
   }
 
