@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace BaroJunk
 {
-  public class ConfigMixin : IConfigLikeContainer
+  public class ConfigCore : IConfigLikeContainer
   {
     public object RawTarget { get; }
     public IConfiglike Host { get; }
@@ -15,7 +15,7 @@ namespace BaroJunk
     public ReactiveEntryLocator ReactiveLocator { get; }
 
 
-    public ConfigMixin(object target)
+    public ConfigCore(object target)
     {
       RawTarget = target;
       Host = ConfiglikeWrapper.Wrap(target);
