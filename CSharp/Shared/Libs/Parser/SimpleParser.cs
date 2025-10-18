@@ -17,6 +17,9 @@ namespace BaroJunk
   /// </summary>
   public class SimpleParser
   {
+    private static SimpleParser _Default;
+    public static SimpleParser Default => _Default ??= new SimpleParser();
+
     public IExtraParsingMethods ExtraParsingMethods { get; set; } = new BasicExtraParsingMethods();
     public CustomSerializeMethods Custom { get; set; } = new CustomSerializeMethods();
 

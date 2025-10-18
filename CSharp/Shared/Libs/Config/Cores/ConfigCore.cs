@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace BaroJunk
 {
-  public class ConfigCore : IConfigLikeContainer
+  public partial class ConfigCore : IConfigLikeContainer, IDirectlyLocatable
   {
     public object RawTarget { get; }
     public IConfiglike Host { get; }

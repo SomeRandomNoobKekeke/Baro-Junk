@@ -16,6 +16,9 @@ namespace BaroJunk
 {
   public class XMLParser
   {
+    private static XMLParser _Default;
+    public static XMLParser Default => _Default ??= new XMLParser(SimpleParser.Default);
+
     public SimpleParser Parser { get; set; } = new SimpleParser();
 
     public SimpleResult Parse(XElement element, Type T)

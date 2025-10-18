@@ -33,5 +33,6 @@ namespace BaroJunk
     public object GetValue(string key);
     public bool SetValue(string key, object value);
     public IConfiglike GetPropAsConfig(string key);
+    public IConfiglike CreateDefaultForType(Type T);
   }
 }

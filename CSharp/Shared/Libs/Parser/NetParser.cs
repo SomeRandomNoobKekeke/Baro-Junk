@@ -15,6 +15,9 @@ namespace BaroJunk
 {
   public class NetParser
   {
+    private static NetParser _Default;
+    public static NetParser Default => _Default ??= new NetParser(SimpleParser.Default);
+
     public static string NullTerm = "[null]";//HACK bruh
 
     public static Dictionary<Type, Action<IWriteMessage, object>> EncodeTable = new()
