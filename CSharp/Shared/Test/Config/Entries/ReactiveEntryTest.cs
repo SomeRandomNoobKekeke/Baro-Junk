@@ -27,8 +27,6 @@ namespace BaroJunk
       ReactiveEntry entry3 = core.Locator.GetEntry("NestedConfigB.NestedNullConfigC");
       ReactiveEntry entry4 = core.Locator.GetEntry("NestedConfigB").Locator.GetEntry("FloatProp");
 
-      Mod.Logger.Log(entry4.DebugLog);
-
       Tests.Add(new UTest(entry1.Value, 2));
       Tests.Add(new UTest(entry2.Value, 4));
       Tests.Add(new UTest(entry3.Value, null));

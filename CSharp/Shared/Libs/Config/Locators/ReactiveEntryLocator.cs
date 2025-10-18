@@ -16,7 +16,8 @@ namespace BaroJunk
   public class ReactiveEntryLocator
   {
     public ReactiveCore Core { get; }
-    public IConfiglike Host { get; }
+    public IConfigLikeContainer Target { get; }
+    public IConfiglike Host => Target.Host;
     public string CurrentPath { get; }
 
     public string RelativePath(string path)
@@ -130,10 +131,10 @@ namespace BaroJunk
     public Dictionary<string, object> GetFlatValues() => Host.Locator.GetFlatValues();
     public Dictionary<string, object> GetAllFlatValues() => Host.Locator.GetFlatValues();
 
-    public ReactiveEntryLocator(ReactiveCore core, IConfiglike host, string path)
+    public ReactiveEntryLocator(ReactiveCore core, IConfigLikeContainer target, string path)
     {
       Core = core;
-      Host = host;
+      Target = target;
       CurrentPath = path;
     }
 

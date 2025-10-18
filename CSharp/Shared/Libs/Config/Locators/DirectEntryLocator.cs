@@ -15,7 +15,7 @@ namespace BaroJunk
 {
   public class DirectEntryLocator
   {
-    public IDirectEntryLocatorTarget Target { get; }
+    public IConfigLikeContainer Target { get; }
     public IConfiglike Host => Target.Host;
     public ConfigEntry GetEntry(string propPath)
     {
@@ -186,7 +186,7 @@ namespace BaroJunk
       Target = new IConfigLikeLocatorAdapter(host);
     }
 
-    public DirectEntryLocator(IDirectEntryLocatorTarget target)
+    public DirectEntryLocator(IConfigLikeContainer target)
     {
       Target = target;
     }

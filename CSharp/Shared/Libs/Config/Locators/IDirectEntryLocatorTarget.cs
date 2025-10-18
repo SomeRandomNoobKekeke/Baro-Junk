@@ -14,7 +14,7 @@ using Barotrauma;
 namespace BaroJunk
 {
 
-  public interface IDirectEntryLocatorTarget
+  public interface IConfigLikeContainer
   {
     public IConfiglike Host { get; }
   }
@@ -25,14 +25,14 @@ namespace BaroJunk
   /// Create separate duplicate property just for locator
   /// Pass a getter
   /// </summary>
-  public class ConfigEntryLocatorAdapter : IDirectEntryLocatorTarget
+  public class ConfigEntryLocatorAdapter : IConfigLikeContainer
   {
     public ConfigEntry Entry { get; }
     public IConfiglike Host => Entry.Host.GetPropAsConfig(Entry.Key);
     public ConfigEntryLocatorAdapter(ConfigEntry entry) => Entry = entry;
   }
 
-  public class IConfigLikeLocatorAdapter : IDirectEntryLocatorTarget
+  public class IConfigLikeLocatorAdapter : IConfigLikeContainer
   {
     public IConfiglike Host { get; }
     public IConfigLikeLocatorAdapter(IConfiglike host) => Host = host;

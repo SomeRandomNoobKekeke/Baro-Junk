@@ -28,7 +28,7 @@ namespace BaroJunk
     public ReactiveCore(IConfiglike host)
     {
       Host = host;
-      Locator = new ReactiveEntryLocator(this, host, null);
+      Locator = new ReactiveEntryLocator(this, new IConfigLikeLocatorAdapter(host), null);
     }
 
     public override string ToString() => $"ReactiveCore [{GetHashCode()}]";

@@ -13,7 +13,7 @@ using Barotrauma;
 
 namespace BaroJunk
 {
-  public class ConfigEntry : IConfigEntry, IDirectEntryLocatorTarget
+  public class ConfigEntry : IConfigEntry, IConfigLikeContainer
   {
     public static ConfigEntry Empty => new ConfigEntry(null, "");
 

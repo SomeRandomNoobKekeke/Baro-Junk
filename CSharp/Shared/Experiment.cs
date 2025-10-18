@@ -12,13 +12,8 @@ namespace BaroJunk
 {
   public partial class Mod : IAssemblyPlugin
   {
-
     public void Experiment()
     {
-      ExampleConfigs.ConfigA config = new ExampleConfigs.ConfigA();
-      ConfigMixin mixin = new ConfigMixin(config);
-
-      Mod.Logger.Log(mixin.Locator.GetEntry("NestedConfigB.IntProp"));
 
     }
   }

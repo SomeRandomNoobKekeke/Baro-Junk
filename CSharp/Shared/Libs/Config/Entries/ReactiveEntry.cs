@@ -46,7 +46,7 @@ namespace BaroJunk
       ReactiveCore = core;
       Entry = entry;
       Path = path;
-      Locator = new ReactiveEntryLocator(core, entry.Host, path);
+      Locator = new ReactiveEntryLocator(core, new ConfigEntryLocatorAdapter(entry), path);
     }
     public override string ToString() => Entry.ToString();
     public string DebugLog => $"ReactiveEntry [{GetHashCode()}]  core: [{ReactiveCore}] Entry: [{Entry.DebugLog}] Path: [{Path}] Locator: [{Locator}]";
