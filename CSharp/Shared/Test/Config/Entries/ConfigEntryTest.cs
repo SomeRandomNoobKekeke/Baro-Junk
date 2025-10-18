@@ -10,7 +10,6 @@ using Barotrauma;
 
 namespace BaroJunk
 {
-  //TODO test invalid input
   public class ConfigEntryTest : ConfigTest
   {
 
@@ -35,8 +34,10 @@ namespace BaroJunk
         ExampleConfigs.ConfigA config = new();
         IConfiglike configlike = new ConfiglikeObject(config);
 
-        ConfigEntry entry = new ConfigEntry(null, null);
-
+        Tests.Add(new UTest(new ConfigEntry(null, null), ConfigEntry.Empty));
+        Tests.Add(new UTest(new ConfigEntry(configlike, null).IsValid, false));
+        Tests.Add(new UTest(new ConfigEntry(configlike, "bruhProp").IsValid, false));
+        Tests.Add(new UTest(new ConfigEntry(null, "bruhProp"), ConfigEntry.Empty));
       }
     }
 

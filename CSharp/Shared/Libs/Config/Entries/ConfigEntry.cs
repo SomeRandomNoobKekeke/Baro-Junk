@@ -21,9 +21,9 @@ namespace BaroJunk
     public IConfiglike Host { get; }
     public string Key { get; }
 
-    public bool IsConfig => Host.IsSubConfig(Key);
-    public bool IsValid => Host.HasProp(Key);
-    public Type Type => Host.TypeOfProp(Key);
+    public bool IsConfig => Host?.IsSubConfig(Key) == true;
+    public bool IsValid => Host is not null && Host.HasProp(Key);
+    public Type Type => Host?.TypeOfProp(Key);
     public object Value
     {
       get => Host?.GetValue(Key);
@@ -32,6 +32,9 @@ namespace BaroJunk
 
     public ConfigEntry(IConfiglike host, string key)
     {
+      // ArgumentNullException.ThrowIfNull(host, "can't create an entry without a host, you're using it wrong");
+      // ArgumentNullException.ThrowIfNull(key, "can't create an entry without a key, you're using it wrong");
+
       Host = host;
       Key = key ?? "";
 
@@ -41,6 +44,9 @@ namespace BaroJunk
     public override bool Equals(object obj)
     {
       if (obj is not ConfigEntry other) return false;
+      if (Host is null && other.Host is null) return true;
+      if (Host is null || other.Host is null) return false;
+
       return Object.Equals(Host.Target, other.Host.Target) && Key == other.Key;
     }
 

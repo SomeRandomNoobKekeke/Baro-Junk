@@ -10,8 +10,16 @@ using Barotrauma;
 
 namespace BaroJunk
 {
-  public class IConfigLikeTest : ConfigTest
+  public class ConfiglikeObjectTest : ConfiglikeTest
   {
+    public class ConfiglikeObjectGarbageInputTest : ConfiglikeObjectTest
+    {
+      public override void CreateTests()
+      {
+
+      }
+    }
+
     public override void CreateTests()
     {
       ExampleConfigs.ConfigA config = new();
