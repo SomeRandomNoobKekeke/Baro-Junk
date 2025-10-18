@@ -44,7 +44,7 @@ namespace BaroJunk
 
     public List<UTest> HasPropTest() => new List<UTest>(){
         new UTest(new ConfiglikeObject(new ExampleConfigs.ConfigA()).HasProp("IntProp"), true),
-        new UTest(new ConfiglikeObject(new ExampleConfigs.ConfigA()).HasProp("BruhProp"), false),
+        new UTest(new ConfiglikeObject(new ExampleConfigs.ConfigA()).HasProp("Bruh"), false),
         new UTest(new ConfiglikeObject(new ExampleConfigs.ConfigA()).HasProp("NestedConfigB"), true),
         new UTest(new ConfiglikeObject(new ExampleConfigs.ConfigA()).HasProp(""), false),
         new UTest(new ConfiglikeObject(new ExampleConfigs.ConfigA()).HasProp(null), false),
@@ -52,7 +52,7 @@ namespace BaroJunk
 
     public List<UTest> TypeOfPropTest() => new List<UTest>(){
         new UTest(new ConfiglikeObject(new ExampleConfigs.ConfigA()).TypeOfProp("IntProp"), typeof(int)),
-        new UTest(new ConfiglikeObject(new ExampleConfigs.ConfigA()).TypeOfProp("BruhProp"), null),
+        new UTest(new ConfiglikeObject(new ExampleConfigs.ConfigA()).TypeOfProp("Bruh"), null),
         new UTest(new ConfiglikeObject(new ExampleConfigs.ConfigA()).TypeOfProp("NestedConfigB"), typeof(ExampleConfigs.ConfigB)),
         new UTest(new ConfiglikeObject(new ExampleConfigs.ConfigA()).TypeOfProp(""), null),
         new UTest(new ConfiglikeObject(new ExampleConfigs.ConfigA()).TypeOfProp(null), null),
@@ -60,7 +60,7 @@ namespace BaroJunk
 
     public List<UTest> IsPropASubConfigTest() => new List<UTest>(){
         new UTest(new ConfiglikeObject(new ExampleConfigs.ConfigA()).IsPropASubConfig("IntProp"), false),
-        new UTest(new ConfiglikeObject(new ExampleConfigs.ConfigA()).IsPropASubConfig("BruhProp"), false),
+        new UTest(new ConfiglikeObject(new ExampleConfigs.ConfigA()).IsPropASubConfig("Bruh"), false),
         new UTest(new ConfiglikeObject(new ExampleConfigs.ConfigA()).IsPropASubConfig("NestedConfigB"), true),
         new UTest(new ConfiglikeObject(new ExampleConfigs.ConfigA()).IsPropASubConfig(""), false),
         new UTest(new ConfiglikeObject(new ExampleConfigs.ConfigA()).IsPropASubConfig(null), false),
@@ -97,7 +97,7 @@ namespace BaroJunk
           new UTest(configlike.GetValue("NestedConfigB"), config.NestedConfigB),
           new UTest(configlike.GetValue(""), null),
           new UTest(configlike.GetValue(null), null),
-          new UTest(configlike.GetValue("BruhProp"), null),
+          new UTest(configlike.GetValue("Bruh"), null),
         };
     }
 
@@ -111,7 +111,7 @@ namespace BaroJunk
       configlike.SetValue("NestedConfigB", null);
       configlike.SetValue("", null);
       configlike.SetValue(null, null);
-      configlike.SetValue("BruhProp", null);
+      configlike.SetValue("Bruh", null);
 
       return new List<UTest>()
         {
@@ -132,7 +132,7 @@ namespace BaroJunk
           new UTest(configlike.GetPropAsConfig("NestedConfigB").AmISubConfig, true),
           new UTest(configlike.GetPropAsConfig("").AmISubConfig, false),
           new UTest(configlike.GetPropAsConfig(null).AmISubConfig, false),
-          new UTest(configlike.GetPropAsConfig("BruhProp").AmISubConfig, false),
+          new UTest(configlike.GetPropAsConfig("Bruh").AmISubConfig, false),
         };
     }
 

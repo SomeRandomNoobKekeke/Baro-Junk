@@ -24,8 +24,6 @@ namespace BaroJunk
 
       IEnumerable<string> names = propPath.Split('.').Select(s => s.Trim());
 
-
-
       if (names.Count() == 0) return ConfigEntry.Empty;
 
       IConfiglike o = Host;
@@ -41,7 +39,7 @@ namespace BaroJunk
     }
 
     public object GetValue(string propPath) => GetEntry(propPath).Value;
-    public void SetValue(string propPath, object value) => GetEntry(propPath).Value = value;
+    public bool SetValue(string propPath, object value) => GetEntry(propPath).SetValue(value);
 
     public IEnumerable<ConfigEntry> GetEntries()
     {

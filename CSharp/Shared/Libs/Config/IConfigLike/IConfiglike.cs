@@ -31,7 +31,7 @@ namespace BaroJunk
     public Type TypeOfProp(string key);
     public bool IsPropASubConfig(string key);
     public object GetValue(string key);
-    public void SetValue(string key, object value);
+    public bool SetValue(string key, object value);
     public IConfiglike GetPropAsConfig(string key);
   }
 }

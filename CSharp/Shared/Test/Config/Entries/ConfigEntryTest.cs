@@ -36,8 +36,8 @@ namespace BaroJunk
 
         Tests.Add(new UTest(new ConfigEntry(null, null), ConfigEntry.Empty));
         Tests.Add(new UTest(new ConfigEntry(configlike, null).IsValid, false));
-        Tests.Add(new UTest(new ConfigEntry(configlike, "bruhProp").IsValid, false));
-        Tests.Add(new UTest(new ConfigEntry(null, "bruhProp"), ConfigEntry.Empty));
+        Tests.Add(new UTest(new ConfigEntry(configlike, "Bruh").IsValid, false));
+        Tests.Add(new UTest(new ConfigEntry(null, "Bruh"), ConfigEntry.Empty));
       }
     }
 

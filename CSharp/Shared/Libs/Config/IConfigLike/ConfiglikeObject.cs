@@ -34,10 +34,20 @@ namespace BaroJunk
       => String.IsNullOrEmpty(key) ? null
       : Target?.GetType()?.GetProperty(key, pls)?.GetValue(Target);
 
-    public void SetValue(string key, object value)
+    public bool SetValue(string key, object value)
     {
-      if (String.IsNullOrEmpty(key)) return;
-      Target?.GetType()?.GetProperty(key, pls)?.SetValue(Target, value);
+      if (String.IsNullOrEmpty(key)) return false;
+      try
+      {
+        PropertyInfo pi = Target?.GetType()?.GetProperty(key, pls);
+        if (pi is null) return false;
+        pi.SetValue(Target, value);
+        return true;
+      }
+      catch (Exception e)
+      {
+        return false;
+      }
     }
 
 

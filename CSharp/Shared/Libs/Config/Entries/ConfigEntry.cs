@@ -29,12 +29,14 @@ namespace BaroJunk
       get => Host?.GetValue(Key);
       set => Host?.SetValue(Key, value);
     }
+    public bool SetValue(object value)
+    {
+      if (Host is null) return false;
+      return Host.SetValue(Key, value);
+    }
 
     public ConfigEntry(IConfiglike host, string key)
     {
-      // ArgumentNullException.ThrowIfNull(host, "can't create an entry without a host, you're using it wrong");
-      // ArgumentNullException.ThrowIfNull(key, "can't create an entry without a key, you're using it wrong");
-
       Host = host;
       Key = key ?? "";
 
