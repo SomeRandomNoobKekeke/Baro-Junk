@@ -50,7 +50,7 @@ namespace BaroJunk
       return Object.Equals(Host.Target, other.Host.Target) && Key == other.Key;
     }
 
-    public override string ToString() => $"[{(IsValid ? "" : "!")}{Value}]";
+    public override string ToString() => $"[{(IsValid ? "" : "!")}{Host?.Target?.GetType().Name}.{Key} ({Value})]";
     public string DebugLog => $"ConfigEntry [{GetHashCode()}] Host: [{Host}] Locator: [{Locator}]";
   }
 }

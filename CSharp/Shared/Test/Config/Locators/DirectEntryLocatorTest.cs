@@ -19,7 +19,10 @@ namespace BaroJunk
 
       return new List<UTest>()
       {
-        new UTest(locator.GetEntry("IntProp"), new ConfigEntry(new ConfiglikeObject(config),"IntProp")),
+        new UTest(
+          locator.GetEntry("IntProp"),
+          new ConfigEntry(new ConfiglikeObject(config),"IntProp")
+        ),
         new UTest(
           locator.GetEntry("NestedConfigB.IntProp"),
           new ConfigEntry(new ConfiglikeObject(config.NestedConfigB),"IntProp")
@@ -27,6 +30,38 @@ namespace BaroJunk
         new UTest(
           locator.GetEntry("NestedConfigB.NestedConfigC.IntProp"),
           new ConfigEntry(new ConfiglikeObject(config.NestedConfigB.NestedConfigC),"IntProp")
+        ),
+        new UTest(
+          locator.GetEntry(""),
+          new ConfigEntry(new ConfiglikeObject(config),"")
+        ),
+        new UTest(
+          locator.GetEntry(null),
+          new ConfigEntry(new ConfiglikeObject(config), null)
+        ),
+        new UTest(
+          locator.GetEntry("Bruh"),
+          new ConfigEntry(new ConfiglikeObject(config), "Bruh")
+        ),
+        new UTest(
+          locator.GetEntry("NestedConfigB.Bruh"),
+          new ConfigEntry(new ConfiglikeObject(config.NestedConfigB), "Bruh")
+        ),
+        new UTest(
+          locator.GetEntry("NestedConfigB..Bruh"),
+          ConfigEntry.Empty
+        ),
+        new UTest(
+          locator.GetEntry("...Bruh"),
+          ConfigEntry.Empty
+        ),
+        new UTest(
+          locator.GetEntry("NestedConfigB.    .Bruh"),
+          ConfigEntry.Empty
+        ),
+        new UTest(
+          locator.GetEntry("    .     .     .       "),
+          ConfigEntry.Empty
         ),
       };
     }

@@ -19,17 +19,21 @@ namespace BaroJunk
     public IConfiglike Host => Target.Host;
     public ConfigEntry GetEntry(string propPath)
     {
-      if (!Host.IsValid || propPath is null) return ConfigEntry.Empty;
+      if (!Host.IsValid) return ConfigEntry.Empty;
+      if (propPath is null) return new ConfigEntry(Host, null);
 
-      string[] names = propPath.Split('.');
+      IEnumerable<string> names = propPath.Split('.').Select(s => s.Trim());
 
-      if (names.Length == 0) return ConfigEntry.Empty;
+
+
+      if (names.Count() == 0) return ConfigEntry.Empty;
 
       IConfiglike o = Host;
 
       foreach (string name in names.SkipLast(1))
       {
-        if (!o.IsValid) return ConfigEntry.Empty;
+        if (o is null || !o.IsValid) return ConfigEntry.Empty;
+        if (name == "") return ConfigEntry.Empty;
         o = o.GetPropAsConfig(name);
       }
 
