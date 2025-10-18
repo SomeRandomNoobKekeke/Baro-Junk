@@ -83,7 +83,7 @@ namespace BaroJunk
           IConfiglike subConfig = Host.ToConfig(value);
           if (!subConfig.IsValid) continue;
 
-          foreach (ConfigEntry entry in subConfig.Locator.GetEntries())
+          foreach (ConfigEntry entry in subConfig.Locator.GetEntriesRec())
           {
             yield return entry;
           }
@@ -106,7 +106,7 @@ namespace BaroJunk
           IConfiglike subConfig = Host.ToConfig(value);
           if (!subConfig.IsValid) continue;
 
-          foreach (ConfigEntry entry in subConfig.Locator.GetEntries())
+          foreach (ConfigEntry entry in subConfig.Locator.GetAllEntriesRec())
           {
             yield return entry;
           }
@@ -119,21 +119,21 @@ namespace BaroJunk
 
       void scanPropsRec(IConfiglike cfg, string path = null)
       {
-        Dictionary<string, object> props = Host.AsDict;
+        Dictionary<string, object> props = cfg.AsDict;
 
         foreach (var (key, value) in props)
         {
-          string newPath = path is null ? key : String.Join('.', path, key);
+          string fullPath = path is null ? key : String.Join('.', path, key);
 
-          if (cfg.IsSubConfig(value))
+          if (cfg.IsPropASubConfig(key))
           {
             IConfiglike subConfig = Host.ToConfig(value);
             if (!subConfig.IsValid) continue;
-            scanPropsRec(subConfig, newPath);
+            scanPropsRec(subConfig, fullPath);
           }
           else
           {
-            flat[newPath] = new ConfigEntry(cfg, newPath);
+            flat[fullPath] = new ConfigEntry(cfg, key);
           }
         }
       }
@@ -148,15 +148,21 @@ namespace BaroJunk
 
       void scanPropsRec(IConfiglike cfg, string path = null)
       {
-        Dictionary<string, object> props = Host.AsDict;
+        Dictionary<string, object> props = cfg.AsDict;
+
+        //BRUH more string concatenations pls
+        foreach (var (key, value) in props)
+        {
+          string newPath = path is null ? key : String.Join('.', path, key);
+
+          flat[newPath] = new ConfigEntry(cfg, key);
+        }
 
         foreach (var (key, value) in props)
         {
           string newPath = path is null ? key : String.Join('.', path, key);
 
-          flat[newPath] = new ConfigEntry(cfg, newPath);
-
-          if (cfg.IsSubConfig(value))
+          if (cfg.IsPropASubConfig(key))
           {
             IConfiglike subConfig = Host.ToConfig(value);
             if (!subConfig.IsValid) continue;

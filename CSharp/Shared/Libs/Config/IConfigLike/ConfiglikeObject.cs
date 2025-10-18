@@ -27,6 +27,9 @@ namespace BaroJunk
       => String.IsNullOrEmpty(key) ? false
       : Target?.GetType()?.GetProperty(key, pls)?.PropertyType.IsAssignableTo(SubConfigType) ?? false;
 
+    //THINK this is sneaky, it's not possible to get type from null -> get correct answer if this is a config
+    // For nullable props you should use IsPropASubConfig
+    // mb i should just remove this method
     public bool IsSubConfig(object o) => o is null ? false : o.GetType().IsAssignableTo(SubConfigType);
     public bool IsSubConfig(Type T) => T is null ? false : T.IsAssignableTo(SubConfigType);
 
