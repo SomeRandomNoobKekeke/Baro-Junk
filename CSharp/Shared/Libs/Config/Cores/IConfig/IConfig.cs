@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 
 namespace BaroJunk
 {
-  public interface IConfig : IDirectlyLocatable, IReactiveLocatable
+  public partial interface IConfig : IDirectlyLocatable, IReactiveLocatable
   {
     public static ConditionalWeakTable<IConfig, ConfigCore> Cores = new();
 

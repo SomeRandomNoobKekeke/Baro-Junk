@@ -12,6 +12,7 @@ namespace BaroJunk
   {
     public static IConfiglike Wrap(object o)
     {
+      ArgumentNullException.ThrowIfNull(o);
       return new ConfiglikeObject(o);
     }
   }

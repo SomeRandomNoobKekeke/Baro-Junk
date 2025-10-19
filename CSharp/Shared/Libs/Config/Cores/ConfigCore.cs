@@ -7,7 +7,7 @@ namespace BaroJunk
 {
   public partial class ConfigCore : IConfigLikeContainer, IDirectlyLocatable, IReactiveLocatable
   {
-    public object RawTarget { get; }
+    public object RawTarget => Host.Target;
     public IConfiglike Host { get; }
     public ReactiveCore ReactiveCore { get; }
     public string ID => Host.ID;
@@ -26,14 +26,10 @@ namespace BaroJunk
 
 
 
-    public ConfigCore(object target)
+    public ConfigCore(object target) : this(ConfiglikeWrapper.Wrap(target)) { }
+    public ConfigCore(IConfiglike host)
     {
-      ArgumentNullException.ThrowIfNull(target);
-
-      RawTarget = target;
-
-      //THINK i don't like that i don't have any control over IConfiglike type
-      Host = ConfiglikeWrapper.Wrap(target);
+      Host = host;
 
       Locator = new DirectEntryLocator(this);
       ReactiveCore = new ReactiveCore(Host);
@@ -47,5 +43,6 @@ namespace BaroJunk
       Facades = new ConfigFacades();
       Manager = new ConfigManager(this);
     }
+
   }
 }

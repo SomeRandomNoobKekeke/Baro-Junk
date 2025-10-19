@@ -50,6 +50,7 @@ namespace BaroJunk
     }
 
 
+    //CURSED what if config is husked?
     public void CopyTo(ConfigCore other)
     {
       foreach (var (key, entry) in this.GetAllFlat())
@@ -58,10 +59,10 @@ namespace BaroJunk
       }
     }
 
-    //THINK
+    // CURSED
     // public ConfigCore Copy()
     // {
-    //   ConfigCore copy = (IConfig)Activator.CreateInstance(this.GetType());
+    //   ConfigCore copy = new ConfigCore(Host.CreateDefaultForType(RawTarget.GetType()));
     //   this.CopyTo(copy);
     //   return copy;
     // }
