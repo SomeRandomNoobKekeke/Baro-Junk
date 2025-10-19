@@ -18,6 +18,7 @@ namespace BaroJunk
     /// </summary>
     public object Target { get; }
     public bool IsValid { get; }
+    public string ID { get; }
 
     public IEnumerable<string> Keys { get; }
     public Dictionary<string, object> AsDict { get; }

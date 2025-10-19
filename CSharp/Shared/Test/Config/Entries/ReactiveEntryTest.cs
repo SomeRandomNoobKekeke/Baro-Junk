@@ -20,7 +20,7 @@ namespace BaroJunk
       string lastKey = null;
       object lastValue = null;
 
-      core.PropChanged += (key, value) => (lastKey, lastValue) = (key, value);
+      core.OnPropChanged += (key, value) => (lastKey, lastValue) = (key, value);
 
       ReactiveEntry entry1 = core.Locator.GetEntry("IntProp");
       ReactiveEntry entry2 = core.Locator.GetEntry("NestedConfigB.IntProp");

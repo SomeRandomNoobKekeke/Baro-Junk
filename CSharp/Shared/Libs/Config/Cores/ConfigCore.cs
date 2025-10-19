@@ -10,19 +10,38 @@ namespace BaroJunk
     public object RawTarget { get; }
     public IConfiglike Host { get; }
     public ReactiveCore ReactiveCore { get; }
+    public string ID => Host.ID;
 
     public DirectEntryLocator Locator { get; }
     public ReactiveEntryLocator ReactiveLocator { get; }
 
+    public SimpleParser Parser { get; set; }
+    public NetParser NetParser { get; set; }
+    public XMLParser XMLParser { get; set; }
+    public Logger Logger { get; set; }
+
+    public IConfigFacades Facades { get; set; }
+
+
+
 
     public ConfigCore(object target)
     {
+      ArgumentNullException.ThrowIfNull(target);
+
       RawTarget = target;
       Host = ConfiglikeWrapper.Wrap(target);
 
       Locator = new DirectEntryLocator(this);
       ReactiveCore = new ReactiveCore(Host);
       ReactiveLocator = ReactiveCore.Locator;
+
+      Parser = new SimpleParser();
+      NetParser = new NetParser(Parser);
+      XMLParser = new XMLParser(Parser);
+      Logger = new Logger();
+
+      Facades = new ConfigFacades();
     }
   }
 }

@@ -13,6 +13,7 @@ namespace BaroJunk
     public object Target { get; }
     public bool IsValid { get; }
     public bool AmISubConfig { get; }
+    public string ID => IsValid ? "[!]" : $"{Target.GetType().Namespace}_{Target.GetType().Name}";
     public DirectEntryLocator Locator { get; }
 
     public bool HasProp(string key)

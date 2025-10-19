@@ -21,9 +21,11 @@ namespace BaroJunk
     public IConfiglike Host { get; }
     public ReactiveEntryLocator Locator { get; }
 
-    public event Action<string, object> PropChanged;
+    public event Action<string, object> OnPropChanged;
+    public event Action OnUpdated;
 
-    public void RaiseOnPropChanged(string key, object value) => PropChanged?.Invoke(key, value);
+    public void RaiseOnPropChanged(string key, object value) => OnPropChanged?.Invoke(key, value);
+    public void RaiseOnUpdated() => OnUpdated?.Invoke();
 
     public ReactiveCore(IConfiglike host)
     {

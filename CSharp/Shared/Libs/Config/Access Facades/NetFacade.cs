@@ -17,10 +17,10 @@ namespace BaroJunk
     public bool IsMultiplayer { get; }
     public bool IsClient { get; }
     public void ClientSend(string header);
-    public void ClientEncondeAndSend(string header, IConfig config);
+    public void ClientEncondeAndSend(string header, ConfigCore config);
     public void ServerSend(string header, Client client);
-    public void ServerEncondeAndSend(string header, IConfig config, Client client);
-    public void ServerEncondeAndBroadcast(string header, IConfig config);
+    public void ServerEncondeAndSend(string header, ConfigCore config, Client client);
+    public void ServerEncondeAndBroadcast(string header, ConfigCore config);
     public void ListenForServer(string header, Action<IReadMessage> callback);
     public void ListenForClients(string header, Action<IReadMessage, Client> callback);
     public bool DoesClientHasPermissions(Client client);
@@ -44,12 +44,11 @@ namespace BaroJunk
       GameMain.LuaCs.Networking.Send(GameMain.LuaCs.Networking.Start(header));
     }
 
-    public void ClientEncondeAndSend(string header, IConfig config)
+    public void ClientEncondeAndSend(string header, ConfigCore config)
     {
-      //TODO uncomment
-      // IWriteMessage outMsg = GameMain.LuaCs.Networking.Start(header);
-      // config.NetEncode(outMsg);
-      // GameMain.LuaCs.Networking.Send(outMsg);
+      IWriteMessage outMsg = GameMain.LuaCs.Networking.Start(header);
+      config.NetEncode(outMsg);
+      GameMain.LuaCs.Networking.Send(outMsg);
     }
 
     public void ListenForServer(string header, Action<IReadMessage> callback)
@@ -62,8 +61,8 @@ namespace BaroJunk
 
     public bool DoesClientHasPermissions(Client client) => false;
     public void ServerSend(string header, Client client) { }
-    public void ServerEncondeAndSend(string header, IConfig config, Client client) { }
-    public void ServerEncondeAndBroadcast(string header, IConfig config) { }
+    public void ServerEncondeAndSend(string header, ConfigCore config, Client client) { }
+    public void ServerEncondeAndBroadcast(string header, ConfigCore config) { }
     public void ListenForClients(string header, Action<IReadMessage, Client> callback) { }
 #endif
 
