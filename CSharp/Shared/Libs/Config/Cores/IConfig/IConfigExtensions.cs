@@ -11,6 +11,8 @@ namespace BaroJunk
 {
   public static class IConfigExtensions
   {
+    public static IConfig Self(this IConfig config) => config;
+
     public static ConfigCore GetCore(this IConfig config) => config.Core;
     public static IConfiglike GetHost(this IConfig config) => config.Host;
     public static ReactiveCore GetReactiveCore(this IConfig config) => config.ReactiveCore;
