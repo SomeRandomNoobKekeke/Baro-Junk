@@ -37,7 +37,7 @@ namespace BaroJunk
         else Logger.Warning(result.Details);
       }
 
-      ReactiveCore.RaiseOnUpdated();
+      ReactiveCore.RaiseUpdated();
     }
 
 #if CLIENT

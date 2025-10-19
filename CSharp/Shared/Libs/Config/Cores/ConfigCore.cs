@@ -22,9 +22,12 @@ namespace BaroJunk
     public Logger Logger { get; set; }
 
     public IConfigFacades Facades { get; set; }
-    public ConfigSettings Settings { get; set; }
+    public ConfigSettings Settings { get; }
 
+    public void UseStrategy(ConfigStrategy strategy) => Manager.UseStrategy(strategy);
 
+    public void OnPropChanged(Action<string, object> action) => ReactiveCore.OnPropChanged = action;
+    public void OnUpdated(Action action) => ReactiveCore.OnUpdated = action;
 
     public ConfigCore(object target) : this(ConfiglikeWrapper.Wrap(target)) { }
     public ConfigCore(IConfiglike host)
@@ -42,6 +45,7 @@ namespace BaroJunk
 
       Facades = new ConfigFacades();
       Manager = new ConfigManager(this);
+      Settings = new ConfigSettings(this);
     }
 
   }

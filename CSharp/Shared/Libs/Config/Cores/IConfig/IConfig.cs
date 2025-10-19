@@ -21,6 +21,10 @@ namespace BaroJunk
     ReactiveEntryLocator IReactiveLocatable.ReactiveLocator => Core.ReactiveLocator;
     public ConfigManager Manager => Core.Manager;
 
+    public void UseStrategy(ConfigStrategy strategy) => Core.UseStrategy(strategy);
+    public void OnPropChanged(Action<string, object> action) => Core.OnPropChanged(action);
+    public void OnUpdated(Action action) => Core.OnUpdated(action);
+
     public SimpleParser Parser
     {
       get => Core.Parser;
@@ -47,10 +51,6 @@ namespace BaroJunk
       get => Core.Facades;
       set => Core.Facades = value;
     }
-    public ConfigSettings Settings
-    {
-      get => Core.Settings;
-      set => Core.Settings = value;
-    }
+    public ConfigSettings Settings => Core.Settings;
   }
 }
