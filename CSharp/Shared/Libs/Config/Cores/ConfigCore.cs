@@ -31,6 +31,8 @@ namespace BaroJunk
       ArgumentNullException.ThrowIfNull(target);
 
       RawTarget = target;
+
+      //THINK i don't like that i don't have any control over IConfiglike type
       Host = ConfiglikeWrapper.Wrap(target);
 
       Locator = new DirectEntryLocator(this);
