@@ -18,9 +18,9 @@ namespace BaroJunk
   /// It has all IConfigEntry methods, but doesn't implement it
   /// This is made on purpose so you couldn't confuse reactive services with direct ones
   /// </summary>
-  public class ReactiveEntry //: IConfigEntry
+  public class ReactiveEntry : IReactiveLocatable
   {
-    public ReactiveEntryLocator Locator { get; private set; }
+    public ReactiveEntryLocator ReactiveLocator { get; private set; }
 
     public ReactiveCore ReactiveCore { get; private set; }
     public ConfigEntry Entry { get; private set; }
@@ -35,6 +35,13 @@ namespace BaroJunk
         ReactiveCore.RaiseOnPropChanged(Path, value);
       }
     }
+    public bool SetValue(object value)
+    {
+      bool result = Entry.SetValue(value);
+      ReactiveCore.RaiseOnPropChanged(Path, value);
+      return result;
+    }
+
     public bool IsConfig => Entry.IsConfig;
     public bool IsValid => Entry.IsValid;
     public string Key => Entry.Key;
@@ -46,10 +53,10 @@ namespace BaroJunk
       ReactiveCore = core;
       Entry = entry;
       Path = path;
-      Locator = new ReactiveEntryLocator(core, new ConfigEntryLocatorAdapter(entry), path);
+      ReactiveLocator = new ReactiveEntryLocator(core, new ConfigEntryLocatorAdapter(entry), path);
     }
     public override string ToString() => Entry.ToString();
-    public string DebugLog => $"ReactiveEntry [{GetHashCode()}]  core: [{ReactiveCore}] Entry: [{Entry.DebugLog}] Path: [{Path}] Locator: [{Locator}]";
+    public string DebugLog => $"ReactiveEntry [{GetHashCode()}]  core: [{ReactiveCore}] Entry: [{Entry.DebugLog}] Path: [{Path}] Locator: [{ReactiveLocator}]";
   }
 
 }

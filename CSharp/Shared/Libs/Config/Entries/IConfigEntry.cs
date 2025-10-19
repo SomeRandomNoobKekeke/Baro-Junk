@@ -18,6 +18,7 @@ namespace BaroJunk
     public string Key { get; }
     public Type Type { get; }
     public object Value { get; set; }
+    public bool SetValue(object value);
     public bool IsConfig { get; }
     public bool IsValid { get; }
   }

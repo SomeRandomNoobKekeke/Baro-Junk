@@ -22,10 +22,10 @@ namespace BaroJunk
 
       core.OnPropChanged += (key, value) => (lastKey, lastValue) = (key, value);
 
-      ReactiveEntry entry1 = core.Locator.GetEntry("IntProp");
-      ReactiveEntry entry2 = core.Locator.GetEntry("NestedConfigB.IntProp");
-      ReactiveEntry entry3 = core.Locator.GetEntry("NestedConfigB.NestedNullConfigC");
-      ReactiveEntry entry4 = core.Locator.GetEntry("NestedConfigB").Locator.GetEntry("FloatProp");
+      ReactiveEntry entry1 = core.Locator.ReactiveGetEntry("IntProp");
+      ReactiveEntry entry2 = core.Locator.ReactiveGetEntry("NestedConfigB.IntProp");
+      ReactiveEntry entry3 = core.Locator.ReactiveGetEntry("NestedConfigB.NestedNullConfigC");
+      ReactiveEntry entry4 = core.Locator.ReactiveGetEntry("NestedConfigB").ReactiveLocator.ReactiveGetEntry("FloatProp");
 
       Tests.Add(new UTest(entry1.Value, 2));
       Tests.Add(new UTest(entry2.Value, 4));

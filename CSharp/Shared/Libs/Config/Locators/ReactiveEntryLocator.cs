@@ -20,18 +20,17 @@ namespace BaroJunk
     public IConfiglike Host => Target.Host;
     public string CurrentPath { get; }
 
-    public string RelativePath(string path)
+    private string RelativePath(string path)
       => string.IsNullOrEmpty(CurrentPath) ? path : String.Join('.', CurrentPath, path);
 
 
-    public ReactiveEntry GetEntry(string propPath)
+    public ReactiveEntry ReactiveGetEntry(string propPath)
       => new ReactiveEntry(Core, Host.Locator.GetEntry(propPath), RelativePath(propPath));
 
-    public object GetValue(string propPath) => GetEntry(propPath).Value;
+    public object ReactiveGetValue(string propPath) => ReactiveGetEntry(propPath).Value;
+    public bool ReactiveSetValue(string propPath, object value) => ReactiveGetEntry(propPath).SetValue(value);
 
-    public void SetValue(string propPath, object value) => GetEntry(propPath).Value = value;
-
-    public IEnumerable<ReactiveEntry> GetEntries()
+    public IEnumerable<ReactiveEntry> ReactiveGetEntries()
     {
       Dictionary<string, object> props = Host.AsDict;
 
@@ -44,7 +43,7 @@ namespace BaroJunk
       }
     }
 
-    public IEnumerable<ReactiveEntry> GetAllEntries()
+    public IEnumerable<ReactiveEntry> ReactiveGetAllEntries()
     {
       Dictionary<string, object> props = Host.AsDict;
 
@@ -54,7 +53,7 @@ namespace BaroJunk
       }
     }
 
-    public IEnumerable<ReactiveEntry> GetEntriesRec()
+    public IEnumerable<ReactiveEntry> ReactiveGetEntriesRec()
     {
       IEnumerable<ReactiveEntry> scanPropsRec(IConfiglike cfg, string path = null)
       {
@@ -86,7 +85,7 @@ namespace BaroJunk
       }
     }
 
-    public IEnumerable<ReactiveEntry> GetAllEntriesRec()
+    public IEnumerable<ReactiveEntry> ReactiveGetAllEntriesRec()
     {
       IEnumerable<ReactiveEntry> scanPropsRec(IConfiglike cfg, string path = null)
       {
@@ -116,20 +115,20 @@ namespace BaroJunk
       }
     }
 
-    public Dictionary<string, ReactiveEntry> GetFlat()
+    public Dictionary<string, ReactiveEntry> ReactiveGetFlat()
       => Host.Locator.GetFlat().ToDictionary(
         kvp => kvp.Key,
         kvp => new ReactiveEntry(Core, kvp.Value, RelativePath(kvp.Key))
       );
 
-    public Dictionary<string, ReactiveEntry> GetAllFlat()
+    public Dictionary<string, ReactiveEntry> ReactiveGetAllFlat()
       => Host.Locator.GetAllFlat().ToDictionary(
         kvp => kvp.Key,
         kvp => new ReactiveEntry(Core, kvp.Value, RelativePath(kvp.Key))
       );
 
-    public Dictionary<string, object> GetFlatValues() => Host.Locator.GetFlatValues();
-    public Dictionary<string, object> GetAllFlatValues() => Host.Locator.GetFlatValues();
+    public Dictionary<string, object> ReactiveGetFlatValues() => Host.Locator.GetFlatValues();
+    public Dictionary<string, object> ReactiveGetAllFlatValues() => Host.Locator.GetFlatValues();
 
     public ReactiveEntryLocator(ReactiveCore core, IConfigLikeContainer target, string path)
     {
