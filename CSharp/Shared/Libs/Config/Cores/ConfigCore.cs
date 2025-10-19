@@ -14,6 +14,7 @@ namespace BaroJunk
 
     public DirectEntryLocator Locator { get; }
     public ReactiveEntryLocator ReactiveLocator { get; }
+    public ConfigManager Manager { get; }
 
     public SimpleParser Parser { get; set; }
     public NetParser NetParser { get; set; }
@@ -21,7 +22,7 @@ namespace BaroJunk
     public Logger Logger { get; set; }
 
     public IConfigFacades Facades { get; set; }
-
+    public ConfigSettings Settings { get; set; }
 
 
 
@@ -42,6 +43,7 @@ namespace BaroJunk
       Logger = new Logger();
 
       Facades = new ConfigFacades();
+      Manager = new ConfigManager(this);
     }
   }
 }

@@ -9,16 +9,14 @@ namespace BaroJunk
   /// Something like Dictionary<string, object>
   /// Half of this props are unused, idk what i need
   /// </summary>
-  public interface IConfiglike
+  public interface IConfiglike : IDirectlyLocatable
   {
     public DirectEntryLocator Locator { get; }
 
-    /// <summary>
-    /// Unwrapped thing
-    /// </summary>
     public object Target { get; }
     public bool IsValid { get; }
     public string ID { get; }
+    public string Name { get; }
 
     public IEnumerable<string> Keys { get; }
     public Dictionary<string, object> AsDict { get; }
