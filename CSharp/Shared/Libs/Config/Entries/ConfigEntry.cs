@@ -21,7 +21,7 @@ namespace BaroJunk
     public IConfiglike Host { get; }
     public string Key { get; }
 
-    public bool IsConfig => Host?.IsSubConfig(Key) == true;
+    public bool IsConfig => Host?.IsPropASubConfig(Key) == true;
     public bool IsValid => Host is not null && Host.HasProp(Key);
     public Type Type => Host?.TypeOfProp(Key);
     public object Value

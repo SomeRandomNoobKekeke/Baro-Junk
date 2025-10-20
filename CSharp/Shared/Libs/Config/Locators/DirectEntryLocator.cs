@@ -19,7 +19,7 @@ namespace BaroJunk
     public IConfiglike Host => Target.Host;
     public ConfigEntry GetEntry(string propPath)
     {
-      if (!Host.IsValid) return ConfigEntry.Empty;
+      if (Host is null || !Host.IsValid) return ConfigEntry.Empty;
       if (propPath is null) return new ConfigEntry(Host, null);
 
       IEnumerable<string> names = propPath.Split('.').Select(s => s.Trim());
@@ -56,6 +56,8 @@ namespace BaroJunk
 
     public IEnumerable<ConfigEntry> GetAllEntries()
     {
+      if (Host is null) yield break;
+
       Dictionary<string, object> props = Host.AsDict;
 
       foreach (var (key, value) in props)
@@ -66,6 +68,8 @@ namespace BaroJunk
 
     public IEnumerable<ConfigEntry> GetEntriesRec()
     {
+      if (Host is null) yield break;
+
       Dictionary<string, object> props = Host.AsDict;
 
       foreach (var (key, value) in props)
@@ -92,6 +96,8 @@ namespace BaroJunk
     }
     public IEnumerable<ConfigEntry> GetAllEntriesRec()
     {
+      if (Host is null) yield break;
+
       Dictionary<string, object> props = Host.AsDict;
 
       foreach (var (key, value) in props)
@@ -115,6 +121,8 @@ namespace BaroJunk
     }
     public Dictionary<string, ConfigEntry> GetFlat()
     {
+      if (Host is null) return new Dictionary<string, ConfigEntry>() { };
+
       Dictionary<string, ConfigEntry> flat = new();
 
       void scanPropsRec(IConfiglike cfg, string path = null)
@@ -144,6 +152,8 @@ namespace BaroJunk
     }
     public Dictionary<string, ConfigEntry> GetAllFlat()
     {
+      if (Host is null) return new Dictionary<string, ConfigEntry>() { };
+
       Dictionary<string, ConfigEntry> flat = new();
 
       void scanPropsRec(IConfiglike cfg, string path = null)
@@ -188,10 +198,16 @@ namespace BaroJunk
 
     public DirectEntryLocator(IConfigLikeContainer target)
     {
-      Target = target;
+      Target = target ?? new IConfigLikeLocatorAdapter(null);
     }
 
     public override string ToString() => $"DirectEntryLocator [{GetHashCode()}] Host: [{Host}]";
+
+    public override bool Equals(object obj)
+    {
+      if (obj is not DirectEntryLocator other) return false;
+      return Object.Equals(Target, other.Target);
+    }
   }
 
 

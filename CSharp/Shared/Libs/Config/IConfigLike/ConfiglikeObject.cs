@@ -95,5 +95,11 @@ namespace BaroJunk
     }
 
     public override string ToString() => $"ConfiglikeObject [{Target} ({Target.GetHashCode()})]";
+
+    public override bool Equals(object obj)
+    {
+      if (obj is not ConfiglikeObject other) return false;
+      return Object.Equals(Target, other.Target);
+    }
   }
 }

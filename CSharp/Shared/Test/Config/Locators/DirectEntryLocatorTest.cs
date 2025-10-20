@@ -16,9 +16,15 @@ namespace BaroJunk
     {
       ExampleConfigs.ConfigA config = new();
       DirectEntryLocator locator = new DirectEntryLocator(new ConfiglikeObject(config));
+      DirectEntryLocator borked = new DirectEntryLocator(null as IConfiglike);
+
 
       return new List<UTest>()
       {
+        new UTest(
+          borked.GetEntry("Bruh"),
+          ConfigEntry.Empty
+        ),
         new UTest(
           locator.GetEntry("IntProp"),
           new ConfigEntry(new ConfiglikeObject(config),"IntProp")

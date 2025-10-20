@@ -30,12 +30,24 @@ namespace BaroJunk
     public ConfigEntry Entry { get; }
     public IConfiglike Host => Entry.Host.GetPropAsConfig(Entry.Key);
     public ConfigEntryLocatorAdapter(ConfigEntry entry) => Entry = entry;
+
+    public override bool Equals(object obj)
+    {
+      if (obj is not IConfigLikeContainer other) return false;
+      return Object.Equals(Host, other.Host);
+    }
   }
 
   public class IConfigLikeLocatorAdapter : IConfigLikeContainer
   {
     public IConfiglike Host { get; }
     public IConfigLikeLocatorAdapter(IConfiglike host) => Host = host;
+
+    public override bool Equals(object obj)
+    {
+      if (obj is not IConfigLikeContainer other) return false;
+      return Object.Equals(Host, other.Host);
+    }
   }
 
 }
