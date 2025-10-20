@@ -51,6 +51,8 @@ namespace BaroJunk
       }
       catch (Exception e)
       {
+        //REWORK ig it has to return SimpleResult
+        throw;
         return false;
       }
     }

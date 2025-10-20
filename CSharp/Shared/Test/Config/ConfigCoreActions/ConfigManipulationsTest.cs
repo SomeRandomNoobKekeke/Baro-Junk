@@ -40,7 +40,7 @@ namespace BaroJunk
         Tests.Add(new UTest(husked.NestedConfigB is null, true));
         husked.Restore();
         Tests.Add(new UTest(husked.NestedConfigB is not null, true));
-        Tests.Add(new UTest(husked.NestedConfigB.NestedConfigC is not null, true));
+        Tests.Add(new UTest(husked.NestedConfigB?.NestedConfigC is not null, true));
       }
 
     }

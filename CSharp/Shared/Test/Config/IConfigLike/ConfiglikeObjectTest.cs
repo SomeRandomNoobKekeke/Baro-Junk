@@ -105,7 +105,9 @@ namespace BaroJunk
     {
       ExampleConfigs.ConfigA config = new();
       IConfiglike configlike = new ConfiglikeObject(config);
+      IConfiglike borked = new ConfiglikeObject(null);
 
+      borked.SetValue("bruh", 123);
       configlike.SetValue("IntProp", 3);
       configlike.SetValue("NestedNullConfigB", new ExampleConfigs.ConfigB());
       configlike.SetValue("NestedConfigB", null);

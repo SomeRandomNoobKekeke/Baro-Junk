@@ -27,7 +27,10 @@ namespace BaroJunk
     public object Value
     {
       get => Host?.GetValue(Key);
-      set => Host?.SetValue(Key, value);
+      set
+      {
+        Host?.SetValue(Key, value);
+      }
     }
     public bool SetValue(object value)
     {
