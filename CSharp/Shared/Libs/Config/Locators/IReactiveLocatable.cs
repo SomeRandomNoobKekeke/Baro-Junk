@@ -35,19 +35,16 @@ namespace BaroJunk
     public Dictionary<string, object> ReactiveGetAllFlatValues() => ReactiveLocator.ReactiveGetAllFlatValues();
   }
 
-  // public static class IDirectlyLocatableExtensions
-  // {
-  //   public static IConfiglike GetHost(this IDirectlyLocatable locatable) => locatable.Host;
-  //   public static ConfigEntry GetEntry(this IDirectlyLocatable locatable, string propPath) => locatable.GetEntry(propPath);
-  //   public static object GetValue(this IDirectlyLocatable locatable, string propPath) => locatable.GetValue(propPath);
-  //   public static bool SetValue(this IDirectlyLocatable locatable, string propPath, object value) => locatable.SetValue(propPath, value);
-  //   public static IEnumerable<ConfigEntry> GetEntries(this IDirectlyLocatable locatable) => locatable.GetEntries();
-  //   public static IEnumerable<ConfigEntry> GetAllEntries(this IDirectlyLocatable locatable) => locatable.GetAllEntries();
-  //   public static IEnumerable<ConfigEntry> GetEntriesRec(this IDirectlyLocatable locatable) => locatable.GetEntriesRec();
-  //   public static IEnumerable<ConfigEntry> GetAllEntriesRec(this IDirectlyLocatable locatable) => locatable.GetAllEntriesRec();
-  //   public static Dictionary<string, ConfigEntry> GetFlat(this IDirectlyLocatable locatable) => locatable.GetFlat();
-  //   public static Dictionary<string, ConfigEntry> GetAllFlat(this IDirectlyLocatable locatable) => locatable.GetAllFlat();
-  //   public static Dictionary<string, object> GetFlatValues(this IDirectlyLocatable locatable) => locatable.GetFlatValues();
-  //   public static Dictionary<string, object> GetAllFlatValues(this IDirectlyLocatable locatable) => locatable.GetAllFlatValues();
-  // }
+  public static class IReactiveLocatableExtensions
+  {
+    public static ReactiveEntry ReactiveGetEntry(this IReactiveLocatable locatable, string propPath) => locatable.ReactiveGetEntry(propPath);
+    public static object ReactiveGetValue(this IReactiveLocatable locatable, string propPath) => locatable.ReactiveGetValue(propPath);
+    public static bool ReactiveSetValue(this IReactiveLocatable locatable, string propPath, object value) => locatable.ReactiveSetValue(propPath, value);
+    public static IEnumerable<ReactiveEntry> ReactiveGetEntries(this IReactiveLocatable locatable) => locatable.ReactiveGetEntries();
+    public static IEnumerable<ReactiveEntry> ReactiveGetAllEntries(this IReactiveLocatable locatable) => locatable.ReactiveGetAllEntries();
+    public static IEnumerable<ReactiveEntry> ReactiveGetEntriesRec(this IReactiveLocatable locatable) => locatable.ReactiveGetEntriesRec();
+    public static IEnumerable<ReactiveEntry> ReactiveGetAllEntriesRec(this IReactiveLocatable locatable) => locatable.ReactiveGetAllEntriesRec();
+    public static Dictionary<string, ReactiveEntry> ReactiveGetFlat(this IReactiveLocatable locatable) => locatable.ReactiveGetFlat();
+    public static Dictionary<string, ReactiveEntry> ReactiveGetAllFlat(this IReactiveLocatable locatable) => locatable.ReactiveGetAllFlat();
+  }
 }

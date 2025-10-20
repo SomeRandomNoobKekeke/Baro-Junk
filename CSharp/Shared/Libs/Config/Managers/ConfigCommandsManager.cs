@@ -80,7 +80,7 @@ namespace BaroJunk
         return;
       }
 
-      ConfigEntry entry = Config.GetEntry(args[0]);
+      ReactiveEntry entry = Config.ReactiveGetEntry(args[0]);
 
       if (args.Length == 1)
       {

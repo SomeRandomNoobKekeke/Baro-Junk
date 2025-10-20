@@ -37,7 +37,7 @@ namespace BaroJunk
       return new UTest(config.NestedConfigB.StringProp, "bebebe");
     }
 
-    public UTest CommandShouldPropChanged()
+    public UTest CommandShouldRaisePropChanged()
     {
       ExampleConfigs.ConfigA config = new();
       FakeConsoleFacade ConsoleFacade = new FakeConsoleFacade();
