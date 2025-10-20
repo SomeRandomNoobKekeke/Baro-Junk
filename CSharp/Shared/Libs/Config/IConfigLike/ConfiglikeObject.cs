@@ -94,7 +94,7 @@ namespace BaroJunk
       Locator = new DirectEntryLocator(new IConfigLikeLocatorAdapter(this));
     }
 
-    public override string ToString() => $"ConfiglikeObject [{Target} ({Target.GetHashCode()})]";
+    public override string ToString() => $"ConfiglikeObject [{Target} ({Target?.GetHashCode()})]";
 
     public override bool Equals(object obj)
     {

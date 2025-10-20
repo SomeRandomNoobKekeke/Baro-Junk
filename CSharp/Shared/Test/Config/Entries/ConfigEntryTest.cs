@@ -94,10 +94,69 @@ namespace BaroJunk
       };
     }
 
+    public List<UTest> IsValidTest()
+    {
+      ExampleConfigs.ConfigA config = new();
 
+      return new List<UTest>()
+      {
+        new UTest(new ConfigEntry(null, null).IsValid, false),
+        new UTest(new ConfigEntry(new ConfiglikeObject(config), "bruh").IsValid, false),
+        new UTest(new ConfigEntry(null, "bruh").IsValid, false),
+        new UTest(ConfigEntry.Empty.IsValid, false),
 
-    // public bool IsValid => Host is not null && Host.HasProp(Key);
-    // public Type Type => Host?.TypeOfProp(Key);
+        new UTest(new ConfigEntry(new ConfiglikeObject(config), "Bruh").IsValid, false),
+        new UTest(new ConfigEntry(new ConfiglikeObject(config.IntProp), "IntProp").IsValid, false),
+        new UTest(new ConfigEntry(new ConfiglikeObject(config), "IntProp").IsValid, true),
+        new UTest(new ConfigEntry(new ConfiglikeObject(config), "NestedConfigB").IsValid, true),
+        new UTest(new ConfigEntry(new ConfiglikeObject(config), "NestedNullConfigB").IsValid, true),
+        new UTest(new ConfigEntry(new ConfiglikeObject(config), "NullStringProp").IsValid, true),
+        new UTest(new ConfigEntry(new ConfiglikeObject(config.NestedConfigB), "IntProp").IsValid, true),
+        new UTest(new ConfigEntry(new ConfiglikeObject(config.NestedConfigB), "NestedConfigC").IsValid, true),
+        new UTest(new ConfigEntry(new ConfiglikeObject(config.NestedConfigB), "NestedNullConfigC").IsValid, true),
+      };
+    }
+
+    public List<UTest> TypeTest()
+    {
+      ExampleConfigs.ConfigA config = new();
+
+      return new List<UTest>()
+      {
+        new UTest(new ConfigEntry(new ConfiglikeObject(config), null).Type, null),
+        new UTest(new ConfigEntry(new ConfiglikeObject(config), "IntProp").Type, typeof(int)),
+        new UTest(new ConfigEntry(new ConfiglikeObject(config), "NestedNullConfigB").Type, typeof(ExampleConfigs.ConfigB)),
+        new UTest(new ConfigEntry(new ConfiglikeObject(config), "").Type, null),
+      };
+    }
+    public List<UTest> GetValueTest()
+    {
+      ExampleConfigs.ConfigA config = new();
+
+      return new List<UTest>()
+      {
+        new UTest(new ConfigEntry(new ConfiglikeObject(config), null).Value, null),
+        new UTest(new ConfigEntry(new ConfiglikeObject(config), "IntProp").Value, 2),
+        new UTest(new ConfigEntry(new ConfiglikeObject(config), "NestedNullConfigB").Value, config.NestedNullConfigB),
+        new UTest(new ConfigEntry(new ConfiglikeObject(config.NestedConfigB), "IntProp").Value, 4),
+      };
+    }
+
+    public List<UTest> SetValueTest()
+    {
+      ExampleConfigs.ConfigA config = new();
+
+      new ConfigEntry(new ConfiglikeObject(config), null).Value = 123;
+      new ConfigEntry(new ConfiglikeObject(config), "IntProp").Value = 3;
+      new ConfigEntry(new ConfiglikeObject(config.NestedConfigB), "IntProp").Value = 5;
+
+      return new List<UTest>()
+      {
+        new UTest(new ConfigEntry(new ConfiglikeObject(config), "IntProp").Value, 3),
+        new UTest(new ConfigEntry(new ConfiglikeObject(config.NestedConfigB), "IntProp").Value, 5),
+      };
+    }
+
     // public object Value
     // {
     //   get => Host?.GetValue(Key);
@@ -141,34 +200,6 @@ namespace BaroJunk
 
 
 
-
-    // public class ConfigEntryLocatorTest : ConfigEntryTest
-    // {
-    //   public override void CreateTests()
-    //   {
-    //     ExampleConfigs.ConfigA config = new();
-
-    //     ConfigEntry configb = new ConfigEntry(new ConfiglikeObject(config), "NestedConfigB");
-    //     ConfigEntry configc = configb.Locator.GetEntry("NestedConfigC");
-    //     ConfigEntry deepIntProp = configc.Locator.GetEntry("IntProp");
-    //     Tests.Add(new UTest(configb.Locator.Host.Target, config.NestedConfigB));
-    //     Tests.Add(new UTest(configc.Locator.Host.Target, config.NestedConfigB.NestedConfigC));
-    //   }
-    // }
-
-    // public class ConfigEntryGarbageInputTest : ConfigEntryTest
-    // {
-    //   public override void CreateTests()
-    //   {
-    //     ExampleConfigs.ConfigA config = new();
-    //     IConfiglike configlike = new ConfiglikeObject(config);
-
-    //     Tests.Add(new UTest(new ConfigEntry(null, null), ConfigEntry.Empty));
-    //     Tests.Add(new UTest(new ConfigEntry(configlike, null).IsValid, false));
-    //     Tests.Add(new UTest(new ConfigEntry(configlike, "Bruh").IsValid, false));
-    //     Tests.Add(new UTest(new ConfigEntry(null, "Bruh"), ConfigEntry.Empty));
-    //   }
-    // }
 
     // public override void CreateTests()
     // {

@@ -48,7 +48,6 @@ namespace BaroJunk
       if (obj is not ConfigEntry other) return false;
       if (Host is null && other.Host is null) return true;
       if (Host is null || other.Host is null) return false;
-
       return Object.Equals(Host.Target, other.Host.Target) && Key == other.Key;
     }
 
