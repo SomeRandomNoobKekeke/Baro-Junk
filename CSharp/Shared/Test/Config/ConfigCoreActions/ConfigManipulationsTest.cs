@@ -38,7 +38,7 @@ namespace BaroJunk
         husked.NestedConfigB = null;
 
         Tests.Add(new UTest(husked.NestedConfigB is null, true));
-        husked.Self().Restore();
+        husked.Restore();
         Tests.Add(new UTest(husked.NestedConfigB is not null, true));
         Tests.Add(new UTest(husked.NestedConfigB.NestedConfigC is not null, true));
       }
@@ -53,7 +53,7 @@ namespace BaroJunk
 
         husked.NestedConfigB.IntProp = 123;
         Tests.Add(new UTest(husked.NestedConfigB.IntProp, 123));
-        husked.Self().Clear();
+        husked.Clear();
         Tests.Add(new UTest(husked.NestedConfigB.IntProp, 0));
       }
     }
@@ -70,7 +70,7 @@ namespace BaroJunk
         ExampleConfigs.ConfigA husked2 = new();
 
         Tests.Add(new UTest(!husked.EqualsTo(husked2), true));
-        husked.Self().CopyTo(husked2);
+        husked.CopyTo(husked2);
         Tests.Add(new UTest(husked.EqualsTo(husked2), true));
       }
     }

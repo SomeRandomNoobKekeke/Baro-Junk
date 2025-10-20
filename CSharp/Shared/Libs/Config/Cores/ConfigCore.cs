@@ -24,6 +24,7 @@ namespace BaroJunk
     public IConfigFacades Facades { get; set; }
     public ConfigSettings Settings { get; }
 
+    public string DefaultSavePath => ConfigAutoSaver.DefaultSavePathFor(this);
     public void UseStrategy(ConfigStrategy strategy) => Manager.UseStrategy(strategy);
 
     public void OnPropChanged(Action<string, object> action) => ReactiveCore.OnPropChanged = action;

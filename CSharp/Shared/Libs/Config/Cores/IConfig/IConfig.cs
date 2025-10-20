@@ -8,6 +8,11 @@ namespace BaroJunk
 {
   public partial interface IConfig : IDirectlyLocatable, IReactiveLocatable
   {
+    // It's a duplicate of ConfiglikeObject.ID
+    #region HACK
+    public static string TypeID<T>() => TypeID(typeof(T));
+    public static string TypeID(Type T) => $"{T.Namespace}_{T.Name}";
+    #endregion
     public static ConditionalWeakTable<IConfig, ConfigCore> Cores = new();
 
     public ConfigCore Core => Cores.GetValue(this, c => new ConfigCore(c));
@@ -21,6 +26,7 @@ namespace BaroJunk
     ReactiveEntryLocator IReactiveLocatable.ReactiveLocator => Core.ReactiveLocator;
     public ConfigManager Manager => Core.Manager;
 
+    public string DefaultSavePath => Core.DefaultSavePath;
     public void UseStrategy(ConfigStrategy strategy) => Core.UseStrategy(strategy);
     public void OnPropChanged(Action<string, object> action) => Core.OnPropChanged(action);
     public void OnUpdated(Action action) => Core.OnUpdated(action);

@@ -23,6 +23,7 @@ namespace BaroJunk
     public static ConfigManager GetManager(this IConfig config) => config.Manager;
 
 
+    public static string GetDefaultSavePath(this IConfig config) => config.DefaultSavePath;
     public static void UseStrategy(this IConfig config, ConfigStrategy strategy) => config.UseStrategy(strategy);
     public static void OnPropChanged(this IConfig config, Action<string, object> action) => config.OnPropChanged(action);
     public static void OnUpdated(this IConfig config, Action action) => config.OnUpdated(action);

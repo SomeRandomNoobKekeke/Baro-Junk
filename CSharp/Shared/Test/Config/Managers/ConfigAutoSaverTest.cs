@@ -17,7 +17,7 @@ namespace BaroJunk
       FakeIOFacade IOFacade = new FakeIOFacade();
       config.Self().Facades.IOFacade = IOFacade;
 
-      IOFacade.Storage[ConfigAutoSaver.DefaultSavePathFor(config)] = "<ConfigA><NestedConfigB><IntProp>123</IntProp></NestedConfigB></ConfigA>";
+      IOFacade.Storage[config.GetDefaultSavePath()] = "<ConfigA><NestedConfigB><IntProp>123</IntProp></NestedConfigB></ConfigA>";
 
       config.UseStrategy(ConfigStrategy.OnlyAutosave);
 
@@ -40,7 +40,7 @@ namespace BaroJunk
       return new UDictTest(IOFacade.Storage, new Dictionary<string, string>()
       {
         ["ModSettings\\Configs"] = "dir",
-        [ConfigAutoSaver.DefaultSavePathFor(config)] = config.ToXML().ToString()
+        [config.GetDefaultSavePath()] = config.ToXML().ToString()
       });
     }
 
@@ -51,9 +51,9 @@ namespace BaroJunk
       config.Self().Facades.IOFacade = IOFacade;
 
       bool wasTriggered = false;
-      config.OnConfigUpdated(() => wasTriggered = true);
+      config.OnUpdated(() => wasTriggered = true);
 
-      IOFacade.Storage[ConfigAutoSaver.DefaultSavePathFor(config)] = "<ConfigA><NestedConfigB><IntProp>123</IntProp></NestedConfigB></ConfigA>";
+      IOFacade.Storage[config.GetDefaultSavePath()] = "<ConfigA><NestedConfigB><IntProp>123</IntProp></NestedConfigB></ConfigA>";
 
       config.UseStrategy(ConfigStrategy.OnlyAutosave);
 

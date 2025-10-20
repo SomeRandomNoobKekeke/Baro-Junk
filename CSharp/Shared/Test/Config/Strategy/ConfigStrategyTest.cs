@@ -60,9 +60,9 @@ namespace BaroJunk
       client2NetFacade.MessageSent += (header, msg) => WhatHappened.Add($"client2 sent {header} msg to server");
       serverNetFacade.MessageSent += (header, msg, target) => WhatHappened.Add($"server sent {header} msg to {target.Name}");
 
-      client1Config.OnConfigUpdated(() => WhatHappened.Add($"client1Config updated"));
-      client2Config.OnConfigUpdated(() => WhatHappened.Add($"client2Config updated"));
-      serverConfig.OnConfigUpdated(() => WhatHappened.Add($"serverConfig updated"));
+      client1Config.OnUpdated(() => WhatHappened.Add($"client1Config updated"));
+      client2Config.OnUpdated(() => WhatHappened.Add($"client2Config updated"));
+      serverConfig.OnUpdated(() => WhatHappened.Add($"serverConfig updated"));
 
       client1Config.OnPropChanged((name, value) => WhatHappened.Add($"client1Config prop [{name}] changed to [{value}]"));
       client2Config.OnPropChanged((name, value) => WhatHappened.Add($"client2Config prop [{name}] changed to [{value}]"));

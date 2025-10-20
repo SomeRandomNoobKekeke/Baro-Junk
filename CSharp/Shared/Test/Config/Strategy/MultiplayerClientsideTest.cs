@@ -11,23 +11,21 @@ namespace BaroJunk
 {
   public partial class ConfigStrategyTest
   {
-    public class MultiplayerBothSidesTest : ConfigStrategyTest
+    public class MultiplayerClientsideTest : ConfigStrategyTest
     {
       public override void CreateTests()
       {
         Prepare();
 
         client1NetFacade.ConnectTo(serverNetFacade);
-        serverConfig.UseStrategy(ConfigStrategy.MultiplayerBothSides);
-        client1Config.UseStrategy(ConfigStrategy.MultiplayerBothSides);
+        serverConfig.UseStrategy(ConfigStrategy.MultiplayerClientside);
+        client1Config.UseStrategy(ConfigStrategy.MultiplayerClientside);
 
         client2NetFacade.ConnectTo(serverNetFacade);
-        client2Config.UseStrategy(ConfigStrategy.MultiplayerBothSides);
+        client2Config.UseStrategy(ConfigStrategy.MultiplayerClientside);
 
-        client1Config.Get("NestedConfigB.IntProp").Value = 123;
-
+        client1Config.GetEntry("NestedConfigB.IntProp").Value = 123;
         HooksFacade.CallHook("stop");
-
 
         Tests.Add(new UListTest(WhatHappened, new List<string>(){
           "server sent BaroJunk_ConfigA_sync msg to client1",

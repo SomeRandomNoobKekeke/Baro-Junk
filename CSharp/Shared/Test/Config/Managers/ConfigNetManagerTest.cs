@@ -133,8 +133,8 @@ namespace BaroJunk
         bool ClientUpdated = false;
         bool ServerUpdated = false;
 
-        client1Config.OnConfigUpdated(() => { ClientUpdated = true; });
-        serverConfig.OnConfigUpdated(() => { ServerUpdated = true; });
+        client1Config.OnUpdated(() => { ClientUpdated = true; });
+        serverConfig.OnUpdated(() => { ServerUpdated = true; });
 
         serverConfig.UseStrategy(ConfigStrategy.OnlyNetworking);
         serverNetFacade.Connect(client1NetFacade);
