@@ -36,7 +36,8 @@ namespace BaroJunk
 
       if (!Tests.Last().Passed)
       {
-        UTestLogger.Log(result);
+        UTestLogger.Log($"Load result: {result}");
+        UTestLogger.Log($"Storage: {Logger.Wrap.IDictionary(IOFacade.Storage)}");
         UTestLogger.Log(config.CompareTo(loaded));
       }
     }

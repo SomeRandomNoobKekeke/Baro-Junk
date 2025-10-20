@@ -16,7 +16,7 @@ namespace BaroJunk
     public static Color FailureColor = Color.Red;
     public static string InnerTextColor = "128,255,255";
     public static float ColorContrast = 0.75f;
-    public static string Line = "-------------------------------------------------------------";
+    public static string Line = "----------------------------------------------------------------------------------------";
 
     /// <summary>
     /// sneaky var that no one will ever find

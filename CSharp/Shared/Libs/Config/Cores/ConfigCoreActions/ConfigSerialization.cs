@@ -46,10 +46,12 @@ namespace BaroJunk
 
       void ToTextRec(string offset, IConfiglike config)
       {
-        foreach (ConfigEntry entry in config.GetEntries())
+        foreach (ConfigEntry entry in config.GetAllEntries())
         {
+          Mod.Logger.LogVars(entry, entry.IsConfig);
           if (entry.IsConfig)
           {
+
             IConfiglike subConfig = config.ToConfig(entry.Value);
             if (!subConfig.IsValid) continue;
             sb.Append($"{offset}{entry.Key}:\n");
