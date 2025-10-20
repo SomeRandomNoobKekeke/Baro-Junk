@@ -63,11 +63,12 @@ namespace BaroJunk
     {
       try
       {
+#if CLIENT
+        ModStorage.Set("lastUtestCommand", $"utest {(args.ElementAtOrDefault(0) ?? "none")}");
+#endif
+
         if (args.Length == 0)
         {
-#if CLIENT
-          ModStorage.Set("lastUtestCommand", null);
-#endif
           UTestExplorer.PrintAllTests();
           return;
         }
@@ -85,18 +86,11 @@ namespace BaroJunk
 
         if (String.Equals(args[0], "none", StringComparison.OrdinalIgnoreCase))
         {
-#if CLIENT
-          ModStorage.Set("lastUtestCommand", null);
-#endif
           return;
         }
 
         if (String.Equals(args[0], "all", StringComparison.OrdinalIgnoreCase))
         {
-#if CLIENT
-          ModStorage.Set("lastUtestCommand", "utest all");
-#endif
-
           foreach (Type T in UTestExplorer.TestTree.Roots.Select(root => root.Type))
           {
             RunTestPack(T);
@@ -111,10 +105,6 @@ namespace BaroJunk
           UTestLogger.Warning($"Can't find [{args[0]}] test");
           return;
         }
-
-#if CLIENT
-        ModStorage.Set("lastUtestCommand", $"utest {args[0]}");
-#endif
 
         RunTestPack(start);
       }
