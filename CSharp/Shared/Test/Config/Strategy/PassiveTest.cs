@@ -24,7 +24,7 @@ namespace BaroJunk
         client2NetFacade.ConnectTo(serverNetFacade);
         client2Config.UseStrategy(ConfigStrategy.Passive);
 
-        client1Config.GetEntry("NestedConfigB.IntProp").Value = 123;
+        client1Config.ReactiveGetEntry("NestedConfigB.IntProp").Value = 123;
         HooksFacade.CallHook("stop");
 
         Tests.Add(new UListTest(WhatHappened, new List<string>() {
