@@ -157,84 +157,26 @@ namespace BaroJunk
       };
     }
 
-    // public object Value
-    // {
-    //   get => Host?.GetValue(Key);
-    //   set => Host?.SetValue(Key, value);
-    // }
-    // public bool SetValue(object value)
-    // {
-    //   if (Host is null) return false;
-    //   return Host.SetValue(Key, value);
-    // }
+    public List<UTest> EqualsTest()
+    {
+      ExampleConfigs.ConfigA config = new();
 
-    // public ConfigEntry(IConfiglike host, string key)
-    // {
-    //   Host = host;
-    //   Key = key ?? "";
-
-    //   Locator = new DirectEntryLocator(new ConfigEntryLocatorAdapter(this));
-    // }
-
-    // public override bool Equals(object obj)
-    // {
-    //   if (obj is not ConfigEntry other) return false;
-    //   if (Host is null && other.Host is null) return true;
-    //   if (Host is null || other.Host is null) return false;
-
-    //   return Object.Equals(Host.Target, other.Host.Target) && Key == other.Key;
-    // }
-
-    // public override string ToString() => $"[{(IsValid ? "" : "!")}{Host?.Target?.GetType().Name}.{Key} ({Value})]";
-    // public string DebugLog => $"ConfigEntry [{GetHashCode()}] Host: [{Host}] Locator: [{Locator}]";
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // public override void CreateTests()
-    // {
-    //   ExampleConfigs.ConfigA config = new();
-
-    //   ConfigEntry entry1 = new ConfigEntry(new ConfiglikeObject(config), "IntProp");
-    //   ConfigEntry entry2 = new ConfigEntry(new ConfiglikeObject(config.NestedConfigB), "IntProp");
-    //   ConfigEntry entry3 = new ConfigEntry(new ConfiglikeObject(config.NestedConfigB.NestedConfigC), "IntProp");
-    //   ConfigEntry entry4 = new ConfigEntry(new ConfiglikeObject(config.NestedConfigB), "NestedNullConfigC");
-    //   ConfigEntry entry5 = new ConfigEntry(new ConfiglikeObject(config), "NestedConfigB").Locator.GetEntry("FloatProp");
-
-    //   Tests.Add(new UTest(entry1.Value, 2, "Direct prop"));
-    //   Tests.Add(new UTest(entry2.Value, 4, "Nested prop"));
-    //   Tests.Add(new UTest(entry3.Value, 6, "Deeply nested prop"));
-    //   Tests.Add(new UTest(entry4.Value, null, "nested object prop"));
-    //   Tests.Add(new UTest(entry5.Value, 5.0f, "entry made from another entry"));
-    //   entry1.Value = 3;
-    //   entry2.Value = 5;
-    //   entry3.Value = 7;
-    //   entry4.Value = new ExampleConfigs.ConfigC();
-    //   entry5.Value = 6.0f;
-    //   Tests.Add(new UTest(entry1.Value, 3));
-    //   Tests.Add(new UTest(entry2.Value, 5));
-    //   Tests.Add(new UTest(entry3.Value, 7));
-    //   Tests.Add(new UTest(entry4.Value is not null, true));
-    //   Tests.Add(new UTest(entry5.Value, 6.0f));
-
-    //   Tests.Add(new UTest(config.IntProp, 3));
-    //   Tests.Add(new UTest(config.NestedConfigB.IntProp, 5));
-    //   Tests.Add(new UTest(config.NestedConfigB.NestedConfigC.IntProp, 7));
-    //   Tests.Add(new UTest(config.NestedConfigB.NestedNullConfigC is not null, true));
-    //   Tests.Add(new UTest(config.NestedConfigB.FloatProp, 6.0f));
-    // }
-
-
+      return new List<UTest>()
+      {
+        new UTest(
+          new ConfigEntry(new ConfiglikeObject(config.NestedConfigB), "IntProp"),
+          new ConfigEntry(new ConfiglikeObject(config.NestedConfigB), "IntProp")
+        ),
+        new UTest(
+          new ConfigEntry(new ConfiglikeObject(config), "NestedConfigB").GetEntry("IntProp"),
+          new ConfigEntry(new ConfiglikeObject(config.NestedConfigB), "IntProp")
+        ),
+        new UTest(
+          new ConfiglikeObject(config).GetEntry("NestedConfigB.IntProp"),
+          new ConfigEntry(new ConfiglikeObject(config.NestedConfigB), "IntProp")
+        ),
+      };
+    }
 
   }
 }
