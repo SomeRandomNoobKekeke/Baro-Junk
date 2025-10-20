@@ -57,17 +57,16 @@ namespace BaroJunk
       }
     }
 
-    //TODO test
     public IConfiglike CreateDefaultForType(Type T)
     {
-      if (!T.IsAssignableTo(SubConfigType)) return null;
+      if (T is null || !T.IsAssignableTo(SubConfigType)) return new ConfiglikeObject(null);
       try
       {
         return new ConfiglikeObject(Activator.CreateInstance(T));
       }
       catch (Exception e)
       {
-        return null;
+        return new ConfiglikeObject(null);
       }
     }
 

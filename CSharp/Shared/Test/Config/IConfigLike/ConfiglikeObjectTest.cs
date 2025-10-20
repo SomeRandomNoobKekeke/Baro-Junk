@@ -182,5 +182,27 @@ namespace BaroJunk
         }
       );
     }
+
+    public List<UTest> CreateDefaultForTypeTest()
+    {
+      ExampleConfigs.ConfigA config = new();
+      IConfiglike configlike = new ConfiglikeObject(config);
+
+      return new List<UTest>()
+      {
+        new UTest(
+          configlike.CreateDefaultForType(typeof(ExampleConfigs.ConfigB)).Target.GetType(),
+          typeof(ExampleConfigs.ConfigB)
+        ),
+        new UTest(
+          configlike.CreateDefaultForType(typeof(Object))?.Target,
+          null
+        ),
+        new UTest(
+          configlike.CreateDefaultForType(null)?.Target,
+          null
+        ),
+      };
+    }
   }
 }

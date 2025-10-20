@@ -44,7 +44,7 @@ namespace BaroJunk
       {
         if (entry.IsConfig)
         {
-          entry.Value ??= entry.Host.CreateDefaultForType(entry.Type);
+          entry.Value ??= entry.Host.CreateDefaultForType(entry.Type).Target;
         }
       }
     }
