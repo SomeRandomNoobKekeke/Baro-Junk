@@ -19,8 +19,6 @@ namespace BaroJunk
       ExampleConfigs.ConfigA config = new();
       // config.Settings().PrintAsXML = true;
 
-      Mod.Logger.Log(config.ToText());
-
       return new List<UTest>()
       {
         new UTest(config.ToText(),"bebebe"),
