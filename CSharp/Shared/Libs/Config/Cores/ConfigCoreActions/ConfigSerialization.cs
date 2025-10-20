@@ -48,13 +48,11 @@ namespace BaroJunk
       {
         foreach (ConfigEntry entry in config.GetAllEntries())
         {
-          Mod.Logger.LogVars(entry, entry.IsConfig);
           if (entry.IsConfig)
           {
-
             IConfiglike subConfig = config.ToConfig(entry.Value);
             if (!subConfig.IsValid) continue;
-            sb.Append($"{offset}{entry.Key}:\n");
+            sb.Append($"{offset}       |{entry.Key}:\n");
             ToTextRec($"{offset}       |", subConfig);
             sb.Append($"{offset}        \n");
           }
@@ -64,12 +62,13 @@ namespace BaroJunk
         {
           if (!entry.IsConfig)
           {
-            sb.Append($"{offset}{entry.Key}: {Logger.WrapInColor(entry.Value, "white")}\n");
+            sb.Append($"{offset}{entry.Key}: {Logger.WrapInColor(Logger.Serializer.Serialize(entry.Value), "white")}\n");
           }
         }
       }
 
-      ToTextRec("", Host);
+      sb.Append($"|{this.Host.Name}:\n");
+      ToTextRec("|", Host);
       sb.Remove(sb.Length - 1, 1);
       return sb.ToString();
     }
@@ -79,7 +78,7 @@ namespace BaroJunk
     {
       XElement ToXMLRec(XElement element, IConfiglike config)
       {
-        foreach (ConfigEntry entry in config.GetEntries())
+        foreach (ConfigEntry entry in config.GetAllEntries())
         {
           if (entry.IsConfig)
           {
@@ -92,7 +91,7 @@ namespace BaroJunk
           }
         }
 
-        foreach (ConfigEntry entry in config.GetEntries())
+        foreach (ConfigEntry entry in config.GetAllEntries())
         {
           if (!entry.IsConfig)
           {
@@ -112,7 +111,8 @@ namespace BaroJunk
       {
         foreach (XElement child in xml.Elements())
         {
-          ConfigEntry entry = this.GetEntry(child.Name.ToString());
+          ConfigEntry entry = config.GetEntry(child.Name.ToString());
+
           if (!entry.IsValid) continue;
 
           if (entry.IsConfig)
@@ -131,6 +131,7 @@ namespace BaroJunk
           {
             SimpleResult result = XMLParser.Parse(child, entry.Type);
             entry.Value = result.Result;
+
             if (!result.Ok) Logger.Warning(result.Details);
           }
         }

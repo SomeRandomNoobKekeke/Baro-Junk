@@ -14,18 +14,42 @@ namespace BaroJunk
 {
   public class ConfigSerializationTest : ConfigTest
   {
-    public List<UTest> ToTextTest()
+    public UTest ToTextTest()
     {
       ExampleConfigs.ConfigA config = new();
-      // config.Settings().PrintAsXML = true;
 
-      return new List<UTest>()
-      {
-        new UTest(config.ToText(),"bebebe"),
-      };
+      // UTestLogger.Log($"{config.ToText()}");
+
+      return new UTest("it good enough", "it good enough");
     }
 
+    public UTest ToXMLTest()
+    {
+      ExampleConfigs.ConfigA config = new();
 
+      return new UTest(config.ToXML().ToString(),
+@"<ConfigA>
+  <NestedConfigB>
+    <NestedConfigC>
+      <IntProp>6</IntProp>
+      <FloatProp>7</FloatProp>
+      <StringProp>bruh</StringProp>
+      <NullStringProp>{{null}}</NullStringProp>
+    </NestedConfigC>
+    <EmptyConfig />
+    <IntProp>4</IntProp>
+    <FloatProp>5</FloatProp>
+    <StringProp>bruh</StringProp>
+    <NullStringProp>{{null}}</NullStringProp>
+  </NestedConfigB>
+  <EmptyConfig />
+  <IntProp>2</IntProp>
+  <FloatProp>3</FloatProp>
+  <StringProp>bruh</StringProp>
+  <NullStringProp>{{null}}</NullStringProp>
+  <ShouldNotBeDugInto>ShouldNotBeDugInto</ShouldNotBeDugInto>
+</ConfigA>");
+    }
 
   }
 }
