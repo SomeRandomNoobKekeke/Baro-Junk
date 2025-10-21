@@ -54,6 +54,7 @@ namespace BaroJunk
 
     public SimpleResult Sync()
     {
+      BreakTheLoop.After(20);
       if (!Facades.NetFacade.IsMultiplayer) return SimpleResult.Failure("It's not multiplayer");
 
       if (Facades.NetFacade.IsClient)
