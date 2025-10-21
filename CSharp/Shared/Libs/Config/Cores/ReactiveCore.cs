@@ -33,7 +33,11 @@ namespace BaroJunk
       PropChanged?.Invoke(key, value);
       Core.Manager.ReactivePropChanged();
     }
-    public void RaiseUpdated() => Updated?.Invoke();
+    public void RaiseUpdated()
+    {
+      Updated?.Invoke();
+      Core.Manager.ConfigUpdated();
+    }
 
     public ReactiveCore(ConfigCore core)
     {

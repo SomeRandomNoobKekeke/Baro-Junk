@@ -34,6 +34,12 @@ namespace BaroJunk
       Config.Sync();
     }
 
+    public void ConfigUpdated()
+    {
+      if (!Enabled) return;
+      Config.Sync();
+    }
+
     public void UseStrategy(NetManagerStrategy strategy)
     {
       Enabled = strategy.NetSync;

@@ -42,6 +42,18 @@ namespace BaroJunk
       }
     }
 
+    public void ConfigUpdated()
+    {
+      if (Config.Facades.NetFacade.IsClient)
+      {
+        ClientNetManager.ConfigUpdated();
+      }
+      else
+      {
+        ServerNetManager.ConfigUpdated();
+      }
+    }
+
     public ConfigAutoSaver AutoSaver;
     public ConfigClientNetManager ClientNetManager;
     public ConfigServerNetManager ServerNetManager;
