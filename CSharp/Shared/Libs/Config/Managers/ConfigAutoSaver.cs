@@ -72,7 +72,7 @@ namespace BaroJunk
 
       if (ShouldLoad && LoadOnInit)
       {
-        Config.LoadSave(Config.Settings.SavePath);
+        Config.Load(Config.Settings.SavePath);
       }
 
 

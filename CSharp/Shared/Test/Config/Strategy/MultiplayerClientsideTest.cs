@@ -18,10 +18,11 @@ namespace BaroJunk
         Prepare();
 
         client1NetFacade.ConnectTo(serverNetFacade);
+        client2NetFacade.ConnectTo(serverNetFacade);
+
+
         serverConfig.UseStrategy(ConfigStrategy.MultiplayerClientside);
         client1Config.UseStrategy(ConfigStrategy.MultiplayerClientside);
-
-        client2NetFacade.ConnectTo(serverNetFacade);
         client2Config.UseStrategy(ConfigStrategy.MultiplayerClientside);
 
         client1Config.GetEntry("NestedConfigB.IntProp").Value = 123;

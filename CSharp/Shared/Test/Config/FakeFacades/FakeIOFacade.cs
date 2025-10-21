@@ -38,13 +38,13 @@ namespace BaroJunk
     }
     public bool FileExists(string path)
     {
-      SomethingHappened?.Invoke($"checked file at {path}");
+      // SomethingHappened?.Invoke($"checked file at {path}");  // not important
       return Storage.ContainsKey(path);
     }
 
     public void EnsureDirectory(string path)
     {
-      SomethingHappened?.Invoke($"dir ensured {path}");
+      // SomethingHappened?.Invoke($"dir ensured {path}"); // not important
       Storage[path] = "dir";
     }
   }

@@ -47,9 +47,9 @@ namespace BaroJunk
       client2Config.Self().Facades.NetFacade = client2NetFacade;
       serverConfig.Self().Facades.NetFacade = serverNetFacade;
 
-      client1Config.Self().Facades.IOFacade = serverIOFacade;
-      client2Config.Self().Facades.IOFacade = client1IOFacade;
-      serverConfig.Self().Facades.IOFacade = client2IOFacade;
+      client1Config.Self().Facades.IOFacade = client1IOFacade;
+      client2Config.Self().Facades.IOFacade = client2IOFacade;
+      serverConfig.Self().Facades.IOFacade = serverIOFacade;
 
       client1Config.Self().Facades.HooksFacade = HooksFacade;
       client2Config.Self().Facades.HooksFacade = HooksFacade;
