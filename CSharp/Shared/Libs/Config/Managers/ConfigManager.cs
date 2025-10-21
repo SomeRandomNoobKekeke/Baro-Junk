@@ -11,7 +11,7 @@ using System.Text;
 
 namespace BaroJunk
 {
-  public class ConfigManager
+  public partial class ConfigManager
   {
     public ConfigCore Config;
 
@@ -26,31 +26,6 @@ namespace BaroJunk
       else
       {
         ServerNetManager.UseStrategy(strategy.NetManagerStrategy);
-      }
-    }
-
-
-    public void ReactivePropChanged()
-    {
-      if (Config.Facades.NetFacade.IsClient)
-      {
-        ClientNetManager.ReactivePropChanged();
-      }
-      else
-      {
-        ServerNetManager.ReactivePropChanged();
-      }
-    }
-
-    public void ConfigUpdated()
-    {
-      if (Config.Facades.NetFacade.IsClient)
-      {
-        ClientNetManager.ConfigUpdated();
-      }
-      else
-      {
-        ServerNetManager.ConfigUpdated();
       }
     }
 

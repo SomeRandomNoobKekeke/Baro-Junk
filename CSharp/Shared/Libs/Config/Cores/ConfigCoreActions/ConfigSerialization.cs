@@ -138,6 +138,7 @@ namespace BaroJunk
       }
 
       fromXMLRec(element, Host);
+      Manager.ConfigLoaded();
     }
 
     public Func<string[][]> ToHints()

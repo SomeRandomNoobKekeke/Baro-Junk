@@ -37,7 +37,7 @@ namespace BaroJunk
         else Logger.Warning(result.Details);
       }
 
-      ReactiveCore.RaiseUpdated();
+      Manager.RecievedConfigSync();
     }
 
 
@@ -55,6 +55,7 @@ namespace BaroJunk
     public SimpleResult Sync()
     {
       BreakTheLoop.After(20);
+      Mod.Logger.LogVars(Facades.NetFacade);
       if (!Facades.NetFacade.IsMultiplayer) return SimpleResult.Failure("It's not multiplayer");
 
       if (Facades.NetFacade.IsClient)

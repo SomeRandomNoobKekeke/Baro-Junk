@@ -52,9 +52,6 @@ namespace BaroJunk
       {
         XDocument xdoc = Facades.IOFacade.LoadXDoc(path);
         this.FromXML(xdoc.Root);
-
-        Sync();
-        ReactiveCore.RaiseUpdated();
       }
       catch (Exception e)
       {

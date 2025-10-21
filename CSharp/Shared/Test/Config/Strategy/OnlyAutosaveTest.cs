@@ -39,7 +39,12 @@ namespace BaroJunk
 
         Tests.Add(new UListTest(WhatHappened, new List<string>()
         {
-
+          @"client1 xdoc loaded from ModSettings\Configs\BaroJunk_ConfigA.xml",
+          @"client1Config prop [NestedConfigB.IntProp] changed to [123]",
+          @"client1 xdoc saved to ModSettings\Configs\BaroJunk_ConfigA.xml",
+          @"client2 xdoc saved to ModSettings\Configs\BaroJunk_ConfigA.xml",
+          @"client1 xdoc saved to ModSettings\Configs\BaroJunk_ConfigA.xml",
+          @"client2 xdoc saved to ModSettings\Configs\BaroJunk_ConfigA.xml"
         }));
       }
     }

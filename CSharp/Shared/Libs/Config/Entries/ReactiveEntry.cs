@@ -33,12 +33,14 @@ namespace BaroJunk
       {
         Entry.Value = value;
         ReactiveCore.RaisePropChanged(Path, value);
+        ReactiveCore.Core.Manager.ReactivePropChanged();
       }
     }
     public bool SetValue(object value)
     {
       bool result = Entry.SetValue(value);
       ReactiveCore.RaisePropChanged(Path, value);
+      ReactiveCore.Core.Manager.ReactivePropChanged();
       return result;
     }
 

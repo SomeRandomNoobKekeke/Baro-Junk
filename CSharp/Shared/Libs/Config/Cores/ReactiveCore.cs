@@ -28,16 +28,8 @@ namespace BaroJunk
     public Action<string, object> OnPropChanged { set { PropChanged += value; } }
     public Action OnUpdated { set { Updated += value; } }
 
-    public void RaisePropChanged(string key, object value)
-    {
-      PropChanged?.Invoke(key, value);
-      Core.Manager.ReactivePropChanged();
-    }
-    public void RaiseUpdated()
-    {
-      Updated?.Invoke();
-      Core.Manager.ConfigUpdated();
-    }
+    public void RaisePropChanged(string key, object value) => PropChanged?.Invoke(key, value);
+    public void RaiseUpdated() => Updated?.Invoke();
 
     public ReactiveCore(ConfigCore core)
     {
