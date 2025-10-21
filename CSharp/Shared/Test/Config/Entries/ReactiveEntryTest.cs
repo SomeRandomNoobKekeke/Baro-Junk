@@ -15,7 +15,7 @@ namespace BaroJunk
     public override void CreateTests()
     {
       ExampleConfigs.ConfigA config = new();
-      ReactiveCore core = new ReactiveCore(new ConfiglikeObject(config));
+      ReactiveCore core = new ReactiveCore(config.GetCore());
 
       string lastKey = null;
       object lastValue = null;

@@ -18,7 +18,8 @@ namespace BaroJunk
   /// </summary>
   public class ReactiveCore
   {
-    public IConfiglike Host { get; }
+    public ConfigCore Core { get; }
+    public IConfiglike Host => Core.Host;
     public ReactiveEntryLocator Locator { get; }
 
     public event Action<string, object> PropChanged;
@@ -27,13 +28,17 @@ namespace BaroJunk
     public Action<string, object> OnPropChanged { set { PropChanged += value; } }
     public Action OnUpdated { set { Updated += value; } }
 
-    public void RaisePropChanged(string key, object value) => PropChanged?.Invoke(key, value);
+    public void RaisePropChanged(string key, object value)
+    {
+      PropChanged?.Invoke(key, value);
+      Core.Manager.ReactivePropChanged();
+    }
     public void RaiseUpdated() => Updated?.Invoke();
 
-    public ReactiveCore(IConfiglike host)
+    public ReactiveCore(ConfigCore core)
     {
-      Host = host;
-      Locator = new ReactiveEntryLocator(this, new IConfigLikeLocatorAdapter(host), null);
+      Core = core;
+      Locator = new ReactiveEntryLocator(this, new IConfigLikeLocatorAdapter(Host), null);
     }
 
     public override string ToString() => $"ReactiveCore [{GetHashCode()}]";

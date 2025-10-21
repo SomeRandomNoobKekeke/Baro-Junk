@@ -30,6 +30,18 @@ namespace BaroJunk
     }
 
 
+    public void ReactivePropChanged()
+    {
+      if (Config.Facades.NetFacade.IsClient)
+      {
+        ClientNetManager.ReactivePropChanged();
+      }
+      else
+      {
+        ServerNetManager.ReactivePropChanged();
+      }
+    }
+
     public ConfigAutoSaver AutoSaver;
     public ConfigClientNetManager ClientNetManager;
     public ConfigServerNetManager ServerNetManager;

@@ -22,6 +22,8 @@ namespace BaroJunk
       set => Config.Manager.CommandsManager.CommandName = value;
     }
 
+
+    public bool SyncOnPropChanged { get; set; } = true;
     public string SavePath { get; set; } = null;
     public bool PrintAsXML { get; set; } = false;
   }

@@ -109,8 +109,7 @@ namespace BaroJunk
           if (result.Ok)
           {
             entry.Value = result.Result;
-            //WTF it shouldn't be here
-            if (GameMain.IsMultiplayer) Config.Sync();
+            if (Config.Facades.NetFacade.IsMultiplayer) Config.Sync();
           }
           else
           {

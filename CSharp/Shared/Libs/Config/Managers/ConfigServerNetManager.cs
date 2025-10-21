@@ -28,6 +28,12 @@ namespace BaroJunk
       }
     }
 
+    public void ReactivePropChanged()
+    {
+      if (!Enabled || !Config.Settings.SyncOnPropChanged) return;
+      Config.Sync();
+    }
+
     public void UseStrategy(NetManagerStrategy strategy)
     {
       Enabled = strategy.NetSync;

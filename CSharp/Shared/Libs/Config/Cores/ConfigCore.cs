@@ -36,7 +36,7 @@ namespace BaroJunk
       Host = host;
 
       Locator = new DirectEntryLocator(this);
-      ReactiveCore = new ReactiveCore(Host);
+      ReactiveCore = new ReactiveCore(this);
       ReactiveLocator = ReactiveCore.Locator;
 
       Parser = new SimpleParser();
