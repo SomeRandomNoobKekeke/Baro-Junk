@@ -22,26 +22,32 @@ namespace BaroJunk
     public FakeIOFacade client1IOFacade;
     public FakeIOFacade client2IOFacade;
 
-    public FakeHooksFacade HooksFacade;
+    public FakeHooksFacade serverHooksFacade;
+    public FakeHooksFacade client1HooksFacade;
+    public FakeHooksFacade client2HooksFacade;
 
     public List<string> WhatHappened = new();
 
     public void Prepare()
     {
+      WhatHappened = new();
+
       client1Config = new ExampleConfigs.ConfigA();
       client2Config = new ExampleConfigs.ConfigA();
       serverConfig = new ExampleConfigs.ConfigA();
-      WhatHappened = new();
 
-      serverNetFacade = new FakeServerNetFacade() { Name = "server" };
       client1NetFacade = new FakeClientNetFacade() { Name = "client1" };
       client2NetFacade = new FakeClientNetFacade() { Name = "client2" };
+      serverNetFacade = new FakeServerNetFacade() { Name = "server" };
 
-      serverIOFacade = new FakeIOFacade();
+
       client1IOFacade = new FakeIOFacade();
       client2IOFacade = new FakeIOFacade();
+      serverIOFacade = new FakeIOFacade();
 
-      HooksFacade = new FakeHooksFacade();
+      client1HooksFacade = new FakeHooksFacade();
+      client2HooksFacade = new FakeHooksFacade();
+      serverHooksFacade = new FakeHooksFacade();
 
       client1Config.Self().Facades.NetFacade = client1NetFacade;
       client2Config.Self().Facades.NetFacade = client2NetFacade;
@@ -51,9 +57,9 @@ namespace BaroJunk
       client2Config.Self().Facades.IOFacade = client2IOFacade;
       serverConfig.Self().Facades.IOFacade = serverIOFacade;
 
-      client1Config.Self().Facades.HooksFacade = HooksFacade;
-      client2Config.Self().Facades.HooksFacade = HooksFacade;
-      serverConfig.Self().Facades.HooksFacade = HooksFacade;
+      client1Config.Self().Facades.HooksFacade = client1HooksFacade;
+      client2Config.Self().Facades.HooksFacade = client2HooksFacade;
+      serverConfig.Self().Facades.HooksFacade = serverHooksFacade;
 
 
       client1NetFacade.MessageSent += (header, msg) => WhatHappened.Add($"client1 sent {header} msg to server");

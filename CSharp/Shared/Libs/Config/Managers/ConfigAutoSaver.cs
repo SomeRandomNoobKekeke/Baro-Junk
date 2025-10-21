@@ -82,7 +82,7 @@ namespace BaroJunk
         return null;
       });
 
-      Config.Facades.HooksFacade.AddHook("roundEnd", $"save {Config.ID} config on round end", (object[] args) =>
+      Config.Facades.HooksFacade.AddHook("roundend", $"save {Config.ID} config on round end", (object[] args) =>
       {
         if (ShouldSave && SaveEveryRound) Config?.Save(Config.Settings.SavePath);
         return null;
@@ -92,7 +92,7 @@ namespace BaroJunk
     private void Deactivate()
     {
       Config.Facades.HooksFacade.AddHook("stop", $"save {Config.ID} config on quit", (object[] args) => null);
-      Config.Facades.HooksFacade.AddHook("roundEnd", $"save {Config.ID} config on round end", (object[] args) => null);
+      Config.Facades.HooksFacade.AddHook("roundend", $"save {Config.ID} config on round end", (object[] args) => null);
     }
 
 

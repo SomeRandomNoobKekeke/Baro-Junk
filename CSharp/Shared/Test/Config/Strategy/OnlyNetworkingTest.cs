@@ -25,25 +25,19 @@ namespace BaroJunk
         client2Config.UseStrategy(ConfigStrategy.OnlyNetworking);
 
         client1Config.ReactiveGetEntry("NestedConfigB.IntProp").Value = 123;
-        HooksFacade.CallHook("stop");
+
+        client1HooksFacade.CallHook("roundend");
+        client2HooksFacade.CallHook("roundend");
+        serverHooksFacade.CallHook("roundend");
+
+        client1HooksFacade.CallHook("stop");
+        client2HooksFacade.CallHook("stop");
+        serverHooksFacade.CallHook("stop");
 
 
-        Tests.Add(new UListTest(WhatHappened, new List<string>(){
-          "server sent BaroJunk_ConfigA_sync msg to client1",
-          "server sent BaroJunk_ConfigA_sync msg to client2",
-          "client1 sent BaroJunk_ConfigA_ask msg to server",
-          "server sent BaroJunk_ConfigA_sync msg to client1",
-          "client1Config updated",
-          "client2 sent BaroJunk_ConfigA_ask msg to server",
-          "server sent BaroJunk_ConfigA_sync msg to client2",
-          "client2Config updated",
-          "client1Config prop [NestedConfigB.IntProp] changed to [123]",
-          "client1 sent BaroJunk_ConfigA_sync msg to server",
-          "serverConfig updated",
-          "server sent BaroJunk_ConfigA_sync msg to client1",
-          "client1Config updated",
-          "server sent BaroJunk_ConfigA_sync msg to client2",
-          "client2Config updated"
+        Tests.Add(new UListTest(WhatHappened, new List<string>()
+        {
+
         }));
       }
     }

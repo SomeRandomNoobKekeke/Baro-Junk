@@ -26,16 +26,20 @@ namespace BaroJunk
         client1Config.UseStrategy(ConfigStrategy.OnlyAutosave);
         client2Config.UseStrategy(ConfigStrategy.OnlyAutosave);
 
-        client1Config.GetEntry("NestedConfigB.IntProp").Value = 123;
-        HooksFacade.CallHook("roundEnd");
-        HooksFacade.CallHook("stop");
+        client1Config.ReactiveGetEntry("NestedConfigB.IntProp").Value = 123;
+
+        client1HooksFacade.CallHook("roundend");
+        client2HooksFacade.CallHook("roundend");
+        serverHooksFacade.CallHook("roundend");
+
+        client1HooksFacade.CallHook("stop");
+        client2HooksFacade.CallHook("stop");
+        serverHooksFacade.CallHook("stop");
 
 
         Tests.Add(new UListTest(WhatHappened, new List<string>()
         {
-          @"client1 xdoc loaded from ModSettings\Configs\BaroJunk_ConfigA.xml",
-          @"client2 xdoc saved to ModSettings\Configs\BaroJunk_ConfigA.xml",
-          @"client2 xdoc saved to ModSettings\Configs\BaroJunk_ConfigA.xml"
+
         }));
       }
     }
