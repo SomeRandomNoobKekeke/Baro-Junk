@@ -48,8 +48,8 @@ namespace BaroJunk
       if (Facades.NetFacade.IsClient)
       {
         Facades.NetFacade.ClientSend(NetHeader + "_ask");
-        return SimpleResult.Success();
       }
+      return SimpleResult.Success();
     }
 
     public SimpleResult Sync()

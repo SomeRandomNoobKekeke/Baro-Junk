@@ -21,6 +21,9 @@ namespace BaroJunk
     public bool IsMultiplayer => true;
     public bool IsClient => true;
 
+    public HashSet<string> AlreadyListeningFor { get; } = new HashSet<string>();
+    public string DontHavePermissionsString => "You need to be the host or have ConsoleCommands permission to use it";
+
     public FakeServerNetFacade Server;
     public Dictionary<string, Action<IReadMessage>> RecieveCallbacks = new();
 
@@ -62,6 +65,7 @@ namespace BaroJunk
 
     public void ListenForServer(string header, Action<IReadMessage> callback)
     {
+      AlreadyListeningFor.Add(header);
       RecieveCallbacks[header] = callback;
     }
 
