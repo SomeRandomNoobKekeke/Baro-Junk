@@ -12,7 +12,7 @@ using System.Text;
 namespace BaroJunk_Config
 {
 
-  public partial class Logger
+  public partial class ConfigLogger
   {
     /// <summary>
     /// Some custom serialization methods,

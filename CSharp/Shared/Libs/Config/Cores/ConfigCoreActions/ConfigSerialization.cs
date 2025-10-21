@@ -62,7 +62,7 @@ namespace BaroJunk_Config
         {
           if (!entry.IsConfig)
           {
-            sb.Append($"{offset}{entry.Key}: {Logger.WrapInColor(Logger.Serializer.Serialize(entry.Value), "white")}\n");
+            sb.Append($"{offset}{entry.Key}: {ConfigLogger.WrapInColor(Logger.Serializer.Serialize(entry.Value), "white")}\n");
           }
         }
       }
