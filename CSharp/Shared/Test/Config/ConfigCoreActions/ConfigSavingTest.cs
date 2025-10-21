@@ -7,6 +7,8 @@ using System.Linq;
 
 using Barotrauma;
 
+using BaroJunk_Config;
+
 namespace BaroJunk
 {
   public class ConfigSavingTest : ConfigTest
@@ -31,7 +33,7 @@ namespace BaroJunk
       loaded.Self().Facades.IOFacade = IOFacade;
       loaded.Clear();
 
-      SimpleResult result = loaded.Load($"ModSettings\\Configs\\{config.Self().ID}.xml");
+      var result = loaded.Load($"ModSettings\\Configs\\{config.Self().ID}.xml");
       Tests.Add(new UTest(config.EqualsTo(loaded), true, "loaded config equals to original"));
 
       if (!Tests.Last().Passed)

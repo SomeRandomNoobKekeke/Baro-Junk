@@ -3,7 +3,7 @@ using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BaroJunk
+namespace BaroJunk_Config
 {
   /// <summary>
   /// This class is supposed to wrap raw object in appropriate configlike

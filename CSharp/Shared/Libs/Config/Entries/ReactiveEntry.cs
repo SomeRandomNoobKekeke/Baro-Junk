@@ -11,7 +11,7 @@ using System.Text;
 
 using Barotrauma;
 
-namespace BaroJunk
+namespace BaroJunk_Config
 {
   /// <summary>
   /// ReactiveEntry is a reactive proxy for ConfigEntry

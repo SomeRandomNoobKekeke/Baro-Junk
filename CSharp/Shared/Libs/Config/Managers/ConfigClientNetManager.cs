@@ -10,7 +10,7 @@ using System.IO;
 using System.Text;
 using Barotrauma.Networking;
 
-namespace BaroJunk
+namespace BaroJunk_Config
 {
   public class ConfigClientNetManager
   {

@@ -9,6 +9,8 @@ using System.Xml.Linq;
 using System.IO;
 using System.Text;
 
+using BaroJunk_Config;
+
 namespace BaroJunk
 {
   public class FakeFacades : IConfigFacades

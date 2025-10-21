@@ -10,7 +10,7 @@ using System.IO;
 using System.Text;
 using Microsoft.Xna.Framework;
 
-namespace BaroJunk
+namespace BaroJunk_Config
 {
   public partial class ConfigCore
   {

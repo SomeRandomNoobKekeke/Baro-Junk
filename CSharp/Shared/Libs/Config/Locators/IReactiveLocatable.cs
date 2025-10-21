@@ -11,7 +11,7 @@ using System.Text;
 
 using Barotrauma;
 
-namespace BaroJunk
+namespace BaroJunk_Config
 {
   /// <summary>
   /// This object is exposing ReactiveEntryLocator and is mapping location calls to it

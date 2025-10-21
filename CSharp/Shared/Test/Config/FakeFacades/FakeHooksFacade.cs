@@ -10,6 +10,8 @@ using System.IO;
 using System.Xml;
 using System.Xml.Linq;
 
+using BaroJunk_Config;
+
 namespace BaroJunk
 {
   public class FakeHooksFacade : IHooksFacade

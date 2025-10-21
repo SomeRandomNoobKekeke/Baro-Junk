@@ -10,6 +10,8 @@ using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Barotrauma.Networking;
 
+using BaroJunk_Config;
+
 namespace BaroJunk
 {
 

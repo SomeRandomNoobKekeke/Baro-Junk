@@ -11,7 +11,7 @@ using System.Text;
 
 using Barotrauma;
 
-namespace BaroJunk
+namespace BaroJunk_Config
 {
   public class ReactiveEntryLocator
   {

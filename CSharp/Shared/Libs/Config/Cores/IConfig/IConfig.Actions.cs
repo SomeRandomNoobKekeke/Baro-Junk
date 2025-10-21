@@ -7,7 +7,7 @@ using System.Xml;
 using System.Xml.Linq;
 using Barotrauma.Networking;
 
-namespace BaroJunk
+namespace BaroJunk_Config
 {
   public partial interface IConfig
   {

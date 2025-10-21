@@ -11,6 +11,8 @@ using System.IO;
 using Barotrauma;
 
 
+using BaroJunk_Config;
+
 namespace BaroJunk
 {
   public partial class ExampleConfigs

@@ -11,7 +11,7 @@ using System.Text;
 
 using Barotrauma;
 
-namespace BaroJunk
+namespace BaroJunk_Config
 {
   /// <summary>
   /// It's just an object where you can listen for reactive events
