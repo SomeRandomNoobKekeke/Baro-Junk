@@ -40,36 +40,35 @@ namespace BaroJunk
       ReactiveCore.RaiseUpdated();
     }
 
-#if CLIENT
+
     public SimpleResult Ask()
     {
       if (!Facades.NetFacade.IsMultiplayer) return SimpleResult.Failure("It's not multiplayer");
-      Facades.NetFacade.ClientSend(NetHeader + "_ask");
-      return SimpleResult.Success();
+
+      if (Facades.NetFacade.IsClient)
+      {
+        Facades.NetFacade.ClientSend(NetHeader + "_ask");
+        return SimpleResult.Success();
+      }
     }
 
     public SimpleResult Sync()
     {
       if (!Facades.NetFacade.IsMultiplayer) return SimpleResult.Failure("It's not multiplayer");
 
-      //WHY ConsoleCommands permission is hardcoded here?
-      if (!Facades.NetFacade.DoIHavePermissions()) return SimpleResult.Failure(
-        "You need to be the host or have ConsoleCommands permission to use it"
-      );
+      if (Facades.NetFacade.IsClient)
+      {
+        if (!Facades.NetFacade.DoIHavePermissions()) return SimpleResult.Failure(Facades.NetFacade.DontHavePermissionsString);
 
-      Facades.NetFacade.ClientEncondeAndSend(NetHeader + "_sync", this);
+        Facades.NetFacade.ClientEncondeAndSend(NetHeader + "_sync", this);
+      }
+      else
+      {
+        if (!Facades.NetFacade.IsMultiplayer) return SimpleResult.Failure("It's not multiplayer");
+        Facades.NetFacade.ServerEncondeAndBroadcast(NetHeader + "_sync", this);
+      }
       return SimpleResult.Success();
     }
-
-#elif SERVER
-
-    public SimpleResult Sync()
-    {
-      if (!Facades.NetFacade.IsMultiplayer) return SimpleResult.Failure("It's not multiplayer");
-      Facades.NetFacade.ServerEncondeAndBroadcast(NetHeader + "_sync", this);
-      return SimpleResult.Success();
-    }
-#endif
   }
 
 }
