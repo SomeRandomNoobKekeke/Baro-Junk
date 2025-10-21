@@ -22,6 +22,16 @@ namespace BaroJunk
       set => Config.Manager.CommandsManager.CommandName = value;
     }
 
+    public ConfigStrategy Strategy
+    {
+      get => strategy;
+      set
+      {
+        strategy = value;
+        Config.Manager.UseStrategy(value);
+      }
+    }
+    private ConfigStrategy strategy;
 
     public bool SyncOnPropChanged { get; set; } = true;
     public string SavePath { get; set; } = null;
