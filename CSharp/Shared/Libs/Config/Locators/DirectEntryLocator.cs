@@ -66,6 +66,19 @@ namespace BaroJunk
       }
     }
 
+    public IEnumerable<ConfigEntry> GetSubConfigs()
+    {
+      Dictionary<string, object> props = Host.AsDict;
+
+      foreach (var (key, value) in props)
+      {
+        if (Host.IsPropASubConfig(key))
+        {
+          yield return new ConfigEntry(Host, key);
+        }
+      }
+    }
+
     public IEnumerable<ConfigEntry> GetEntriesRec()
     {
       if (Host is null) yield break;

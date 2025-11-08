@@ -17,6 +17,15 @@ namespace BaroJunk
     public string Name => Target.GetType().Name;
     public DirectEntryLocator Locator { get; }
 
+    public ConfigCore Core
+    {
+      get
+      {
+        if (Target is not IConfig config) return null;
+        return config.Core;
+      }
+    }
+
     public bool HasProp(string key)
       => String.IsNullOrEmpty(key) ? false
       : Target?.GetType()?.GetProperty(key, pls) is not null;

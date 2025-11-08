@@ -21,6 +21,10 @@ namespace BaroJunk
     public IEnumerable<string> Keys { get; }
     public Dictionary<string, object> AsDict { get; }
 
+
+    // Not every Configlike is actually a full config with a core
+    public ConfigCore Core { get; }
+
     public bool IsSubConfig(object o);
     public bool IsSubConfig(Type T);
     public IConfiglike ToConfig(object o);

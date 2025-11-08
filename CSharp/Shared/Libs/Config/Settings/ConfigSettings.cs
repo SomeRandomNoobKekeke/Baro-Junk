@@ -22,6 +22,15 @@ namespace BaroJunk
       set => Config.Manager.CommandsManager.CommandName = value;
     }
 
+    /// <summary>
+    /// Deep reactivity wasn't planned and is very unoptimized, so it's optional and defaults to false
+    /// </summary>
+    public bool DeeplyReactive
+    {
+      get => Config.ReactiveCore.DeeplyReactive;
+      set => Config.ReactiveCore.DeeplyReactive = value;
+    }
+
     public ConfigStrategy Strategy
     {
       get => strategy;
