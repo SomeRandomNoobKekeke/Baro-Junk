@@ -10,7 +10,7 @@ using System.IO;
 using System.Text;
 using Microsoft.Xna.Framework;
 
-namespace BaroJunk_Config
+namespace BaroJunk
 {
   public partial class ConfigCore
   {
@@ -62,7 +62,7 @@ namespace BaroJunk_Config
         {
           if (!entry.IsConfig)
           {
-            sb.Append($"{offset}{entry.Key}: {ConfigLogger.WrapInColor(Logger.Serializer.Serialize(entry.Value), "white")}\n");
+            sb.Append($"{offset}{entry.Key}: {Logger.WrapInColor(Logger.Serializer.Serialize(entry.Value), "white")}\n");
           }
         }
       }

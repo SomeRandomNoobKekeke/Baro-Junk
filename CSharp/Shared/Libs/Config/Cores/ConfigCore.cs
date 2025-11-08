@@ -3,7 +3,7 @@ using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BaroJunk_Config
+namespace BaroJunk
 {
   public partial class ConfigCore : IConfigLikeContainer, IDirectlyLocatable, IReactiveLocatable
   {
@@ -19,7 +19,7 @@ namespace BaroJunk_Config
     public SimpleParser Parser { get; set; }
     public NetParser NetParser { get; set; }
     public XMLParser XMLParser { get; set; }
-    public ConfigLogger Logger { get; set; }
+    public Logger Logger { get; set; }
 
     public IConfigFacades Facades { get; set; }
     public ConfigSettings Settings { get; }
@@ -43,7 +43,7 @@ namespace BaroJunk_Config
       Parser = new SimpleParser();
       NetParser = new NetParser(Parser);
       XMLParser = new XMLParser(Parser);
-      Logger = new ConfigLogger();
+      Logger = new Logger();
 
       Facades = new ConfigFacades();
       Manager = new ConfigManager(this);

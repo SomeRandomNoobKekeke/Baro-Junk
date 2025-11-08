@@ -7,9 +7,6 @@ using System.Linq;
 
 using Barotrauma;
 
-
-using BaroJunk_Config;
-
 namespace BaroJunk
 {
   public class ReactiveEntryTest : ConfigTest

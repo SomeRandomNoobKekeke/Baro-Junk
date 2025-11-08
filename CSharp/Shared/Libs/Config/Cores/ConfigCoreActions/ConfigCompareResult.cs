@@ -9,7 +9,7 @@ using System.Xml.Linq;
 using System.IO;
 using System.Text;
 
-namespace BaroJunk_Config
+namespace BaroJunk
 {
   public class ConfigCompareResult
   {
@@ -48,7 +48,7 @@ namespace BaroJunk_Config
     {
       StringBuilder sb = new StringBuilder();
 
-      sb.Append($"----------------- [ Compare result: {ConfigLogger.WrapInColor((Equals ? "Match" : "Don't match"), Equals ? "lime" : "orange")}] -----------------\n");
+      sb.Append($"----------------- [ Compare result: {Logger.WrapInColor((Equals ? "Match" : "Don't match"), Equals ? "lime" : "orange")}] -----------------\n");
       if (OnlyInA.Count > 0)
       {
         sb.Append($"------------------------ [ Only in A ] ------------------------\n");
@@ -71,7 +71,7 @@ namespace BaroJunk_Config
 
         foreach (string key in Different.Keys)
         {
-          sb.Append($"{key} [ {ConfigLogger.WrapInColor(SimpleParser.Default.Serialize(Different[key].Item1).Result, "white")} / {ConfigLogger.WrapInColor(SimpleParser.Default.Serialize(Different[key].Item2).Result, "white")} ]\n");
+          sb.Append($"{key} [ {Logger.WrapInColor(SimpleParser.Default.Serialize(Different[key].Item1).Result, "white")} / {Logger.WrapInColor(SimpleParser.Default.Serialize(Different[key].Item2).Result, "white")} ]\n");
         }
       }
 

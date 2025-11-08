@@ -10,7 +10,7 @@ using System.IO;
 using System.Text;
 using Microsoft.Xna.Framework;
 
-using BaroJunk_Config;
+
 
 namespace BaroJunk
 {

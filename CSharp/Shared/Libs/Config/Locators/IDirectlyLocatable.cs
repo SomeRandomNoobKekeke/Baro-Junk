@@ -11,7 +11,7 @@ using System.Text;
 
 using Barotrauma;
 
-namespace BaroJunk_Config
+namespace BaroJunk
 {
   /// <summary>
   /// This object is exposing DirectEntryLocator and is mapping location calls to it
