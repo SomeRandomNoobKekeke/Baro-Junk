@@ -31,20 +31,23 @@ namespace BaroJunk
     public Action<string, object> OnPropChanged { set { PropChanged += value; } }
     public Action OnUpdated { set { Updated += value; } }
 
-    public void RaisePropChanged(string key, object value)
+    //TODO test garbage input, i'm sure it's very fragile
+    public void RaisePropChanged(string propPath, object value)
     {
-      PropChanged?.Invoke(key, value);
+      PropChanged?.Invoke(propPath, value);
 
       if (DeeplyReactive)
       {
-        string[] names = key.Split('.');
-        if (names.Length < 2) return;
+        IConfiglike next = Core.Host;
 
-        ConfigEntry entry = Core.GetEntry(names[0]);
-
-        if (entry.IsConfig)
+        while (propPath.IndexOf('.') != -1)
         {
-          entry.Host.Core?.ReactiveCore.RaisePropChanged(string.Join('.', names.Skip(1)), value);
+          string configPath = propPath.Substring(0, propPath.IndexOf('.')).Trim();
+          if (configPath == "") break;
+
+          next = next.Core.Host.GetPropAsConfig(configPath);
+          propPath = propPath.Substring(propPath.IndexOf('.') + 1);
+          next.Core?.ReactiveCore.RaisePropChanged(propPath, value);
         }
       }
     }
@@ -54,9 +57,12 @@ namespace BaroJunk
 
       if (DeeplyReactive)
       {
-        foreach (ConfigEntry entry in Core.GetSubConfigs())
+        foreach (ConfigEntry entry in Core.GetAllEntriesRec())
         {
-          entry.Host.Core?.ReactiveCore.RaiseUpdated();
+          if (entry.IsConfig)
+          {
+            entry.Host.GetPropAsConfig(entry.Key).Core?.ReactiveCore.RaiseUpdated();
+          }
         }
       }
     }
