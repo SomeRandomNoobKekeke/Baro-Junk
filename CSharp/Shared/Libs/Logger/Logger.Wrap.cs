@@ -8,15 +8,18 @@ using Barotrauma;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using System.Text;
+using System.Runtime.CompilerServices;
 
+#if JSON_AVAILABLE
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Unicode;
-using System.Runtime.CompilerServices;
+#endif
+
+
 
 namespace BaroJunk
 {
-
   public partial class Logger
   {
     /// <summary>
@@ -101,6 +104,7 @@ namespace BaroJunk
         return sb.ToString();
       }
 
+#if JSON_AVAILABLE
       public static string AsJson(object target)
       {
         return JsonSerializer.Serialize(target, new JsonSerializerOptions
@@ -109,7 +113,7 @@ namespace BaroJunk
           Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
         });
       }
-
+#endif
       /// <summary>
       /// Just direct props of an object
       /// </summary>

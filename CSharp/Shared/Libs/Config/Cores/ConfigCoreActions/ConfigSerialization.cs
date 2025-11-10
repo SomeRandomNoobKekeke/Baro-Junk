@@ -9,10 +9,12 @@ using System.Xml.Linq;
 using System.IO;
 using System.Text;
 using Microsoft.Xna.Framework;
+
+#if JSON_AVAILABLE
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Unicode;
-
+#endif
 namespace BaroJunk
 {
   public partial class ConfigCore
@@ -65,7 +67,7 @@ namespace BaroJunk
       return result;
     }
 
-    //FIXME this probably wont work because of json
+
     public string ToText()
     {
       if (Settings.PrintAsXML)
@@ -75,11 +77,16 @@ namespace BaroJunk
         return Beautify(xdoc);
       }
 
+
+#if JSON_AVAILABLE
       return JsonSerializer.Serialize(ToDictOfHighlightedStrings(), new JsonSerializerOptions
       {
         WriteIndented = true,
         Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
       });
+#endif
+
+      return "";
     }
 
     public Dictionary<string, object> ToDict()
