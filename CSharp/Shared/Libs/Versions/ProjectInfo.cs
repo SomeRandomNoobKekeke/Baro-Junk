@@ -13,6 +13,15 @@ namespace BaroJunk
   /// </summary>
   public static class ProjectInfo
   {
+    static ProjectInfo() => ProjectInfo.Add(new PackageInfo()
+    {
+      Name = "ProjectInfo",
+      Version = new Version(0, 0, 0)
+      {
+        Branch = "BaroJunk"
+      }
+    });
+
     public static Dictionary<string, PackageInfo> UsedLibs = new();
 
     public static void Add(PackageInfo info) => UsedLibs.Add(info.Name, info);
@@ -55,6 +64,11 @@ namespace BaroJunk
         Logger.Default.Log($"Incompatible: {(Logger.Wrap.IEnumerable(Incompatible.Select(pair => $"[{pair.Item1}] -- requires -> [{pair.Item2}]"), newline: true))}");
         Logger.Default.Warning("-----------------------------------------------------");
       }
+    }
+
+    public static void PrintSummary()
+    {
+      Mod.Logger.Log(Summary());
     }
 
     public static string Summary()

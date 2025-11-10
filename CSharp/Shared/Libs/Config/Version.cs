@@ -11,9 +11,18 @@ namespace BaroJunk
     {
       Name = "Config",
       Version = new Version(0, 0, 0) { Branch = "BaroJunk", },
+
       Dependencies = new List<PackageInfo>(){
         new PackageInfo(){
           Name = "Logger",
+          Version = new Version(0, 0, 0){ Branch = "BaroJunk", },
+        },
+        new PackageInfo(){
+          Name = "SimpleParser",
+          Version = new Version(0, 0, 0){ Branch = "BaroJunk", },
+        },
+        new PackageInfo(){
+          Name = "SimpleResult",
           Version = new Version(0, 0, 0){ Branch = "BaroJunk", },
         }
       }
