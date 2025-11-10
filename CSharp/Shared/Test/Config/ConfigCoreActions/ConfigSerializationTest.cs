@@ -20,7 +20,7 @@ namespace BaroJunk
     {
       ExampleConfigs.ConfigA config = new();
 
-      // UTestLogger.Log($"{config.ToText()}");
+      //UTestLogger.Log($"{config.ToText()}");
 
       return new UTest("it good enough", "it good enough");
     }

@@ -9,12 +9,6 @@ using System.Xml.Linq;
 using System.IO;
 using System.Text;
 using Microsoft.Xna.Framework;
-
-#if JSON_AVAILABLE
-using System.Text.Encodings.Web;
-using System.Text.Json;
-using System.Text.Unicode;
-#endif
 namespace BaroJunk
 {
   public partial class ConfigCore
@@ -37,35 +31,6 @@ namespace BaroJunk
       return sb.ToString();
     }
 
-    private Dictionary<string, object> ToDictOfHighlightedStrings()
-    {
-      Dictionary<string, object> result = new Dictionary<string, object>();
-
-      void ToDictRec(Dictionary<string, object> dict, IConfiglike config)
-      {
-        foreach (ConfigEntry entry in config.GetAllEntries())
-        {
-          if (entry.IsConfig)
-          {
-            IConfiglike subConfig = config.ToConfig(entry.Value);
-            if (!subConfig.IsValid) continue;
-            dict[entry.Key] = new Dictionary<string, object>();
-            ToDictRec(dict[entry.Key] as Dictionary<string, object>, subConfig);
-          }
-        }
-
-        foreach (ConfigEntry entry in config.GetEntries())
-        {
-          if (!entry.IsConfig)
-          {
-            dict[entry.Key] = Logger.WrapInColor(entry.Value.ToString(), "white");
-          }
-        }
-      }
-
-      ToDictRec(result, Host);
-      return result;
-    }
 
 
     public string ToText()
@@ -77,16 +42,41 @@ namespace BaroJunk
         return Beautify(xdoc);
       }
 
+      StringBuilder sb = new();
 
-#if JSON_AVAILABLE
-      return JsonSerializer.Serialize(ToDictOfHighlightedStrings(), new JsonSerializerOptions
+      sb.AppendLine($"{Host.Name} : {{");
+
+
+      void ToTextRec(IConfiglike config, string offset)
       {
-        WriteIndented = true,
-        Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
-      });
-#endif
+        foreach (ConfigEntry entry in config.GetAllEntries())
+        {
+          if (entry.IsConfig)
+          {
+            IConfiglike subConfig = config.ToConfig(entry.Value);
+            if (!subConfig.IsValid) continue;
 
-      return "";
+            sb.AppendLine($"{offset}{entry.Key}: {{");
+            ToTextRec(subConfig, offset + "    ");
+            sb.AppendLine($"{offset}}}");
+          }
+        }
+
+        foreach (ConfigEntry entry in config.GetEntries())
+        {
+
+          if (!entry.IsConfig)
+          {
+            sb.AppendLine($"{offset}{entry.Key}: {Logger.WrapInColor(Parser.Serialize(entry.Value).Result, "white")}");
+          }
+        }
+      }
+
+      ToTextRec(this.Host, "    ");
+
+      sb.AppendLine($"}}");
+
+      return sb.ToString();
     }
 
     public Dictionary<string, object> ToDict()
