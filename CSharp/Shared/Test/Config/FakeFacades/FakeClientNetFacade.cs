@@ -20,11 +20,12 @@ namespace BaroJunk
     public string Name { get; set; } = "FakeClientNetFacade";
     public override string ToString() => Name;
     public bool HasPermissions = true;
+    //WHY is it hardcoded true? How would you ensure that net settings doesn't mess singleplayer? whatever
     public bool IsMultiplayer => true;
     public bool IsClient => true;
 
     public HashSet<string> AlreadyListeningFor { get; } = new HashSet<string>();
-    public string DontHavePermissionsString => "You need to be the host or have ConsoleCommands permission to use it";
+    public string DontHavePermissionsString => "You need to be the host or have ConsoleCommands permission to do that";
 
     public FakeServerNetFacade Server;
     public Dictionary<string, Action<IReadMessage>> RecieveCallbacks = new();

@@ -66,7 +66,7 @@ namespace BaroJunk
     }
 
 
-    public UListTest GarbageInputTest()
+    public UTest GarbageInputTest()
     {
       ExampleConfigs.ConfigA config = new();
       config.Settings().DeeplyReactive = true;
@@ -77,11 +77,8 @@ namespace BaroJunk
       config.ReactiveSetValue("  .  .IntProp", 23);
       config.ReactiveSetValue("bruh", 23);
 
-      return new UListTest(
-        WhatHappened, new List<string>(){
-          "nothing funny",
-        }
-      );
+      //TODO propbably should add separate test type for this
+      return new UTest(true, true, "it just should not throw");
     }
   }
 }

@@ -72,8 +72,6 @@ namespace BaroJunk
       );
     }
 
-    //FIXME this shouldn't let you desync your config if you don't have permissions
-    // do i even have test for that?
     public void EditConfig_VanillaCommand(string[] args)
     {
       if (args.Length == 0)
@@ -99,6 +97,12 @@ namespace BaroJunk
 
       if (args.Length > 1)
       {
+        if (Config.Facades.NetFacade.IsMultiplayer && !Config.Facades.NetFacade.DoIHavePermissions())
+        {
+          Config.Logger.Warning(Config.Facades.NetFacade.DontHavePermissionsString);
+          return;
+        }
+
         if (!entry.IsValid)
         {
           Config.Logger.Warning("No such prop");

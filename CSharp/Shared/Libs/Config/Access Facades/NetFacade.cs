@@ -36,7 +36,7 @@ namespace BaroJunk
     public bool IsMultiplayer => GameMain.IsMultiplayer;
 
     public HashSet<string> AlreadyListeningFor { get; } = new HashSet<string>();
-    public string DontHavePermissionsString => "You need to be the host or have ConsoleCommands permission to use it";
+    public string DontHavePermissionsString => "You need to be the host or have ConsoleCommands permission to do that";
 
 #if CLIENT
     public bool IsClient =>true;
