@@ -29,6 +29,8 @@ namespace BaroJunk
       {
         Logger.Log($"{ModInfo.AssemblyName} compiled");
       }
+
+      ProjectInfo.CheckIncompatibleLibs();
     }
 
 
