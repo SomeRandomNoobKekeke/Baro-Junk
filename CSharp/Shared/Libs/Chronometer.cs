@@ -10,6 +10,7 @@ namespace BaroJunk
   {
     /// <summary>
     /// Measures execution time in TotalMilliseconds
+    /// Don't know if it's useful, didn't use it once
     /// </summary>
     public static double Measure(Action action, int times = 100)
     {

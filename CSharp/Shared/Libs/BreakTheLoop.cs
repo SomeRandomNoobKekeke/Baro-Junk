@@ -10,6 +10,10 @@ using System.IO;
 namespace BaroJunk
 {
 
+  /// <summary>
+  /// Call BreakTheLoop.After(10) to break potential while(true) loop anywhere
+  /// Primarily for debug
+  /// </summary>
   public static class BreakTheLoop
   {
     public static Dictionary<string, int> Loops = new Dictionary<string, int>();

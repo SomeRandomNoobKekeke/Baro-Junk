@@ -10,6 +10,10 @@ using System.Runtime.CompilerServices;
 
 namespace BaroJunk
 {
+  /// <summary>
+  /// Even if you set RelayToServer on all your commands client will still relay them if they are defined on server
+  /// If you want to fully isolate them store them here
+  /// </summary>
   public class IsolatedCommands
   {
     public Dictionary<string, Action<string[]>> Commands { get; set; } = new();

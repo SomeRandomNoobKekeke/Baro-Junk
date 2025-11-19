@@ -10,7 +10,6 @@ using System.Runtime.CompilerServices;
 
 namespace BaroJunk
 {
-  // BRUH this is massive code duplication, think how to integrate it better
   /// <summary>
   /// This class allows you to request command execution on server via GameMain.LuaCs.Networking
   /// you can also try GameMain.Client.SendConsoleCommand(); 

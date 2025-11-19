@@ -1,4 +1,4 @@
-#if CLIENT
+#if !SERVER
 using System;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -12,8 +12,10 @@ using Microsoft.Xna.Framework;
 namespace BaroJunk
 {
   /// <summary>
-  /// Global data repository, works only on client
+  /// Global data repository
   /// Treat it as Dictionary<string, object>  
+  /// Data is accessible to all mods and persist between reloads
+  /// Works only on client
   /// In fact data is stored in GUI.Canvas.GUIComponent.Userdata
   /// </summary>
   public static class ModStorage
@@ -26,6 +28,26 @@ namespace BaroJunk
         Branch = "BaroJunk"
       }
     });
+
+    public static TValue Get<TValue>(string key) => (TValue)Get(key);
+
+    public static object Get(string key)
+    {
+      Dictionary<string, object> repo = GetOrCreateRepo();
+      return repo.GetValueOrDefault(key);
+    }
+
+    public static void Set(string key, object value)
+    {
+      Dictionary<string, object> repo = GetOrCreateRepo();
+      repo[key] = value;
+    }
+
+    public static bool Has(string key)
+    {
+      Dictionary<string, object> repo = GetOrCreateRepo();
+      return repo.ContainsKey(key);
+    }
 
 
     private static Dictionary<string, object> GetOrCreateRepo()
@@ -41,23 +63,6 @@ namespace BaroJunk
       }
 
       return (Dictionary<string, object>)GUI.Canvas.GUIComponent.UserData;
-    }
-
-    public static TValue Get<TValue>(string key) => (TValue)Get(key);
-    public static object Get(string key)
-    {
-      Dictionary<string, object> repo = GetOrCreateRepo();
-      return repo.GetValueOrDefault(key);
-    }
-    public static void Set(string key, object value)
-    {
-      Dictionary<string, object> repo = GetOrCreateRepo();
-      repo[key] = value;
-    }
-    public static bool Has(string key)
-    {
-      Dictionary<string, object> repo = GetOrCreateRepo();
-      return repo.ContainsKey(key);
     }
   }
 }

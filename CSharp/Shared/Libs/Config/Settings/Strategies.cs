@@ -56,6 +56,9 @@ namespace BaroJunk
       }
     };
 
+    /// <summary>
+    /// In multiplayer server loads config from file and syncs it with clients
+    /// </summary>
     public static ConfigStrategy MultiplayerBothSides = new ConfigStrategy()
     {
       Name = "MultiplayerBothSides",
@@ -87,68 +90,9 @@ namespace BaroJunk
       }
     };
 
-    public static ConfigStrategy OnlyAutosave = new ConfigStrategy()
-    {
-      Name = "OnlyAutosave",
-      AutoSaverStrategy = new AutoSaverStrategy()
-      {
-        OnClient = new SaveLoadingStrategy()
-        {
-          ShouldLoad = true,
-          ShouldSave = true,
-        },
-        OnServer = new SaveLoadingStrategy()
-        {
-          ShouldLoad = false,
-          ShouldSave = false,
-        },
-        InSingleplayer = new SaveLoadingStrategy()
-        {
-          ShouldLoad = true,
-          ShouldSave = true,
-        },
-        AutoSave = true,
-        LoadOnInit = true,
-        SaveOnQuit = true,
-        SaveEveryRound = true,
-      },
-      NetManagerStrategy = new NetManagerStrategy()
-      {
-        NetSync = false,
-      }
-    };
-
-    public static ConfigStrategy OnlyNetworking = new ConfigStrategy()
-    {
-      Name = "OnlyNetworking",
-      AutoSaverStrategy = new AutoSaverStrategy()
-      {
-        OnClient = new SaveLoadingStrategy()
-        {
-          ShouldLoad = false,
-          ShouldSave = false,
-        },
-        OnServer = new SaveLoadingStrategy()
-        {
-          ShouldLoad = false,
-          ShouldSave = false,
-        },
-        InSingleplayer = new SaveLoadingStrategy()
-        {
-          ShouldLoad = false,
-          ShouldSave = false,
-        },
-        AutoSave = false,
-        LoadOnInit = false,
-        SaveOnQuit = false,
-        SaveEveryRound = false,
-      },
-      NetManagerStrategy = new NetManagerStrategy()
-      {
-        NetSync = true,
-      }
-    };
-
+    /// <summary>
+    /// Yes
+    /// </summary>
     public static ConfigStrategy OnlySingleplayer = new ConfigStrategy()
     {
       Name = "OnlySingleplayer",
@@ -180,6 +124,78 @@ namespace BaroJunk
       }
     };
 
+    /// <summary>
+    /// Just for test
+    /// </summary>
+    public static ConfigStrategy OnlyAutosave = new ConfigStrategy()
+    {
+      Name = "OnlyAutosave",
+      AutoSaverStrategy = new AutoSaverStrategy()
+      {
+        OnClient = new SaveLoadingStrategy()
+        {
+          ShouldLoad = true,
+          ShouldSave = true,
+        },
+        OnServer = new SaveLoadingStrategy()
+        {
+          ShouldLoad = false,
+          ShouldSave = false,
+        },
+        InSingleplayer = new SaveLoadingStrategy()
+        {
+          ShouldLoad = true,
+          ShouldSave = true,
+        },
+        AutoSave = true,
+        LoadOnInit = true,
+        SaveOnQuit = true,
+        SaveEveryRound = true,
+      },
+      NetManagerStrategy = new NetManagerStrategy()
+      {
+        NetSync = false,
+      }
+    };
+
+    /// <summary>
+    /// Just for test
+    /// </summary>
+    public static ConfigStrategy OnlyNetworking = new ConfigStrategy()
+    {
+      Name = "OnlyNetworking",
+      AutoSaverStrategy = new AutoSaverStrategy()
+      {
+        OnClient = new SaveLoadingStrategy()
+        {
+          ShouldLoad = false,
+          ShouldSave = false,
+        },
+        OnServer = new SaveLoadingStrategy()
+        {
+          ShouldLoad = false,
+          ShouldSave = false,
+        },
+        InSingleplayer = new SaveLoadingStrategy()
+        {
+          ShouldLoad = false,
+          ShouldSave = false,
+        },
+        AutoSave = false,
+        LoadOnInit = false,
+        SaveOnQuit = false,
+        SaveEveryRound = false,
+      },
+      NetManagerStrategy = new NetManagerStrategy()
+      {
+        NetSync = true,
+      }
+    };
+
+
+    /// <summary>
+    /// Just for test
+    /// </summary>
     public static ConfigStrategy OnlyLoading = new ConfigStrategy()
     {
       Name = "OnlyLoading",

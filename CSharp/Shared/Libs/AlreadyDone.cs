@@ -12,7 +12,8 @@ using System.Runtime.CompilerServices;
 namespace BaroJunk
 {
   /// <summary>
-  /// Class to track stuff that should be done once, without creating 1000 bool flags
+  /// Call if(AlreadyDone.Once()) to check if it's already have been done
+  /// Primarily for one time debug
   /// </summary>
   public static class AlreadyDone
   {

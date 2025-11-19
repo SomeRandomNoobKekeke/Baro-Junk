@@ -12,6 +12,11 @@ using System.Runtime.CompilerServices;
 namespace BaroJunk
 {
 
+  /// <summary>
+  /// Static class with some info about package
+  /// Generally a wrapper around this magnificence
+  /// public bool TryGetPackageForPlugin<T>(out ContentPackage package) where T : IAssemblyPlugin
+  /// </summary>
   public static class ModInfo
   {
     public static string AssemblyName => Assembly.GetExecutingAssembly().GetName().Name;

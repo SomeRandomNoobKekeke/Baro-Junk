@@ -7,6 +7,11 @@ using System.Text;
 
 namespace BaroJunk
 {
+  /// <summary>
+  /// Builds a tree from root type
+  /// It was supposed to be used in UTest but turned out to be not good enough
+  /// It was replaced with UTestTree, i don't remember why
+  /// </summary>
   public class TypeTree
   {
     public Type RootType;

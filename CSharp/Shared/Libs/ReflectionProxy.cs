@@ -12,8 +12,11 @@ using Microsoft.Xna.Framework;
 namespace BaroJunk
 {
   /// <summary>
-  /// Wrapper around an object that adds Get Set methods
-  /// Accepts strings and parses them automatically
+  /// Wrapper around object that adds:
+  /// object Get(string prop)
+  /// void Set(string prop, string raw)
+  /// bool Has(string prop)
+  /// They work on reflection and string value in Set is parsed using SimpleParser
   /// Made for console commands
   /// </summary>
   public class ReflectionProxy

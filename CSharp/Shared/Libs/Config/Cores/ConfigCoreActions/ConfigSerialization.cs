@@ -13,7 +13,8 @@ namespace BaroJunk
 {
   public partial class ConfigCore
   {
-    public static string Beautify(XDocument doc)
+    //BRUH why is it still here?
+    private static string Beautify(XDocument doc)
     {
       StringBuilder sb = new StringBuilder();
       XmlWriterSettings settings = new XmlWriterSettings
