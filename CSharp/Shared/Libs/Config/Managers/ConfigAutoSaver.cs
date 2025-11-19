@@ -45,7 +45,8 @@ namespace BaroJunk
     public bool ShouldLoad { get; set; }
 
     //TODO test
-    public bool ShouldSaveAfterUpdate { get; set; } = true;
+    //It seems to be working but i'm to lazy to test it
+    public bool ShouldSaveAfterUpdate { get; set; } = false;
     public void TrySaveAfterUpdate()
     {
       if (!Enabled || !ShouldSaveAfterUpdate || !ShouldSave) return;
