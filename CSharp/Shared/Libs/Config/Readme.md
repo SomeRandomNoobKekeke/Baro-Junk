@@ -6,10 +6,10 @@ Currently only works with objects, but can potentially work with dictionaries an
 - it adds functions for config serialization, saving and networking
 - config managers that save and network config automatically
 - console command to inspect and edit config
-- Methods for travering config, getting and setting deep values
+- Methods for traversing config, getting and setting deep values
 - Deep reactivity system to track config changes
 
-Any object inherited from IConfig instantly has all that functionality
+Any object that inmplements IConfig instantly has all that functionality
 
 #### useless details:
 ```
