@@ -2,7 +2,7 @@ Another new half assed library for unit testing
 
 Key class is UTest, it's just a wrapper around expected and real value
 
-UTestPack is a collection of UTest
+UTestPack is a collection of UTest  
 UTestRunner is a class for running UTestPacks
 
 ## How to use it
