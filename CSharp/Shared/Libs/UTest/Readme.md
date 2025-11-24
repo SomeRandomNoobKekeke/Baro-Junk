@@ -14,7 +14,7 @@ Create class derived from UTestPack, add UTest generating methods, Either:
 
 Or add methods with specific signatures:
 - public UTest Method() should return one UTest
-- public List<UTest> Method() if you want to return multiple UTests
+- public List< UTest > Method() if you want to return multiple UTests
 - public void CreateBlaBlaBla() Should add tests to UTestPack.Tests manually without overriding CreateTests
 
 You can derive one UTestPack from another, when you run test pack it also runs all derived packs
