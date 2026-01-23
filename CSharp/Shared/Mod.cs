@@ -19,9 +19,11 @@ namespace BaroJunk
 
     public void Initialize()
     {
-      UTestCommands.AddCommands();
+      // UTestLogger.CollapseTestPackIfSucceed = false;
 
+      UTestCommands.AddCommands();
       UTestExplorer.ScanCategory("internal");
+
       // UTestRunner.RunRecursive<RealNetParserTest>();
 
       Experiment();
