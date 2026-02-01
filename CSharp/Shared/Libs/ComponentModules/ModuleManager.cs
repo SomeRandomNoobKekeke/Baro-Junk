@@ -14,25 +14,26 @@ namespace BaroJunk
 {
   public class ModuleManager
   {
-    public IEnumerable<IModule> Modules(IModuleContainer container)
-    {
-      IEnumerable<IModule> getSubModules(IModuleContainer container)
-      {
-        PropExplorer.For<IModuleContainer>(container, (nested) =>
-        {
-          foreach (IModule subModule in getSubModules(nested))
-          {
-            yield return subModule;
-          }
-        });
+    public static BindingFlags Pls { get; } = BindingFlags.Public | BindingFlags.Instance;
 
+    public List<IModule> Modules(IModuleContainer container)
+    {
+      void getSubModules(IModuleContainer container)
+      {
         PropExplorer.For<IModule>(container, (module) =>
         {
-          yield return module;
+          modules.Add(module);
+        });
+
+        PropExplorer.For<IModuleContainer>(container, (nested) =>
+        {
+          getSubModules(nested);
         });
       }
 
-      return getSubModules(container);
+      List<IModule> modules = new();
+      getSubModules(container);
+      return modules;
     }
   }
 

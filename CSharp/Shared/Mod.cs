@@ -19,7 +19,7 @@ namespace BaroJunk
 
     public void Initialize()
     {
-      // UTestLogger.CollapseTestPackIfSucceed = false;
+      UTestLogger.CollapseTestPackIfSucceed = false;
 
       UTestCommands.AddCommands();
       UTestExplorer.ScanCategory("internal");
