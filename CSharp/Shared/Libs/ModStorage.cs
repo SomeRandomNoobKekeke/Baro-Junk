@@ -20,15 +20,6 @@ namespace BaroJunk
   /// </summary>
   public static class ModStorage
   {
-    static ModStorage() => ProjectInfo.Add(new PackageInfo()
-    {
-      Name = "ModStorage",
-      Version = new Version(0, 0, 0)
-      {
-        Branch = "BaroJunk"
-      }
-    });
-
     public static TValue Get<TValue>(string key) => (TValue)Get(key);
 
     public static object Get(string key)
