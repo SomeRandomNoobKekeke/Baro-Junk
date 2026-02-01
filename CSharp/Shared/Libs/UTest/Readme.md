@@ -2,7 +2,7 @@ Another new half assed library for unit testing
 
 Key class is UTest, it's just a wrapper around expected and real value
 
-UTestPack is a collection of UTest
+UTestPack is a collection of UTest  
 UTestRunner is a class for running UTestPacks
 
 ## How to use it
@@ -14,7 +14,7 @@ Create class derived from UTestPack, add UTest generating methods, Either:
 
 Or add methods with specific signatures:
 - public UTest Method() should return one UTest
-- public List<UTest> Method() if you want to return multiple UTests
+- public List< UTest > Method() if you want to return multiple UTests
 - public void CreateBlaBlaBla() Should add tests to UTestPack.Tests manually without overriding CreateTests
 
 You can derive one UTestPack from another, when you run test pack it also runs all derived packs
