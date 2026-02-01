@@ -18,21 +18,18 @@ namespace BaroJunk
     {
       IEnumerable<IModule> getSubModules(IModuleContainer container)
       {
-        foreach (PropertyInfo pi in container.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance))
+        PropExplorer.For<IModuleContainer>(container, (nested) =>
         {
-          if (pi.PropertyType.IsAssignableTo(typeof(IModuleContainer)))
+          foreach (IModule subModule in getSubModules(nested))
           {
-            foreach (IModule subModule in getSubModules((IModuleContainer)pi.GetValue(container)))
-            {
-              yield return subModule;
-            }
+            yield return subModule;
           }
+        });
 
-          if (pi.PropertyType.IsAssignableTo(typeof(IModule)))
-          {
-            yield return (IModule)pi.GetValue(container);
-          }
-        }
+        PropExplorer.For<IModule>(container, (module) =>
+        {
+          yield return module;
+        });
       }
 
       return getSubModules(container);
