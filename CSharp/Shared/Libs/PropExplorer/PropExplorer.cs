@@ -14,13 +14,26 @@ namespace BaroJunk
 {
   public class PropExplorer
   {
+    public static BindingFlags Pls { get; } = BindingFlags.Public | BindingFlags.Instance;
+
     public static void For<T>(object target, Action<T> action)
     {
-      foreach (PropertyInfo pi in target.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance))
+      foreach (PropertyInfo pi in target.GetType().GetProperties(Pls))
       {
         if (pi.PropertyType.IsAssignableTo(typeof(T)))
         {
           action((T)pi.GetValue(target));
+        }
+      }
+    }
+
+    public static void ForProps<T>(object target, Action<PropertyInfo> action)
+    {
+      foreach (PropertyInfo pi in target.GetType().GetProperties(Pls))
+      {
+        if (pi.PropertyType.IsAssignableTo(typeof(T)))
+        {
+          action(pi);
         }
       }
     }
