@@ -12,8 +12,14 @@ using System.Text;
 
 namespace BaroJunk
 {
-  public interface IModule { }
-  public interface IModuleContainer { }
-  public interface IComponent : IModuleContainer { }
+  public class ModuleLinker
+  {
+
+
+    public ModuleLinker()
+    {
+
+    }
+  }
 
 }

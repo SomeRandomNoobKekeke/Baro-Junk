@@ -38,14 +38,6 @@ namespace BaroJunk
       return host;
     }
 
-
-
-    private void AnalyzeModule()
-    {
-
-    }
-
-
     public ModuleInfo(List<PropertyInfo> path, PropertyInfo property, string category)
     {
       Path = path;

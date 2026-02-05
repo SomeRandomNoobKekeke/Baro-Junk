@@ -12,5 +12,5 @@ using System.Text;
 
 namespace BaroJunk
 {
-  public record ModuleDependency(string Category, string Name, PropertyInfo Property);
+  public record ModuleDependencyInfo(string Category, string Name, PropertyInfo Property);
 }

@@ -12,19 +12,19 @@ using System.Text;
 
 namespace BaroJunk
 {
-  public class ComponentAnalysis
+  public class ComponentStaticAnalysis
   {
     public static bool UseCache = true;
 
-    public static Dictionary<Type, ComponentAnalysis> Cache = new();
-    public static ComponentAnalysis For<T>() => For(typeof(T));
-    public static ComponentAnalysis For(Type T)
+    public static Dictionary<Type, ComponentStaticAnalysis> Cache = new();
+    public static ComponentStaticAnalysis For<T>() => For(typeof(T));
+    public static ComponentStaticAnalysis For(Type T)
     {
-      if (!UseCache) return new ComponentAnalysis(T);
+      if (!UseCache) return new ComponentStaticAnalysis(T);
 
       if (!Cache.ContainsKey(T))
       {
-        Cache[T] = new ComponentAnalysis(T);
+        Cache[T] = new ComponentStaticAnalysis(T);
       }
 
       return Cache[T];
