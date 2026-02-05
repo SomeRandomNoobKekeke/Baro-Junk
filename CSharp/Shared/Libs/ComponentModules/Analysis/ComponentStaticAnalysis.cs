@@ -77,7 +77,7 @@ namespace BaroJunk
       return Modules[category][name].GetValue(host);
     }
 
-    public ComponentAnalysis(Type T)
+    public ComponentStaticAnalysis(Type T)
     {
       if (!T.IsAssignableTo(typeof(IComponent))) throw new ArgumentException("Its not a component");
 

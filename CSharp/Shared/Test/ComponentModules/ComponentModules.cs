@@ -30,32 +30,25 @@ namespace BaroJunk
 
     public class Component : IComponent
     {
-      [ModuleCategory("Prop")]
       public class NestedWrapper : IModuleContainer
       {
-        [ModuleCategory("1231")]
-        public ModuleB moduleB { get; set; }
 
+        public ModuleB moduleB { get; set; }
         public ModuleC moduleC { get; set; }
       }
 
       public NestedWrapper Modules { get; } = new();
 
-      [ModuleCategory("Prop")]
       public ModuleA moduleA { get; set; }
-
-      [ModuleCategory("1231")]
-      public ModuleC moduleC { get; set; }
-
     }
 
     public override void CreateTests()
     {
-      ComponentAnalysis analysis = ComponentAnalysis.For<Component>();
+      ComponentStaticAnalysis analysis = ComponentStaticAnalysis.For<Component>();
 
       Component component = new();
       Tests.Add(new UTest(
-        analysis.GetModule<ModuleB>(component, "moduleB", "1231"),
+        analysis.GetModule<ModuleB>(component, "moduleB"),
         component.Modules.moduleB
       ));
     }

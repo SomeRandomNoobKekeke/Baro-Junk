@@ -18,7 +18,7 @@ namespace BaroJunk
     public List<PropertyInfo> FullPath { get; }
     public PropertyInfo Property { get; }
     public string Category { get; }
-    public ModuleTypeAnalysis TypeAnalysis { get; }
+    public ModuleStaticAnalysis TypeAnalysis { get; }
 
     public Type Type => Property.PropertyType;
     public string Name => Property.Name;
@@ -44,7 +44,7 @@ namespace BaroJunk
       Property = property;
       FullPath = Path.Append(Property).ToList();
       Category = category ?? ModuleCategoryAttribute.None;
-      TypeAnalysis = ModuleTypeAnalysis.For(Type);
+      TypeAnalysis = ModuleStaticAnalysis.For(Type);
     }
 
     public override string ToString() => $"{Type.Name} {StringPath}";
