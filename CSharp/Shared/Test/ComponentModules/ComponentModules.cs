@@ -13,58 +13,51 @@ namespace BaroJunk
 
   public class ComponentModulesTest : UTestPack
   {
-
-    public class A : IModule
+    public class ModuleA : IModule
     {
 
     }
 
-    public class B : IModule
+    public class ModuleB : IModule
     {
 
     }
 
-    public class C : IModule
+    public class ModuleC : IModule
     {
 
     }
-
-
 
     public class Component : IComponent
     {
-      public class PropWrapper : IModuleContainer
+      [ModuleCategory("Prop")]
+      public class NestedWrapper : IModuleContainer
       {
-        public A A { get; set; } = new();
-        public B B { get; set; } = new();
-        public C C { get; set; } = new();
+        [ModuleCategory("1231")]
+        public ModuleB moduleB { get; set; }
+
+        public ModuleC moduleC { get; set; }
       }
 
-      public PropWrapper Props { get; set; } = new();
+      public NestedWrapper Modules { get; } = new();
 
-      public A A { get; set; } = new();
-      public B B { get; set; } = new();
-      public C C { get; set; } = new();
+      [ModuleCategory("Prop")]
+      public ModuleA moduleA { get; set; }
+
+      [ModuleCategory("1231")]
+      public ModuleC moduleC { get; set; }
+
     }
 
-    public UListTest ModuleDiscovery()
+    public override void CreateTests()
     {
+      ComponentAnalysis analysis = ComponentAnalysis.For<Component>();
+
       Component component = new();
-      ModuleManager manager = new();
-      return new UListTest(manager.Modules(component), new List<IModule>{
-        component.A,
-        component.B,
-        component.C,
-        component.Props.A,
-        component.Props.B,
-        component.Props.C,
-      });
+      Tests.Add(new UTest(
+        analysis.GetModule<ModuleB>(component, "moduleB", "1231"),
+        component.Modules.moduleB
+      ));
     }
-
-
-    // public override void CreateTests()
-    // {
-
-    // }
   }
 }

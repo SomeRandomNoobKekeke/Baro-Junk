@@ -38,6 +38,17 @@ namespace BaroJunk
       }
     }
 
+    public static void ForProps<T>(Type host, Action<PropertyInfo> action)
+    {
+      foreach (PropertyInfo pi in host.GetProperties(Pls))
+      {
+        if (pi.PropertyType.IsAssignableTo(typeof(T)))
+        {
+          action(pi);
+        }
+      }
+    }
+
 
   }
 }
