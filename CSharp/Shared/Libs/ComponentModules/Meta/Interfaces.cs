@@ -12,7 +12,10 @@ using System.Text;
 
 namespace BaroJunk
 {
-  public interface IModule { }
+  public interface IModule
+  {
+    public IComponent Host { get; set; }
+  }
   public interface IModuleContainer { }
   public interface IComponent : IModuleContainer { }
 
