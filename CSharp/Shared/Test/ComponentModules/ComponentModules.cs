@@ -32,7 +32,6 @@ namespace BaroJunk
     {
       public class NestedWrapper : IModuleContainer
       {
-
         public ModuleB ModuleB { get; set; } = new();
         public ModuleC ModuleC { get; set; } = new();
       }
@@ -40,7 +39,7 @@ namespace BaroJunk
       public NestedWrapper Modules { get; } = new();
 
       [Module]
-      public ModuleA ModuleA { get; set; } = new();
+      public ModuleA ModuleA { get; set; }
     }
 
     public override void CreateTests()
