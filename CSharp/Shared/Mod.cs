@@ -33,13 +33,6 @@ namespace BaroJunk
       }
 
       ProjectInfo.CheckIncompatibleLibs();
-
-      PluginCommands.Add("generatecode", (args) => ModuleCodeGenerator.GenarateAll());
-      PluginCommands.Add("printcommands", (args) => PluginCommands.PrintCommands());
-      PluginCommands.Add("printhooks", (args) => PluginCommands.PrintHooks());
-
-
-
     }
 
 

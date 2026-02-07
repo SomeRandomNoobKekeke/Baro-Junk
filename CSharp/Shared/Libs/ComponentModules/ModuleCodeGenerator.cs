@@ -53,6 +53,7 @@ namespace BaroJunk
     static ModuleCodeGenerator()
     {
       PluginLifeCycle.End += () => TargetFiles.Clear();
+      PluginCommands.Add("generatecode", (args) => ModuleCodeGenerator.GenarateAll());
     }
 
 
