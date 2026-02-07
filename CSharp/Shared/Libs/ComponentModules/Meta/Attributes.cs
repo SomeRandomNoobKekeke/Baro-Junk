@@ -12,25 +12,17 @@ using System.Text;
 
 namespace BaroJunk
 {
-
-  public class ModuleCategoryAttribute : Attribute
-  {
-    public const string None = "None";
-    public string Category { get; set; }
-    public ModuleCategoryAttribute(string category)
-    {
-      Category = category;
-    }
-  }
+  public class ModuleAttribute : Attribute { }
 
   public class ModuleDependencyAttribute : Attribute
   {
     public string Name { get; set; }
-    public string Category { get; set; }
-    public ModuleDependencyAttribute(string name, string category = ModuleCategoryAttribute.None)
+    public Type Type { get; set; }
+
+    public ModuleDependencyAttribute(Type type = null, string name = null)
     {
       Name = name;
-      Category = category;
+      Type = type;
     }
   }
 

@@ -15,54 +15,35 @@ namespace BaroJunk
 
   public partial class ModuleInjector
   {
-    public IComponent Host { get; }
-
     public object GetNested(object target, IEnumerable<PropertyInfo> path)
     {
-      foreach (PropertyInfo pi in path)
-      {
-        target = pi.GetValue(target);
-      }
+      foreach (PropertyInfo pi in path) { target = pi.GetValue(target); }
 
       return target;
     }
 
-    public void CreateModule(CreateModuleInstruction instruction)
+    public void InjectHost(IComponent host, InjectHostInstruction instruction)
     {
-      object container = GetNested(Host, instruction.FullPath.SkipLast(1));
-
-      instruction.FullPath.Last().SetValue(
-        container,
-        Activator.CreateInstance(instruction.ModuleType)
-      );
+      object module = GetNested(host, instruction.FullPath);
+      instruction.HostProp.SetValue(module, host);
     }
 
-    public void InjectHost(InjectHostInstruction instruction)
+    public void InjectDependency(IComponent host, InjectDependencyInstruction instruction)
     {
-      IModule module = (IModule)GetNested(Host, instruction.FullPath);
-      module.Host = Host;
-    }
-
-    public void InjectDependency(InjectDependencyInstruction instruction)
-    {
-      object dependency = GetNested(Host, instruction.DependencyPath);
-      object target = GetNested(Host, instruction.TargetPath);
+      object dependency = GetNested(host, instruction.DependencyPath);
+      object target = GetNested(host, instruction.TargetPath);
       instruction.Property.SetValue(target, dependency);
     }
 
-    public void CreateModules(IEnumerable<CreateModuleInstruction> instructions)
+
+    public void InjectHosts(IComponent host, IEnumerable<InjectHostInstruction> instructions)
     {
-      foreach (var instruction in instructions) { CreateModule(instruction); }
+      foreach (var instruction in instructions) { InjectHost(host, instruction); }
     }
 
-    public void InjectHosts(IEnumerable<InjectHostInstruction> instructions)
+    public void InjectDependencies(IComponent host, IEnumerable<InjectDependencyInstruction> instructions)
     {
-      foreach (var instruction in instructions) { InjectHost(instruction); }
-    }
-
-    public void InjectDependencies(IEnumerable<InjectDependencyInstruction> instructions)
-    {
-      foreach (var instruction in instructions) { InjectDependency(instruction); }
+      foreach (var instruction in instructions) { InjectDependency(host, instruction); }
     }
   }
 

@@ -41,6 +41,7 @@ namespace BaroJunk
     public void Dispose()
     {
       UTestCommands.RemoveCommands();
+      TypeInfoCache.ClearAll();
     }
   }
 }

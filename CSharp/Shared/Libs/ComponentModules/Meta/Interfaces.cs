@@ -14,9 +14,14 @@ namespace BaroJunk
 {
   public interface IModule
   {
-    public IComponent Host { get; set; }
+    // public IComponent Host { get; set; }
   }
   public interface IModuleContainer { }
   public interface IComponent : IModuleContainer { }
+
+  public static class IComponentExtensions
+  {
+    public static void InjectModules(this IComponent host) => ModuleManager.InjectModules(host);
+  }
 
 }
