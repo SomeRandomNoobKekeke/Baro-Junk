@@ -14,8 +14,6 @@ namespace BaroJunk
 {
   public class ModuleInfo
   {
-    public static string HostPropName = "Host";
-
     public List<PropertyInfo> Path { get; }
     public PropertyInfo Property { get; }
 
@@ -54,7 +52,7 @@ namespace BaroJunk
       Property = property;
 
       ScanDependencies();
-      HostProp = property.PropertyType.GetProperty(HostPropName, BindingFlags.Instance | BindingFlags.Public);
+      HostProp = property.PropertyType.GetProperty(IModule.HostPropName, BindingFlags.Instance | BindingFlags.Public);
     }
 
     public override string ToString() => $"{Type.Name} {StringPath}";
