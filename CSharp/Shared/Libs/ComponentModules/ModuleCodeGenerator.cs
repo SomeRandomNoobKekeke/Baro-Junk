@@ -33,6 +33,7 @@ namespace BaroJunk
       ) yield return line;
     }
 
+    //TODO it's possible to add type convertions  but i don't need it for now
     public static IEnumerable<string> GenerateHostInjectionCode(IEnumerable<InjectHostInstruction> instructions)
     {
       foreach (var instruction in instructions)
@@ -41,6 +42,7 @@ namespace BaroJunk
       }
     }
 
+    //TODO it's possible to add type convertions  but i don't need it for now
     public static IEnumerable<string> GenerateDependencyInjectionCode(IEnumerable<InjectDependencyInstruction> instructions)
     {
       foreach (var instruction in instructions)

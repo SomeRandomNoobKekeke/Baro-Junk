@@ -12,7 +12,14 @@ using System.Text;
 
 namespace BaroJunk
 {
-  public class ModuleAttribute : Attribute { }
+  public class ModuleAttribute : Attribute
+  {
+    public Type Type { get; set; }
+    public ModuleAttribute(Type type = null)
+    {
+      Type = type;
+    }
+  }
 
   public class ModuleDependencyAttribute : Attribute
   {

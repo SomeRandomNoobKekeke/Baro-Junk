@@ -17,7 +17,7 @@ namespace BaroJunk
     public List<PropertyInfo> Path { get; }
     public PropertyInfo Property { get; }
 
-    public Type Type => Property.PropertyType;
+    public Type Type { get; }
     public string Name => Property.Name;
     public string StringPath => String.Join('.', Path.Select(pi => pi.Name));
 
@@ -41,15 +41,15 @@ namespace BaroJunk
             pi
           )
         );
-      });
-
+      }, PropExplorer.All);
     }
 
 
-    public ModuleInfo(List<PropertyInfo> path, PropertyInfo property)
+    public ModuleInfo(List<PropertyInfo> path, PropertyInfo property, Type type = null)
     {
       Path = path.Append(property).ToList();
       Property = property;
+      Type = type ?? Property.PropertyType;
 
       ScanDependencies();
       HostProp = property.PropertyType.GetProperty(IModule.HostPropName, BindingFlags.Instance | BindingFlags.Public);

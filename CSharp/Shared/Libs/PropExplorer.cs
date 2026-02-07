@@ -15,10 +15,10 @@ namespace BaroJunk
   public class PropExplorer
   {
     public static BindingFlags Pls { get; } = BindingFlags.Public | BindingFlags.Instance;
-
-    public static void For<T>(object target, Action<T> action)
+    public static BindingFlags All { get; } = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
+    public static void For<T>(object target, Action<T> action, BindingFlags flags = BindingFlags.Public | BindingFlags.Instance)
     {
-      foreach (PropertyInfo pi in target.GetType().GetProperties(Pls))
+      foreach (PropertyInfo pi in target.GetType().GetProperties(flags))
       {
         if (pi.PropertyType.IsAssignableTo(typeof(T)))
         {
@@ -27,9 +27,9 @@ namespace BaroJunk
       }
     }
 
-    public static void ForProps<T>(object target, Action<PropertyInfo> action)
+    public static void ForProps<T>(object target, Action<PropertyInfo> action, BindingFlags flags = BindingFlags.Public | BindingFlags.Instance)
     {
-      foreach (PropertyInfo pi in target.GetType().GetProperties(Pls))
+      foreach (PropertyInfo pi in target.GetType().GetProperties(flags))
       {
         if (pi.PropertyType.IsAssignableTo(typeof(T)))
         {
@@ -38,9 +38,9 @@ namespace BaroJunk
       }
     }
 
-    public static void ForProps<T>(Type host, Action<PropertyInfo> action)
+    public static void ForProps<T>(Type host, Action<PropertyInfo> action, BindingFlags flags = BindingFlags.Public | BindingFlags.Instance)
     {
-      foreach (PropertyInfo pi in host.GetProperties(Pls))
+      foreach (PropertyInfo pi in host.GetProperties(flags))
       {
         if (pi.PropertyType.IsAssignableTo(typeof(T)))
         {

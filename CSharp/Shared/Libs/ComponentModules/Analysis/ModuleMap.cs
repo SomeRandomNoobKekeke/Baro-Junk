@@ -60,7 +60,7 @@ namespace BaroJunk
               InsideAContainer = true,
             }
           );
-        });
+        }, PropExplorer.All);
 
         PropExplorer.ForProps<IModule>(containerType, (pi) =>
         {
@@ -68,8 +68,8 @@ namespace BaroJunk
 
           if (!context.InsideAContainer && attribute is null) return;
 
-          modules.Add(new ModuleInfo(context.Path, pi));
-        });
+          modules.Add(new ModuleInfo(context.Path, pi, attribute?.Type));
+        }, PropExplorer.All);
       }
 
       ScanContainer(RootType, new ScanContext(new List<PropertyInfo>(), false));

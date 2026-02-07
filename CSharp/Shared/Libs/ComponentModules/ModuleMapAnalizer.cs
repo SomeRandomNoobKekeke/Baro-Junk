@@ -44,6 +44,12 @@ namespace BaroJunk
             continue;
           }
 
+          if (!map[dependency.Type][dependency.Name].Type.IsAssignableTo(dependency.Property.PropertyType))
+          {
+            ModuleManager.Logger.Warning($"Incompatible dependency: in {map.RootType}: {info.StringPath} -> {dependency}");
+            continue;
+          }
+
           yield return new InjectDependencyInstruction(
             info.Path.ToArray(),
             map[dependency.Type][dependency.Name].Path.ToArray(),
