@@ -13,11 +13,9 @@ using System.Text;
 namespace BaroJunk
 {
 
-  public class ModuleMapAnalizer
+  public static class ModuleMapAnalizer
   {
-
-
-    public IEnumerable<InjectHostInstruction> CreateInjectHostInstructions(ModuleMap map)
+    public static IEnumerable<InjectHostInstruction> CreateInjectHostInstructions(ModuleMap map)
     {
       foreach (ModuleInfo info in map.AllModules)
       {
@@ -31,7 +29,7 @@ namespace BaroJunk
       }
     }
 
-    public IEnumerable<InjectDependencyInstruction> CreateInjectDependencyInstructions(ModuleMap map)
+    public static IEnumerable<InjectDependencyInstruction> CreateInjectDependencyInstructions(ModuleMap map)
     {
       foreach (ModuleInfo info in map.AllModules)
       {

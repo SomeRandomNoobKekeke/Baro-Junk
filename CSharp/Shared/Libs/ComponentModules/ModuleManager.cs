@@ -15,36 +15,6 @@ namespace BaroJunk
 
   public class ModuleManager
   {
-    public static Logger Logger { get; } = new Logger()
-    {
-
-    };
-
-    public static void InjectModules(IComponent host)
-    {
-      ModuleManager manager = new ModuleManager(host);
-      manager.InjectAll();
-    }
-
-    public IComponent Host { get; }
-    public ModuleInjector Injector { get; }
-    public ModuleMap Map { get; }
-    public ModuleMapAnalizer MapAnalizer { get; }
-
-    public void InjectAll()
-    {
-      Injector.InjectHosts(Host, MapAnalizer.CreateInjectHostInstructions(Map));
-      Injector.InjectDependencies(Host, MapAnalizer.CreateInjectDependencyInstructions(Map));
-    }
-
-    public ModuleManager(IComponent host)
-    {
-      Host = host;
-      Injector = new ModuleInjector();
-      MapAnalizer = new ModuleMapAnalizer();
-      Map = ModuleMap.GetFor(host.GetType());
-    }
+    public static Logger Logger { get; } = new Logger();
   }
-
-
 }

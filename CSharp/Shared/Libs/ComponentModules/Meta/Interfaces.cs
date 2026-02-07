@@ -19,9 +19,9 @@ namespace BaroJunk
   public interface IModuleContainer { }
   public interface IComponent : IModuleContainer { }
 
-  public static class IComponentExtensions
-  {
-    public static void InjectModules(this IComponent host) => ModuleManager.InjectModules(host);
-  }
+  // public static class IComponentExtensions
+  // {
+  //   public static void InjectModules(this IComponent host) => ModuleInjector.InjectModules(host);
+  // }
 
 }

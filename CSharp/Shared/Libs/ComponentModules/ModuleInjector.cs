@@ -13,9 +13,16 @@ using System.Text;
 namespace BaroJunk
 {
 
-  public partial class ModuleInjector
+  public static class ModuleInjector
   {
-    public object GetNested(object target, IEnumerable<PropertyInfo> path)
+    public static void InjectModules(IComponent host)
+    {
+      ModuleMap map = ModuleMap.GetFor(host.GetType());
+      InjectHosts(host, ModuleMapAnalizer.CreateInjectHostInstructions(map));
+      InjectDependencies(host, ModuleMapAnalizer.CreateInjectDependencyInstructions(map));
+    }
+
+    public static object GetNested(object target, IEnumerable<PropertyInfo> path)
     {
       foreach (PropertyInfo pi in path)
       {
@@ -26,7 +33,7 @@ namespace BaroJunk
       return target;
     }
 
-    public void InjectHost(IComponent host, InjectHostInstruction instruction)
+    private static void InjectHost(IComponent host, InjectHostInstruction instruction)
     {
       object module = GetNested(host, instruction.FullPath);
 
@@ -39,13 +46,10 @@ namespace BaroJunk
       instruction.HostProp.SetValue(module, host);
     }
 
-    public void InjectDependency(IComponent host, InjectDependencyInstruction instruction)
+    private static void InjectDependency(IComponent host, InjectDependencyInstruction instruction)
     {
-      Logger.Default.Point();
       object dependency = GetNested(host, instruction.DependencyPath);
       object target = GetNested(host, instruction.TargetPath);
-
-      Logger.Default.Point();
 
       if (dependency is null)
       {
@@ -63,12 +67,12 @@ namespace BaroJunk
     }
 
 
-    public void InjectHosts(IComponent host, IEnumerable<InjectHostInstruction> instructions)
+    public static void InjectHosts(IComponent host, IEnumerable<InjectHostInstruction> instructions)
     {
       foreach (var instruction in instructions) { InjectHost(host, instruction); }
     }
 
-    public void InjectDependencies(IComponent host, IEnumerable<InjectDependencyInstruction> instructions)
+    public static void InjectDependencies(IComponent host, IEnumerable<InjectDependencyInstruction> instructions)
     {
       foreach (var instruction in instructions) { InjectDependency(host, instruction); }
     }

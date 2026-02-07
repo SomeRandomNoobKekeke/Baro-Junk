@@ -39,7 +39,7 @@ namespace BaroJunk
       public NestedWrapper Modules { get; } = new();
 
       [Module]
-      public ModuleA ModuleA { get; set; }
+      public ModuleA ModuleA { get; set; } = new();
     }
 
     public override void CreateTests()
@@ -47,9 +47,14 @@ namespace BaroJunk
       Component component = new();
       Logger.Default.Log(ModuleMap.GetFor<Component>());
 
-      component.InjectModules();
+      ModuleInjector.InjectModules(component);
 
       Tests.Add(new UTest(component.Modules.ModuleB.GetPropA(), "123"));
+
+      foreach (string s in ModuleCodeGenerator.GenerateInjectCode(component))
+      {
+        Mod.Logger.Log(s);
+      }
     }
   }
 }
