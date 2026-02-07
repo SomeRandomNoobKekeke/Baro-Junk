@@ -12,7 +12,6 @@ using System.Text;
 
 namespace BaroJunk
 {
-
   public class ModuleManager
   {
     public static Logger Logger { get; } = new Logger();
