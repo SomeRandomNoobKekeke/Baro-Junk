@@ -62,6 +62,7 @@ namespace BaroJunk
           );
         }, PropExplorer.All);
 
+        //TODO do i need to track modules that don't implement IModule? i think no
         PropExplorer.ForProps<IModule>(containerType, (pi) =>
         {
           ModuleAttribute attribute = pi.GetCustomAttribute<ModuleAttribute>();
