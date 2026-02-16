@@ -20,6 +20,8 @@ namespace BaroJunk
     public Dictionary<string, ModuleInfo> ModulesByPath = new();
     public Dictionary<Type, List<ModuleInfo>> ModulesByType = new();
 
+    public IEnumerable<ModuleInfo> AllModules => ModulesByPath.Values;
+
     private record ScanContext(
       Type ContainerType,
       List<PropertyInfo> Path,

@@ -19,10 +19,20 @@ namespace BaroJunk
   public interface IModuleContainer { }
   public interface IComponent : IModuleContainer
   {
-    public static string GetFilePath(Type T) => T.GetCustomAttribute<GeneratedComponent>()?.FilePath;
+    public static string GetFilePath(Type T) => T.GetCustomAttribute<GeneratedComponentAttribute>()?.FilePath;
     public static ComponentInfo GetInfo(Type T) => ComponentInfo.GetFor(T);
 
     public string GetFilePath() => GetFilePath(GetType());
     public ComponentInfo GetInfo() => ComponentInfo.GetFor(GetType());
+
+
+    // public void InjectModules()
+    // {
+    //   InjectModuleHost();
+    //   InjectModuleDependencies();
+    // }
+
+    // public void InjectModuleHost() { }
+    // public void InjectModuleDependencies() { }
   }
 }
