@@ -5,15 +5,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Diagnostics;
 
-using Barotrauma;
-using Microsoft.Xna.Framework;
-using System.IO;
-using System.Text;
-
 namespace BaroJunk
 {
-  public class ModuleManager
+  public enum PropAccess
   {
-    public static Logger Logger { get; } = new Logger();
+    None,
+    CanRead,
+    CanWrite,
+    Both
   }
 }

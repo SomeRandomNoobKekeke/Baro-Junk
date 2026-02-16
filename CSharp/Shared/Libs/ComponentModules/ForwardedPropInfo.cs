@@ -12,8 +12,5 @@ using System.Text;
 
 namespace BaroJunk
 {
-  public record ModuleDependencyInfo(Type Type, string Name, PropertyInfo Property)
-  {
-    public override string ToString() => $"{Type.Name} {Name}";
-  }
+  public record ForwardedPropInfo(PropertyInfo Property, PropAccess Access, string Name, Type Type);
 }

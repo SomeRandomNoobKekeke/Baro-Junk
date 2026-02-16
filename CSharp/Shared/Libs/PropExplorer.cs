@@ -14,9 +14,9 @@ namespace BaroJunk
 {
   public class PropExplorer
   {
-    public static BindingFlags Pls { get; } = BindingFlags.Public | BindingFlags.Instance;
-    public static BindingFlags All { get; } = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
-    public static void For<T>(object target, Action<T> action, BindingFlags flags = BindingFlags.Public | BindingFlags.Instance)
+    public const BindingFlags Pls = BindingFlags.Public | BindingFlags.Instance;
+    public const BindingFlags All = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
+    public static void ForValues<T>(object target, Action<T> action, BindingFlags flags = BindingFlags.Public | BindingFlags.Instance)
     {
       foreach (PropertyInfo pi in target.GetType().GetProperties(flags))
       {
@@ -27,9 +27,12 @@ namespace BaroJunk
       }
     }
 
-    public static void ForProps<T>(object target, Action<PropertyInfo> action, BindingFlags flags = BindingFlags.Public | BindingFlags.Instance)
+    public static void ForProps<T>(object target, Action<PropertyInfo> action, BindingFlags flags = Pls)
+      => ForProps<T>(target.GetType(), action, flags);
+
+    public static void ForProps<T>(Type host, Action<PropertyInfo> action, BindingFlags flags = Pls)
     {
-      foreach (PropertyInfo pi in target.GetType().GetProperties(flags))
+      foreach (PropertyInfo pi in host.GetProperties(flags))
       {
         if (pi.PropertyType.IsAssignableTo(typeof(T)))
         {
@@ -38,13 +41,15 @@ namespace BaroJunk
       }
     }
 
-    public static void ForProps<T>(Type host, Action<PropertyInfo> action, BindingFlags flags = BindingFlags.Public | BindingFlags.Instance)
+    public static void ForPropsWith<AttributeT>(Type host, Action<PropertyInfo, AttributeT> action, BindingFlags flags = Pls) where AttributeT : Attribute
     {
       foreach (PropertyInfo pi in host.GetProperties(flags))
       {
-        if (pi.PropertyType.IsAssignableTo(typeof(T)))
+        AttributeT attribute = pi.GetCustomAttribute<AttributeT>();
+
+        if (attribute is not null)
         {
-          action(pi);
+          action(pi, attribute);
         }
       }
     }
