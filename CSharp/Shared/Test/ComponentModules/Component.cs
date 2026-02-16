@@ -48,7 +48,7 @@ namespace BaroJunk
 
       public Component()
       {
-        InjectModules();
+        (this as IComponent).InjectModules();
       }
     }
 
@@ -59,7 +59,6 @@ namespace BaroJunk
       Component component = new Component();
 
 
-      Mod.Logger.Log(component.Value);
 
 
     }

@@ -26,13 +26,13 @@ namespace BaroJunk
     public ComponentInfo GetInfo() => ComponentInfo.GetFor(GetType());
 
 
-    // public void InjectModules()
-    // {
-    //   InjectModuleHost();
-    //   InjectModuleDependencies();
-    // }
+    public void InjectModules()
+    {
+      InjectModuleHost();
+      InjectModuleDependencies();
+    }
 
-    // public void InjectModuleHost() { }
-    // public void InjectModuleDependencies() { }
+    public void InjectModuleHost() { }
+    public void InjectModuleDependencies() { }
   }
 }
