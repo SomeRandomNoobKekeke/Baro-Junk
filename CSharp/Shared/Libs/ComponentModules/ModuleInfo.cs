@@ -25,6 +25,7 @@ namespace BaroJunk
 
     public List<ModuleDependencyInfo> Dependencies { get; } = new();
     public List<ForwardedPropInfo> ForwardedProps { get; } = new();
+    public List<ForwardedMethodInfo> ForwardedMethods { get; } = new();
 
     private void ScanDependencies()
     {
@@ -51,6 +52,13 @@ namespace BaroJunk
           access,
           attribute.Name ?? pi.Name,
           attribute.Type ?? pi.PropertyType
+        ));
+      });
+
+      PropExplorer.ForMethodsWith<ForwardedMethodAttribute>(RealType, (method, attribute) =>
+      {
+        ForwardedMethods.Add(new ForwardedMethodInfo(method,
+          attribute.Name ?? method.Name
         ));
       });
     }

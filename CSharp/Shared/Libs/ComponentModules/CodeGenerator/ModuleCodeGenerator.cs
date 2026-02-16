@@ -14,6 +14,9 @@ using CsCodeGenerator.Enums;
 namespace BaroJunk
 {
 
+  /// <summary>
+  /// First dirty working implementation
+  /// </summary>
   public static class ModuleCodeGenerator
   {
     static ModuleCodeGenerator()
@@ -30,6 +33,22 @@ namespace BaroJunk
 
     public static string CSExtension = "cs";
 
+    /// <summary>
+    /// Super slow
+    /// </summary>
+    public static void GenerateForAll()
+    {
+      foreach (Type T in Assembly.GetExecutingAssembly().GetTypes())
+      {
+        if (T.IsAssignableTo(typeof(IComponent)))
+        {
+          if (T.GetCustomAttribute<GeneratedComponentAttribute>() != null)
+          {
+            GenerateFor(T);
+          }
+        }
+      }
+    }
 
     public static void GenerateFor<T>() => GenerateFor(typeof(T));
     public static void GenerateFor(Type T)
@@ -57,6 +76,7 @@ namespace BaroJunk
       ComponentInfo info = ComponentInfo.GetFor(T);
 
       List<Property> forwardedProps = Generate_ForwardedProps(info).ToList();
+      List<Method> forwardedMethods = Generate_ForwardedMethods(info).ToList();
 
       CsGenerator csGenerator = new CsGenerator()
       {
@@ -99,7 +119,7 @@ namespace BaroJunk
         }
       };
 
-      if (forwardedProps.Count > 0)
+      if (forwardedProps.Count > 0 || forwardedMethods.Count > 0)
       {
         csGenerator.Files.Add(
           new FileModel($"{T.Name}_Forwarded")
@@ -113,6 +133,7 @@ namespace BaroJunk
                 new ClassModel(T.Name){
                   SingleKeyWord  = KeyWord.Partial,
                   Properties = forwardedProps,
+                  Methods = forwardedMethods,
                 }
               )
             }
@@ -122,6 +143,36 @@ namespace BaroJunk
 
 
       csGenerator.CreateFiles();
+    }
+
+    private static string GetClearTypeName(Type T)
+    {
+      if (T == typeof(void)) return "void";
+      return T.Name;
+    }
+    private static IEnumerable<Method> Generate_ForwardedMethods(ComponentInfo componentInfo)
+    {
+      foreach (ModuleInfo module in componentInfo.AllModules)
+      {
+        foreach (ForwardedMethodInfo info in module.ForwardedMethods)
+        {
+          Method method = new Method(GetClearTypeName(info.Method.ReturnType), info.Method.Name)
+          {
+            Parameters = info.Method.GetParameters().Select(pi => new Parameter(
+              GetClearTypeName(pi.ParameterType),
+              pi.Name,
+              pi.ParameterType == typeof(string) ? $"\"{pi.DefaultValue}\"" : pi.DefaultValue.ToString()
+            )).ToList(),
+            BodyLines = new List<string>(){
+              $"{module.StringPath}.{info.Method.Name}({String.Join(", ",info.Method.GetParameters().Select(pi=>pi.Name))});"
+            }
+
+          };
+
+          yield return method;
+        }
+
+      }
     }
 
     private static IEnumerable<Property> Generate_ForwardedProps(ComponentInfo componentInfo)

@@ -23,6 +23,7 @@ namespace BaroJunk
 
 
       [ForwardedProp] public string Value => $"bruh -> {ModuleB.Value}";
+      [ForwardedMethod] public void SayBruh(string args = "123") => Logger.Default.Log($"{args} {Value}");
 
     }
     public class ModuleB : IModule
@@ -44,14 +45,22 @@ namespace BaroJunk
       public PropsContainer Props { get; } = new();
 
       [Module] public ModuleB ModuleB { get; } = new();
+
+      public Component()
+      {
+        InjectModules();
+      }
     }
 
     public override void CreateTests()
     {
-      IComponent component = new Component();
-
-
       ModuleCodeGenerator.GenerateFor<Component>();
+
+      Component component = new Component();
+
+
+      Mod.Logger.Log(component.Value);
+
 
     }
   }

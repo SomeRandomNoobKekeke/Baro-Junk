@@ -13,6 +13,10 @@ namespace BaroJunk
     {
       get { return Props.ModuleA.Value; }
     }
+    public void SayBruh(String args = "123")
+    {
+      Props.ModuleA.SayBruh(args);
+    }
   }
   }
 }

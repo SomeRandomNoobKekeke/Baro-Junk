@@ -54,6 +54,19 @@ namespace BaroJunk
       }
     }
 
+    public static void ForMethodsWith<AttributeT>(Type host, Action<MethodInfo, AttributeT> action, BindingFlags flags = Pls) where AttributeT : Attribute
+    {
+      foreach (MethodInfo method in host.GetMethods(flags))
+      {
+        AttributeT attribute = method.GetCustomAttribute<AttributeT>();
+
+        if (attribute is not null)
+        {
+          action(method, attribute);
+        }
+      }
+    }
+
 
   }
 }
