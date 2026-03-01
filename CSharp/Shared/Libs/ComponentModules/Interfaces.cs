@@ -12,5 +12,7 @@ using System.Text;
 
 namespace BaroJunk
 {
-  public record ForwardedPropInfo(PropertyInfo Property, PropAccess Access, string Name, Type Type);
+  public interface IModule { }
+  public interface IModuleContainer { }
+  public interface IComponent { }
 }
