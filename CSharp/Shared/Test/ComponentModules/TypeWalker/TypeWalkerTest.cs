@@ -12,23 +12,47 @@ namespace BaroJunk
 {
   public partial class TypeWalkerTest : ComponentModulesTest
   {
-    public class A
+    public class A : IComponent
     {
-      public string Prop { get; set; }
+      public string PropA1 { get; set; }
+      public string PropA2 { get; set; }
+
+      public B B { get; set; }
+      public C C { get; set; }
     }
 
-    public UTest SingleProp()
+    public class B : IModuleContainer
     {
-      List<List<PropertyInfo>> props = new();
+      public string PropB { get; set; }
+      public C C { get; set; }
+    }
 
-      TypeWalker.WalkProps(typeof(A), (path, prop) =>
-      {
-        props.Add(path.Append(prop).ToList());
-      });
+    public class C : IModule
+    {
+      public string PropC { get; set; }
+      public D D { get; set; }
+    }
 
-      return new UTest(
-        String.Join('.', props[0].Select(pi => pi.Name)),
-        "Prop"
+    public class D : IModule
+    {
+      public string PropD { get; set; }
+    }
+
+    public UListTest WalkTest()
+    {
+      IEnumerable<PropInfo> props = TypeWalker.WalkProps<A>();
+
+      return new UListTest(
+        props.Select(p => p.StringPath),
+        new List<string>(){
+          "PropA1",
+          "PropA2",
+          "B.PropB",
+          "B.C.PropC",
+          "B.C.D",
+          "C.PropC",
+          "C.D",
+        }
       );
 
     }

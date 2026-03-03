@@ -11,10 +11,10 @@ namespace BaroJunk.ComponentModules
   {
     public static BindingFlags All = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
 
-    public static void WalkProps(Type T, Action<IEnumerable<PropertyInfo>, PropertyInfo> onProp)
+    public static IEnumerable<PropInfo> WalkProps<T>() => WalkProps(typeof(T));
+    public static IEnumerable<PropInfo> WalkProps(Type T)
     {
       ArgumentNullException.ThrowIfNull(T);
-      ArgumentNullException.ThrowIfNull(onProp);
 
       bool ShouldGoDeeper(Type container, Type PropType)
       {
@@ -27,20 +27,31 @@ namespace BaroJunk.ComponentModules
         );
       }
 
-      void WalkRec(Type container, IEnumerable<PropertyInfo> path)
+      IEnumerable<PropInfo> WalkRec(Type container, IEnumerable<PropertyInfo> path)
       {
-        foreach (PropertyInfo pi in T.GetProperties(All))
-        {
-          onProp(path, pi);
+        Logger.Default.Log($"walking [{container}]");
+        BreakTheLoop.After(100);
 
+        foreach (PropertyInfo pi in container.GetProperties(All))
+        {
           if (ShouldGoDeeper(container, pi.PropertyType))
           {
-            WalkRec(pi.PropertyType, path.Append(pi));
+            foreach (PropInfo info in WalkRec(pi.PropertyType, path.Append(pi)))
+            {
+              yield return info;
+            }
+          }
+          else
+          {
+            yield return new PropInfo(path, pi);
           }
         }
       }
 
-      WalkRec(T, new List<PropertyInfo>());
+      foreach (PropInfo info in WalkRec(T, new List<PropertyInfo>()))
+      {
+        yield return info;
+      }
     }
   }
 }
