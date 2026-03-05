@@ -12,6 +12,8 @@ namespace BaroJunk.ComponentModules
     public List<PropertyInfo> Path { get; set; }
     public PropertyInfo Property { get; set; }
     public string StringPath => string.Join(".", Path.Select(p => p.Name));
+    public Type Type => Property.PropertyType;
+    public string Name => Property.Name;
 
     public PropInfo(IEnumerable<PropertyInfo> path, PropertyInfo property)
     {

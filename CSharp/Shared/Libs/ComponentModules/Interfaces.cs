@@ -12,7 +12,8 @@ using System.Text;
 
 namespace BaroJunk.ComponentModules
 {
+  public interface IAccess { }
+  public interface IContainer { }
   public interface IModule { }
-  public interface IModuleContainer { }
   public interface IComponent { }
 }

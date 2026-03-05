@@ -21,7 +21,7 @@ namespace BaroJunk
       public C C { get; set; }
     }
 
-    public class B : IModuleContainer
+    public class B : IContainer
     {
       public string PropB { get; set; }
       public C C { get; set; }
@@ -29,6 +29,12 @@ namespace BaroJunk
 
     public class C : IModule
     {
+      public class PropsWrapper
+      {
+        public string PropC2 { get; set; }
+      }
+
+      public PropsWrapper Props { get; set; }
       public string PropC { get; set; }
       public D D { get; set; }
     }
@@ -40,7 +46,7 @@ namespace BaroJunk
 
     public UListTest WalkTest()
     {
-      IEnumerable<PropInfo> props = TypeWalker.WalkProps<A>();
+      IEnumerable<PropInfo> props = TypeWalker.WalkPropsRec<A>();
 
       return new UListTest(
         props.Select(p => p.StringPath),
