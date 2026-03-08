@@ -11,7 +11,7 @@ using BaroJunk;
 namespace BaroJunk.ComponentModules
 {
   /// <summary>
-  /// now ModuleA defines interfaces he wants + ModuleB doesn't know ModuleA even exists
+  /// now ModuleA defines interfaces he wants + ModuleB doesn't know that ModuleA even exists
   /// </summary>
   public partial class ConnectModules_Interfaces_Adapters_Problem
   {
@@ -31,6 +31,9 @@ namespace BaroJunk.ComponentModules
       public string Prop { get; set; } = "bruh";
     }
 
+    /// <summary>
+    /// Should be generated
+    /// </summary>
     public partial class Component
     {
       public class ModuleB_IPropContainer_Adapter : IModule, ModuleA.IPropContainer
