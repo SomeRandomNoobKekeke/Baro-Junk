@@ -7,6 +7,7 @@ using System.Linq;
 
 using Barotrauma;
 using HarmonyLib;
+using BaroJunk.ComponentModules;
 
 namespace BaroJunk
 {
