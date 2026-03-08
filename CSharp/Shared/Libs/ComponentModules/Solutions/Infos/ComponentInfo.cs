@@ -18,6 +18,7 @@ namespace BaroJunk.ComponentModules
     public PartsInfo Parts { get; }
     public List<ModuleInfo> Modules { get; }
     public Dictionary<Type, ModuleInfo> ModulesByType { get; }
+    public List<ModuleInfo.ModuleRequest> ModuleRequests { get; }
 
     private void Report(string error)
     {
@@ -43,6 +44,14 @@ namespace BaroJunk.ComponentModules
         }
       }
 
+      ModuleRequests = Modules.SelectMany(m => m.RequiredModules).ToList();
+      foreach (var request in ModuleRequests)
+      {
+        if (!ModulesByType.ContainsKey(request.Type))
+        {
+          Report($"Unsatisfied request: [{T.Name}] can't provide [{request.Type.Name}] for [{request.Module}]");
+        }
+      }
     }
 
   }

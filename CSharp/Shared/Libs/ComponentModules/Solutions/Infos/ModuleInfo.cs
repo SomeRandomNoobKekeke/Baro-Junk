@@ -19,16 +19,13 @@ namespace BaroJunk.ComponentModules
     public string Name => Property.Name;
     public string StringPath => string.Join('.', Path.Select(p => p.Name));
 
-    public record ModuleRequest(Type T, ModuleInfo info, PropertyInfo target);
+    public record ModuleRequest(Type Type, ModuleInfo Module, PropertyInfo Target);
     private void Analyze()
     {
       RequiredModules = new();
       foreach (PropertyInfo pi in Type.GetProperties(BindingFlags.Public | BindingFlags.Instance))
       {
-        if (
-          pi.PropertyType.IsAssignableTo(typeof(IModule)) &&
-          pi.GetCustomAttribute<InAttribute>() != null
-        )
+        if (pi.GetCustomAttribute<InAttribute>() != null)
         {
           RequiredModules.Add(new ModuleRequest(pi.PropertyType, this, pi));
         }
@@ -40,6 +37,7 @@ namespace BaroJunk.ComponentModules
       //TODO add base classes?
     }
 
+    //TODO propbably should be IEnumerable, they are also stored in ComponentInfo
     public List<ModuleRequest> RequiredModules { get; private set; }
     public List<Type> CanBeUsedAs { get; private set; }
 

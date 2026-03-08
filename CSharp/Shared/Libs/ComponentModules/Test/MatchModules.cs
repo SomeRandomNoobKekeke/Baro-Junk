@@ -15,13 +15,25 @@ namespace BaroJunk.ComponentModules
 
     public interface ILol { }
     public interface IKek { }
+    public interface ICheburek { }
 
-
-    public class ModuleA : IModule { }
-    public class ModuleB : IModule, ILol { }
-    public class ModuleC : IModule, IKek { }
+    public class ModuleA : IModule
+    {
+      [In] public IKek KekDependency { get; set; }
+    }
+    public class ModuleB : IModule, ILol
+    {
+      [In] public ICheburek CheburekDependency { get; set; }
+    }
+    public class ModuleC : IModule, IKek
+    {
+      [In] public ModuleB ModuleADependency { get; set; }
+    }
     public class ModuleD : IModule, IKek { }
-    public class ModuleE : IModule { }
+    public class ModuleE : IModule
+    {
+      [In] public ILol ILolDependency { get; set; }
+    }
 
     public class Component : IComponent
     {
@@ -43,8 +55,6 @@ namespace BaroJunk.ComponentModules
     {
       ComponentInfo componentInfo = new ComponentInfo(typeof(Component));
 
-      Logger.Default.Log(Logger.Wrap.IEnumerable(componentInfo.Errors));
-
       return new USetTest(
         componentInfo.ModulesByType.Select(kvp => $"{kvp.Key.Name} - {kvp.Value}"),
         new HashSet<string>()
@@ -56,6 +66,24 @@ namespace BaroJunk.ComponentModules
           "ModuleE - Component.Graphics.ModuleE",
           "ILol - Component.ModuleB",
           "IKek - Component.Graphics.ModuleD",
+        }
+      );
+    }
+
+    public USetTest FindAllRequiredModules()
+    {
+      ComponentInfo componentInfo = new ComponentInfo(typeof(Component));
+
+      Logger.Default.Log(Logger.Wrap.IEnumerable(componentInfo.Errors));
+
+      return new USetTest(
+        componentInfo.ModuleRequests.Select(r => $"{r.Module} -> {r.Type.Name}"),
+        new HashSet<string>()
+        {
+          "Component.ModuleA -> IKek",
+          "Component.ModuleB -> ICheburek",
+          "Component.ModuleC -> ModuleB",
+          "Component.Graphics.ModuleE -> ILol",
         }
       );
     }
