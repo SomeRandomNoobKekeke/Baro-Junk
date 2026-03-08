@@ -10,5 +10,8 @@ using BaroJunk;
 
 namespace BaroJunk.ComponentModules
 {
-  public class ComponentModulesTest : UTestPack { }
+  public partial class CodeAnalyzer
+  {
+    public static BindingFlags Pls = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
+  }
 }

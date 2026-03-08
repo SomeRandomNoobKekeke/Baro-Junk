@@ -11,7 +11,7 @@ using BaroJunk;
 namespace BaroJunk.ComponentModules
 {
   /// <summary>
-  /// ModuleA knows it wants ModuleB, but uses an interface just so you could mock it if you want
+  /// ModuleA knows it wants ModuleB, but uses an interface just so you could mock it
   /// </summary>
   public partial class ConnectModules_Interfaces_Problem
   {
