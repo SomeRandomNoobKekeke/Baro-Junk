@@ -12,13 +12,37 @@ namespace BaroJunk.ComponentModules
 {
   public class ComponentInfo
   {
+    public List<string> Errors { get; } = new();
+
     public Type Type { get; }
     public PartsInfo Parts { get; }
+    public List<ModuleInfo> Modules { get; }
+    public Dictionary<Type, ModuleInfo> ModulesByType { get; }
+
+    private void Report(string error)
+    {
+      Errors.Add(error);
+    }
 
     public ComponentInfo(Type T)
     {
       Type = T;
       Parts = new PartsInfo(T);
+      Modules = CodeAnalyzer.GetModules(Parts).ToList();
+      ModulesByType = new();
+
+      foreach (ModuleInfo module in Modules)
+      {
+        foreach (Type t in module.CanBeUsedAs)
+        {
+          if (ModulesByType.ContainsKey(t))
+          {
+            Report($"Ambiguous match: [{ModulesByType[t]}] [{module}] both can be used as [{t.Name}]");
+          }
+          ModulesByType[t] = module;
+        }
+      }
+
     }
 
   }
