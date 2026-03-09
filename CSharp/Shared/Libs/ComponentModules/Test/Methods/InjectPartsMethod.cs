@@ -10,7 +10,7 @@ using BaroJunk;
 
 namespace BaroJunk.ComponentModules
 {
-  public class InjectPartsTest : ComponentModulesTest
+  public class InjectPartsMethodTest : ComponentModulesTest
   {
     public class Component : IComponent
     {
@@ -39,9 +39,18 @@ namespace BaroJunk.ComponentModules
 
     public override void CreateTests()
     {
-      Logger.Default.Log(
-        CodeGenerator.CreateInjectPartsMethod(new PartsInfo(typeof(Component))).ToString()
-      );
+      Tests.Add(new USetTest(
+        CodeGenerator.CreateInjectPartsMethod(new ComponentInfo(typeof(Component))).BodyLines,
+        new HashSet<string>()
+        {
+          "Graphics.Self = this;",
+          "Layout.Self = this;",
+          "Secret.Self = this;",
+          "Wrapper.Self = this;",
+          "Wrapper.Nested.Self = this;",
+          "Wrapper.Nested.DeeplyNested.Self = this;",
+        }
+      ));
     }
   }
 }

@@ -13,11 +13,11 @@ namespace BaroJunk.ComponentModules
 {
   public partial class CodeGenerator
   {
-    public static Method CreateInjectPartsMethod(PartsInfo parts)
+    public static Method CreateInjectPartsMethod(ComponentInfo component)
     {
       return new Method("void", "InjectParts")
       {
-        BodyLines = parts.Parts.Select(p => $"{p.StringPath}.Self = this;").ToList(),
+        BodyLines = component.Parts.Select(p => $"{p.StringPath}.Self = this;").ToList(),
         AccessModifier = CsCodeGenerator.Enums.AccessModifier.Private
       };
     }
