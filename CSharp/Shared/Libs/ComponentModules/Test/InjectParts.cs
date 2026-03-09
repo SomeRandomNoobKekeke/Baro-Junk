@@ -10,9 +10,8 @@ using BaroJunk;
 
 namespace BaroJunk.ComponentModules
 {
-  public class GetPartsTest : ComponentModulesTest
+  public class InjectPartsTest : ComponentModulesTest
   {
-
     public class Component : IComponent
     {
       public class Component_Part : IPart { public Component Self { get; set; } }
@@ -37,21 +36,12 @@ namespace BaroJunk.ComponentModules
       public Wrapper_Part Wrapper { get; } = new();
     }
 
+
     public override void CreateTests()
     {
-      Tests.Add(new UListTest(
-        CodeAnalyzer.GetParts(typeof(Component)).Select(part => part.ToString()),
-        new List<string>()
-        {
-          "Component",
-          "Component.Graphics",
-          "Component.Layout",
-          "Component.Secret",
-          "Component.Wrapper",
-          "Component.Wrapper.Nested",
-          "Component.Wrapper.Nested.DeeplyNested",
-        }
-      ));
+      Logger.Default.Log(
+        CodeGenerator.CreateInjectPartsMethod(new PartsInfo(typeof(Component))).ToString()
+      );
     }
   }
 }
