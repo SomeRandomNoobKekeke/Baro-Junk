@@ -12,7 +12,7 @@ using System.Text;
 
 namespace BaroJunk
 {
-
+  //TODO hook lua stop and clear cache, bruh
   public abstract class TypeInfoCache
   {
     public static Dictionary<Type, TypeInfoCache> AllCaches = new();

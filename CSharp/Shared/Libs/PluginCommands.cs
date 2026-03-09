@@ -46,7 +46,7 @@ namespace BaroJunk
       );
     }
 
-    public static void Add(string name, Action<object[]> callback, Func<string[][]> hints = null, string help = "", bool addToStart = true)
+    public static void Add(string name, Action<string[]> callback, Func<string[][]> hints = null, string help = "", bool addToStart = true)
     {
       DebugConsole.Command command = new DebugConsole.Command(name, help, callback, hints);
       AddedCommands.Add(command);
