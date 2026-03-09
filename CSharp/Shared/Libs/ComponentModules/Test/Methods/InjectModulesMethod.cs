@@ -10,9 +10,8 @@ using BaroJunk;
 
 namespace BaroJunk.ComponentModules
 {
-  public class MatchModulesTest : ComponentModulesTest
+  public class InjectModulesMethodTest : ComponentModulesTest
   {
-
     public interface ILol { }
     public interface IKek { }
     public interface ICheburek { }
@@ -27,7 +26,7 @@ namespace BaroJunk.ComponentModules
     }
     public class ModuleC : IModule, IKek
     {
-      [In] public ModuleB ModuleADependency { get; set; }
+      [In] public ModuleA ModuleADependency { get; set; }
     }
     public class ModuleD : IModule, IKek { }
     public class ModuleE : IModule
@@ -51,39 +50,22 @@ namespace BaroJunk.ComponentModules
       public ModuleC ModuleC { get; } = new();
     }
 
-    public USetTest FindAllAvailableModules()
-    {
-      ComponentInfo componentInfo = new ComponentInfo(typeof(Component));
 
-      return new USetTest(
-        componentInfo.ModulesByType.Select(kvp => $"{kvp.Key.Name} - {kvp.Value}"),
+    public override void CreateTests()
+    {
+      ComponentInfo component = new ComponentInfo(typeof(Component));
+
+      Logger.Default.Log(Logger.Wrap.IEnumerable(component.Errors));
+
+      Tests.Add(new USetTest(
+        CodeGenerator.CreateInjectModulesMethod(component).BodyLines,
         new HashSet<string>()
         {
-          "ModuleA - Component.ModuleA",
-          "ModuleB - Component.ModuleB",
-          "ModuleC - Component.ModuleC",
-          "ModuleD - Component.Graphics.ModuleD",
-          "ModuleE - Component.Graphics.ModuleE",
-          "ILol - Component.ModuleB",
-          "IKek - Component.Graphics.ModuleD",
+          "ModuleA.KekDependency = Graphics.ModuleD;",
+          "ModuleC.ModuleADependency = ModuleA;",
+          "Graphics.ModuleE.ILolDependency = ModuleB;",
         }
-      );
-    }
-
-    public USetTest FindAllRequiredModules()
-    {
-      ComponentInfo componentInfo = new ComponentInfo(typeof(Component));
-
-      return new USetTest(
-        componentInfo.ModuleRequests.Select(r => $"{r.Module} -> {r.Type.Name}"),
-        new HashSet<string>()
-        {
-          "Component.ModuleA -> IKek",
-          "Component.ModuleB -> ICheburek",
-          "Component.ModuleC -> ModuleB",
-          "Component.Graphics.ModuleE -> ILol",
-        }
-      );
+      ));
     }
   }
 }

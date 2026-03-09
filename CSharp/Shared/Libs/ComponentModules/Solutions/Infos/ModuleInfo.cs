@@ -19,6 +19,7 @@ namespace BaroJunk.ComponentModules
     public string Name => Property.Name;
     public string StringPath => string.Join('.', Path.Select(p => p.Name));
 
+    //TODO Target could be a path too
     public record ModuleRequest(Type Type, ModuleInfo Module, PropertyInfo Target);
     private void Analyze()
     {
