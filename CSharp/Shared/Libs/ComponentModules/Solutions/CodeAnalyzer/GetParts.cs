@@ -14,20 +14,22 @@ namespace BaroJunk.ComponentModules
   {
     public static IEnumerable<PartInfo> GetParts(Type componentType)
     {
-      bool ShouldGoDeeper(PropertyInfo pi)
+      bool IsPart(PropertyInfo pi)
       {
         return pi.PropertyType.IsAssignableTo(typeof(IPart));
       }
 
       IEnumerable<PartInfo> GetPartsRec(Type T, IEnumerable<PropertyInfo> path)
       {
-        yield return new PartInfo(componentType, T, path);
-
         foreach (PropertyInfo pi in T.GetProperties(Pls))
         {
-          if (ShouldGoDeeper(pi))
+          if (IsPart(pi))
           {
-            foreach (PartInfo info in GetPartsRec(pi.PropertyType, path.Append(pi)))
+            IEnumerable<PropertyInfo> nextPath = path.Append(pi);
+
+            yield return new PartInfo(componentType, pi.PropertyType, nextPath);
+
+            foreach (PartInfo info in GetPartsRec(pi.PropertyType, nextPath))
             {
               yield return info;
             }

@@ -1,8 +1,8 @@
 ﻿namespace CsCodeGenerator.Enums
 {
-    public enum CommonDataType
-    {
-        DateTime,
-        Guid
-    }
+  public enum CommonDataType
+  {
+    DateTime,
+    Guid
+  }
 }

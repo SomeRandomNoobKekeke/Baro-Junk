@@ -15,7 +15,8 @@ namespace BaroJunk.ComponentModules
     public List<string> Errors { get; } = new();
 
     public Type Type { get; }
-    public PartsInfo Parts { get; }
+
+    public List<PartInfo> Parts { get; }
     public List<ModuleInfo> Modules { get; }
     public Dictionary<Type, ModuleInfo> ModulesByType { get; }
     public List<ModuleInfo.ModuleRequest> ModuleRequests { get; }
@@ -28,8 +29,8 @@ namespace BaroJunk.ComponentModules
     public ComponentInfo(Type T)
     {
       Type = T;
-      Parts = new PartsInfo(T);
-      Modules = CodeAnalyzer.GetModules(Parts).ToList();
+      Parts = CodeAnalyzer.GetParts(T).ToList();
+      Modules = CodeAnalyzer.GetModules(this).ToList();
       ModulesByType = new();
 
       foreach (ModuleInfo module in Modules)

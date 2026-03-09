@@ -17,7 +17,8 @@ namespace BaroJunk.ComponentModules
     {
       return new Method("void", "InjectParts")
       {
-        BodyLines = parts.Parts.Select(p => $"{p.StringPath}.Self = this;").ToList()
+        BodyLines = parts.Parts.Select(p => $"{p.StringPath}.Self = this;").ToList(),
+        AccessModifier = CsCodeGenerator.Enums.AccessModifier.Private
       };
     }
   }

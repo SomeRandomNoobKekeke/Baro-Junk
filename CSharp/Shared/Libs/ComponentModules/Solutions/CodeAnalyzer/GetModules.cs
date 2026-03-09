@@ -12,8 +12,8 @@ namespace BaroJunk.ComponentModules
 {
   public partial class CodeAnalyzer
   {
-    public static IEnumerable<ModuleInfo> GetModules(Type T) => GetModules(new PartsInfo(T));
-    public static IEnumerable<ModuleInfo> GetModules(PartsInfo parts)
+    public static IEnumerable<ModuleInfo> GetModules(Type T) => GetModules(new ComponentInfo(T));
+    public static IEnumerable<ModuleInfo> GetModules(ComponentInfo component)
     {
       IEnumerable<ModuleInfo> GetModulesFromPart(PartInfo part)
       {
@@ -21,12 +21,20 @@ namespace BaroJunk.ComponentModules
         {
           if (pi.PropertyType.IsAssignableTo(typeof(IModule)))
           {
-            yield return new ModuleInfo(parts.Component, part.Path, pi);
+            yield return new ModuleInfo(component.Type, part.Path, pi);
           }
         }
       }
 
-      foreach (PartInfo part in parts.Parts)
+      foreach (PropertyInfo pi in component.Type.GetProperties(Pls))
+      {
+        if (pi.PropertyType.IsAssignableTo(typeof(IModule)))
+        {
+          yield return new ModuleInfo(component.Type, new List<PropertyInfo>(), pi);
+        }
+      }
+
+      foreach (PartInfo part in component.Parts)
       {
         foreach (ModuleInfo module in GetModulesFromPart(part))
         {
@@ -34,5 +42,7 @@ namespace BaroJunk.ComponentModules
         }
       }
     }
+
+
   }
 }

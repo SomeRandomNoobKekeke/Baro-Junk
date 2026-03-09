@@ -43,7 +43,7 @@ namespace BaroJunk.ComponentModules
         CodeAnalyzer.GetParts(typeof(Component)).Select(part => part.ToString()),
         new List<string>()
         {
-          "Component",
+          // "Component",
           "Component.Graphics",
           "Component.Layout",
           "Component.Secret",
