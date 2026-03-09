@@ -12,7 +12,22 @@ namespace BaroJunk.ComponentModules
 {
   public class ComponentInfo
   {
-    public List<string> Errors { get; } = new();
+    public record Error();
+
+    public record AmbiguousMatchError(ModuleInfo A, ModuleInfo B, Type Target) : Error
+    {
+      public override string ToString()
+        => $"Ambiguous match: [{A}] [{B}] both can be used as [{Target.Name}]";
+    }
+
+    public record UnsatisfiedRequestError(Type componentType, ModuleInfo.ModuleRequest Request) : Error
+    {
+      public override string ToString()
+        => $"Unsatisfied request: [{componentType.Name}] can't provide [{Request.Type.Name}] for [{Request.Module}]";
+    }
+
+
+    public List<Error> Errors { get; } = new();
 
     public Type Type { get; }
 
@@ -21,15 +36,15 @@ namespace BaroJunk.ComponentModules
     public Dictionary<Type, ModuleInfo> ModulesByType { get; }
     public List<ModuleInfo.ModuleRequest> ModuleRequests { get; }
 
-    private void Report(string error)
+    private void Report(Error error)
     {
       Errors.Add(error);
     }
 
-    public ComponentInfo(Type T)
+    public ComponentInfo(Type componentType)
     {
-      Type = T;
-      Parts = CodeAnalyzer.GetParts(T).ToList();
+      Type = componentType;
+      Parts = CodeAnalyzer.GetParts(componentType).ToList();
       Modules = CodeAnalyzer.GetModules(this).ToList();
       ModulesByType = new();
 
@@ -39,7 +54,7 @@ namespace BaroJunk.ComponentModules
         {
           if (ModulesByType.ContainsKey(t))
           {
-            Report($"Ambiguous match: [{ModulesByType[t]}] [{module}] both can be used as [{t.Name}]");
+            Report(new AmbiguousMatchError(ModulesByType[t], module, t));
           }
           ModulesByType[t] = module;
         }
@@ -50,7 +65,7 @@ namespace BaroJunk.ComponentModules
       {
         if (!ModulesByType.ContainsKey(request.Type))
         {
-          Report($"Unsatisfied request: [{T.Name}] can't provide [{request.Type.Name}] for [{request.Module}]");
+          Report(new UnsatisfiedRequestError(componentType, request));
         }
       }
     }

@@ -55,7 +55,10 @@ namespace BaroJunk.ComponentModules
     {
       ComponentInfo component = new ComponentInfo(typeof(Component));
 
-      Logger.Default.Log(Logger.Wrap.IEnumerable(component.Errors));
+      foreach (ComponentInfo.Error error in component.Errors)
+      {
+        Logger.Default.Log(error);
+      }
 
       Tests.Add(new USetTest(
         CodeGenerator.CreateInjectModulesMethod(component).BodyLines,
