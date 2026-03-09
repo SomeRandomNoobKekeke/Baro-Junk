@@ -48,7 +48,17 @@ namespace BaroJunk
 
     public static void Add(string name, Action<string[]> callback, Func<string[][]> hints = null, string help = "", bool addToStart = true)
     {
-      DebugConsole.Command command = new DebugConsole.Command(name, help, callback, hints);
+      DebugConsole.Command command = new DebugConsole.Command(name, help, (string[] args) =>
+      {
+        try
+        {
+          callback(args);
+        }
+        catch (Exception e)
+        {
+          Logger.Default.Error(e.Message);
+        }
+      }, hints);
       AddedCommands.Add(command);
 
       if (addToStart)
