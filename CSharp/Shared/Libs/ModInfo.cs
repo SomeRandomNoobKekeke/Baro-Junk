@@ -23,13 +23,28 @@ namespace BaroJunk
     public static string HookId => Assembly.GetExecutingAssembly().GetName().Name;
     public static string BarotraumaPath => Path.GetFullPath("./");
 
-    public static ContentPackage ModPackage<PluginType>() where PluginType : IAssemblyPlugin
+
+    public static ContentPackage ModPackage<T>() => ModPackage(typeof(T));
+    public static ContentPackage ModPackage(Type T)
     {
-      GameMain.LuaCs.PluginPackageManager.TryGetPackageForPlugin<PluginType>(out ContentPackage package);
-      return package;
+      CsPackageManager _ = GameMain.LuaCs.PluginPackageManager;
+
+      foreach (var (guid, set) in _._pluginTypes)
+      {
+        if (set.Contains(T)) return _._reverseLookupGuidList[guid];
+      }
+
+      // throw new System.ExecutionEngineException("you died");
+      return null;
     }
-    public static string ModDir<PluginType>() where PluginType : IAssemblyPlugin => ModPackage<PluginType>().Dir;
-    public static string ModVersion<PluginType>() where PluginType : IAssemblyPlugin => ModPackage<PluginType>().ModVersion;
-    public static string ModName<PluginType>() where PluginType : IAssemblyPlugin => ModPackage<PluginType>().Name;
+
+    public static string ModDir<PluginType>() where PluginType : IAssemblyPlugin => ModDir(typeof(PluginType));
+    public static string ModDir(Type PluginType) => ModPackage(PluginType).Dir;
+
+    public static string ModVersion<PluginType>() where PluginType : IAssemblyPlugin => ModVersion(typeof(PluginType));
+    public static string ModVersion(Type PluginType) => ModPackage(PluginType).ModVersion;
+
+    public static string ModName<PluginType>() where PluginType : IAssemblyPlugin => ModName(typeof(PluginType));
+    public static string ModName(Type PluginType) => ModPackage(PluginType).Name;
   }
 }
