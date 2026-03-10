@@ -40,6 +40,12 @@ namespace BaroJunk
       return repo.ContainsKey(key);
     }
 
+    public static void Remove(string key)
+    {
+      Dictionary<string, object> repo = GetOrCreateRepo();
+      repo.Remove(key);
+    }
+
 
     private static Dictionary<string, object> GetOrCreateRepo()
     {
