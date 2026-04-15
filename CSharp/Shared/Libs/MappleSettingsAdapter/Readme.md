@@ -1,4 +1,5 @@
 Rofl wrapper around ConfigService that can be used as IDictionary<string, string>
+
 Very cursed
 
 Usage:
