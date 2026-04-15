@@ -1,2 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<contentpackage name="Baro Junk" modversion="0.0.0" corepackage="False" />
+<contentpackage name="BaroJunk" modversion="0.0.0" corepackage="False">
+  <Text file="%ModDir%/Texts/English.xml" />
+</contentpackage>

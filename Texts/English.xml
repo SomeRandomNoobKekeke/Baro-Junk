@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<infotexts language="English" nowhitespace="false" translatedname="English">
+    <!-- Sample Client Setting -->
+    <BaroJunk.SampleSettingClient.DisplayName>Sample Client Setting</BaroJunk.SampleSettingClient.DisplayName>
+    <BaroJunk.SampleSettingClient.DisplayCategory>BaroJunk</BaroJunk.SampleSettingClient.DisplayCategory>
+    <BaroJunk.SampleSettingClient.Tooltip>Sample tooltip!</BaroJunk.SampleSettingClient.Tooltip>
+</infotexts>

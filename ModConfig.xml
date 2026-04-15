@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModConfig>
+    <Assembly Folder="%ModDir%/CSharp/Shared" IsScript="true" UseInternalAccessName="true" />
+    <Config File="%ModDir%/Config/SettingsClient.xml" Target="Client" />
+</ModConfig>

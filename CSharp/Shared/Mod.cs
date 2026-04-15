@@ -13,6 +13,7 @@ namespace BaroJunk
   public partial class Mod : IAssemblyPlugin
   {
     public IPluginManagementService PluginService { get; set; }
+    public IConfigService ConfigService { get; set; }
     public static Logger Logger = new Logger()
     {
       PrintFilePath = false
@@ -21,7 +22,6 @@ namespace BaroJunk
     public void Initialize()
     {
       PluginService.TryGetPackageForPlugin<Mod>(out ContentPackage package);
-
 
       UTestLogger.CollapseTestPackIfSucceed = false;
 
