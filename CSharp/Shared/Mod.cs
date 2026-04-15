@@ -12,6 +12,7 @@ namespace BaroJunk
 {
   public partial class Mod : IAssemblyPlugin
   {
+    public IPluginManagementService PluginService { get; set; }
     public static Logger Logger = new Logger()
     {
       PrintFilePath = false
@@ -19,6 +20,9 @@ namespace BaroJunk
 
     public void Initialize()
     {
+      PluginService.TryGetPackageForPlugin<Mod>(out ContentPackage package);
+
+
       UTestLogger.CollapseTestPackIfSucceed = false;
 
       UTestCommands.AddCommands();
@@ -27,9 +31,9 @@ namespace BaroJunk
       // UTestRunner.RunRecursive<RealNetParserTest>();
 
       Experiment();
-      if (ModInfo.ModDir<Mod>().Contains("LocalMods"))
+      if (package.Dir.Contains("LocalMods"))
       {
-        Logger.Log($"{ModInfo.AssemblyName} compiled");
+        Logger.Log($"{package.Name} compiled");
       }
 
       ProjectInfo.CheckIncompatibleLibs();

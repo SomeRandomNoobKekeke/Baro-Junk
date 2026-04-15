@@ -21,13 +21,18 @@ namespace BaroJunk
       if (HooksInstalled) return;
       HooksInstalled = true;
 
-      GameMain.LuaCs.Hook.Patch(ModHookId + ".ACAutoComplete",
-        typeof(DebugConsole).GetMethod("AutoComplete", AccessTools.all),
-        DebugConsole_AutoComplete_Prefix
+
+
+
+      ((LuaCsSetup.Instance.EventService as EventService)
+           ._luaPatcher as LuaPatcherService)
+           .Patch(ModHookId + ".ACAutoComplete",
+              typeof(DebugConsole).GetMethod("AutoComplete", AccessTools.all),
+              DebugConsole_AutoComplete_Prefix
       );
     }
 
-    public static DynValue DebugConsole_AutoComplete_Prefix(object instance, LuaCsHook.ParameterTable ptable)
+    public static DynValue DebugConsole_AutoComplete_Prefix(object instance, LuaPatcherService.ParameterTable ptable)
     {
       // Already handled in some other mod
       if (ptable.PreventExecution) return null;
