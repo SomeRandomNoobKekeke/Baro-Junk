@@ -15,8 +15,6 @@ namespace BaroJunk
 {
   public partial class MappleSettingsAdapter : IDictionary<string, string>
   {
-    public Dictionary<string, string> Dict { get; } = new();
-
     public string Get(string key) => GetSetting(key).GetStringValue();
     public string this[string key]
     {
