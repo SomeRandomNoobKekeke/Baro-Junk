@@ -27,6 +27,7 @@ namespace BaroJunk
       Event -= callback;
       OnUnSubscribed?.Invoke(callback);
     }
+    // public void Raise(object arg1) => Event?.Invoke((T1)arg1);
     public void Raise(T1 arg1) => Event?.Invoke(arg1);
     public void Clear()
     {
