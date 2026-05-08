@@ -3,87 +3,51 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Diagnostics;
-using BaroJunk;
 
-// @types = T1, T2
-// @argDefs = T1 arg1, T2 arg2
-// @argsPassed = arg1, arg2
 
-namespace CrabUI
+// @types - T1, T2
+// @args - arg1, arg2
+// @argDefs - T1 arg1, T2 arg2
+
+
+namespace BaroJunk
 {
   public class DebugNode<@types> : DebugNode
   {
-    private Func<@types, DebugEvent> factory;
-    public Func<@types, DebugEvent> Factory
+    public Func<@types, string> DebugMessageFactory
     {
-      get => factory;
       set
       {
-        factory = value;
-        Event_Pin.Action = factory is null ? DefaultBringeAction : CustomBringeAction;
+        RealPinBridge.Action = (@args) => Pin.Raise(
+          new DebugEvent()
+          {
+            Args = new object[] { @args },
+            Msg = value.Invoke(@args),
+          }
+        );
       }
     }
 
-    public Dictionary<DebugNode, EventSubscription> Mapping = new();
-
-    private void DefaultBringeAction(@argDefs)
-    {
-      Pin.Raise(new DebugEvent()
-      {
-        Args = new object[] { @argsPassed },
-      });
-    }
-    private void CustomBringeAction(@argDefs)
-    {
-      Pin.Raise(Factory.Invoke(@argsPassed));
-    }
-
-    private EventBridge<@types> Event_Pin;
     public ClearableEvent<@types> Event { get; } = new();
+    public void Send(@argDefs) => Event.Raise(@args);
 
-    public void Send(@argDefs) => Event.Raise(@argsPassed);
-    public EventSubscription Map(DebugNode next, Action<@types> callback)
-    {
-      EventSubscription subscription = Event.Add(callback);
-      Mapping[next] = subscription; //TODO handle dublicates
-      return subscription;
-    }
-
-    public override EventSubscription Map(DebugNode next, Delegate callback) => Map(next, (Action<@types>)callback);
     public override EventSubscription Map(DebugNode next) => Map((DebugNode<@types>)next);
-    public EventSubscription Map(DebugNode<@types> next)
+    public EventSubscription Map(DebugNode<@types> next) => Map(next, DefaultMapping(next));
+
+    public Action<@types> DefaultMapping(DebugNode<@types> next)
+      => (@argDefs) => next.Event.Raise(@args);
+
+    private EventBridge<@types> RealPinBridge;
+    protected override IEventBridge PinBridge => RealPinBridge;
+    protected override EventSubscription AddToEvent(Delegate callback)
+      => Event.Add((Action<@types>)callback);
+
+    public DebugNode() : base()
     {
-      return Map(next, (@argDefs) => next.Event.Raise(@argsPassed));
-    }
-    public EventSubscription Route(DebugNode<@types> prev) => prev.Map(this);
-
-
-    public override void Unmap(DebugNode node)
-    {
-      Mapping[node].Cancel();
-      Mapping.Remove(node);
-    }
-
-    public override EventSubscription Map(DebugNode<object> next)
-      => Map(next, (@argsPassed) => next.Event.Raise(arg1));
-    public override EventSubscription Map(DebugNode<object, object> next)
-      => Map(next, (@argsPassed) => next.Event.Raise(arg1, arg2));
-    public override EventSubscription Map(DebugNode<object, object, object> next)
-      => Map(next, (@argsPassed) => next.Event.Raise(arg1, arg2, arg3));
-
-    public DebugNode()
-    {
-      Event_Pin = Event.CreateBridge(DefaultBringeAction);
-
-      Pin.OnSubscribed += (_) =>
-      {
-        if (!Pin.Empty && !Event_Pin.Opened) Event_Pin.Open();
-      };
-
-      Pin.OnUnSubscribed += (_) =>
-      {
-        if (Pin.Empty && Event_Pin.Opened) Event_Pin.Close();
-      };
+      RealPinBridge = Event.CreateBridge();
+      RealPinBridge.Action = (@args) => Pin.Raise(
+       new DebugEvent() { Args = new object[] { @args } }
+      );
     }
   }
 }

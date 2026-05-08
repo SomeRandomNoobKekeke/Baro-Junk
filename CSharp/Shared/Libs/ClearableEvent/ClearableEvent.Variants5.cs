@@ -4,21 +4,15 @@ using System.Linq;
 using System.Reflection;
 using System.Diagnostics;
 
-
-// @types - T1, T2, T3, T4
-// @args - arg1, arg2, arg3, arg4
-// @argDefs - T1 arg1, T2 arg2, T3 arg3, T4 arg4
-
-
 namespace BaroJunk
 {
-  public class ClearableEvent<@types>
+  public class ClearableEvent<T1, T2, T3, T4, T5>
   {
-    private event Action<@types> Event;
+    private event Action<T1, T2, T3, T4, T5> Event;
     public bool Empty => Event == null;
-    public event Action<Action<@types>> OnSubscribed;
-    public event Action<Action<@types>> OnUnSubscribed;
-    public EventSubscription Add(Action<@types> callback)
+    public event Action<Action<T1, T2, T3, T4, T5>> OnSubscribed;
+    public event Action<Action<T1, T2, T3, T4, T5>> OnUnSubscribed;
+    public EventSubscription Add(Action<T1, T2, T3, T4, T5> callback)
     {
       ArgumentNullException.ThrowIfNull(callback);
       Event += callback;
@@ -29,20 +23,20 @@ namespace BaroJunk
         OnUnSubscribed?.Invoke(callback);
       });
     }
-    public void Remove(Action<@types> callback)
+    public void Remove(Action<T1, T2, T3, T4, T5> callback)
     {
       Event -= callback;
       OnUnSubscribed?.Invoke(callback);
     }
 
-    public void Raise(@argDefs) => Event?.Invoke(@args);
+    public void Raise(T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5) => Event?.Invoke(arg1, arg2, arg3, arg4, arg5);
     public void Clear()
     {
       if (Event is null) return;
 
       foreach (Delegate callback in Event.GetInvocationList())
       {
-        Event -= (Action<@types>)callback;
+        Event -= (Action<T1, T2, T3, T4, T5>)callback;
       }
     }
   }

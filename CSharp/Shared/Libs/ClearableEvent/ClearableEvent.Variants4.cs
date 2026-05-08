@@ -14,6 +14,7 @@ namespace BaroJunk
     public event Action<Action<T1, T2, T3, T4>> OnUnSubscribed;
     public EventSubscription Add(Action<T1, T2, T3, T4> callback)
     {
+      ArgumentNullException.ThrowIfNull(callback);
       Event += callback;
       OnSubscribed?.Invoke(callback);
       return new EventSubscription(() =>
