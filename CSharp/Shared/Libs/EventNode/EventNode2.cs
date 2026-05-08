@@ -10,6 +10,8 @@ namespace BaroJunk
 
     public EventNode() { Gates.Add(Event); }
 
+    public Action<EventNode<T1, T2>> Setup { set => value(this); }
+
     public override void Map(EventNodeBase next)
     {
       ClearableEvent<T1, T2> matchingGate = (ClearableEvent<T1, T2>)next.Gates.Find(e => e is ClearableEvent<T1, T2>);
@@ -22,18 +24,8 @@ namespace BaroJunk
       Event.Add((a1, a2) => matchingGate.Raise(a1, a2));
     }
 
-
-    public void AddGate<G1>()
+    public void AddGate(ClearableEventBase gate)
     {
-      ClearableEvent<G1> gate = new();
-      gate.Add((G1 g1) => Event.Raise((T1)((object)g1), default));
-      Gates.Add(gate);
-    }
-
-    public void AddGate<G1, G2>()
-    {
-      ClearableEvent<G1, G2> gate = new();
-      gate.Add((G1 g1, G2 g2) => Event.Raise((T1)((object)g1), (T2)((object)g2)));
       Gates.Add(gate);
     }
   }

@@ -13,14 +13,24 @@ namespace BaroJunk
 
   public class EventNodeTest : UTestPack
   {
+    public object Bruh { get; } = new();
+
+    public EventNode<string> node1 { get; } = new();
+    public EventNode<string, object> node2 { get; } = new()
+    {
+
+    };
+
+
+
     public override void CreateTests()
     {
-      EventNode<string, object> node1 = new();
-      EventNode<string, object> node2 = new();
+      node2.Route(node1, (string s) => node2.Event.Raise(s, 123));
 
-      node2.AddGate<string>();
 
-      node1.Map(node2);
+
+
+      Mod.Logger.Log(123);
     }
 
 
