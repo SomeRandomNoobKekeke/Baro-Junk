@@ -39,5 +39,10 @@ namespace BaroJunk
         Event -= (Action)callback;
       }
     }
+
+    public override EventSubscription Add(Delegate callback) => Add((Action)callback);
+    protected override Delegate DefaultMapping(ClearableEventBase next) => DefaultMapping((ClearableEvent)next);
+    private Action DefaultMapping(ClearableEvent next)
+      => () => next.Raise();
   }
 }

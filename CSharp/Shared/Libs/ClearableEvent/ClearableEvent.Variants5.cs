@@ -6,7 +6,7 @@ using System.Diagnostics;
 
 namespace BaroJunk
 {
-  public class ClearableEvent<T1, T2, T3, T4, T5>
+  public class ClearableEvent<T1, T2, T3, T4, T5> : ClearableEventBase
   {
     private event Action<T1, T2, T3, T4, T5> Event;
     public bool Empty => Event == null;
@@ -39,5 +39,10 @@ namespace BaroJunk
         Event -= (Action<T1, T2, T3, T4, T5>)callback;
       }
     }
+
+    public override EventSubscription Add(Delegate callback) => Add((Action<T1, T2, T3, T4, T5>)callback);
+    protected override Delegate DefaultMapping(ClearableEventBase next) => DefaultMapping((ClearableEvent<T1, T2, T3, T4, T5>)next);
+    private Action<T1, T2, T3, T4, T5> DefaultMapping(ClearableEvent<T1, T2, T3, T4, T5> next)
+      => (T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5) => next.Raise(arg1, arg2, arg3, arg4, arg5);
   }
 }

@@ -16,6 +16,28 @@ namespace BaroJunk
       ID = MaxID++;
     }
 
+    public abstract EventSubscription Add(Delegate callback);
+    protected Dictionary<ClearableEventBase, EventSubscription> Mapping = new();
+    public EventSubscription Map(ClearableEventBase next, Delegate callback)
+    {
+      EventSubscription subscription = Add(callback);
+      Mapping[next] = subscription;
+      return subscription;
+    }
+    public void Unmap(ClearableEventBase node)
+    {
+      Mapping[node].Cancel();
+      Mapping.Remove(node);
+    }
+
+    public EventSubscription Route(ClearableEventBase prev, Delegate callback) => prev.Map(this, callback);
+    public void Unroute(ClearableEventBase node) => node.Unmap(this);
+
+    protected abstract Delegate DefaultMapping(ClearableEventBase next);
+    public EventSubscription Map(ClearableEventBase next) => Map(next, DefaultMapping(next));
+    public EventSubscription Route(ClearableEventBase prev) => prev.Map(this);
+
+
     public override int GetHashCode() => ID;
 
     //TODO do i even need this?

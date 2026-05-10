@@ -28,7 +28,7 @@ namespace BaroJunk
       Event -= callback;
       OnUnSubscribed?.Invoke(callback);
     }
-    // public void Raise(object arg1, object arg2) => Event?.Invoke((T1)arg1, (T2)arg2);
+
     public void Raise(T1 arg1, T2 arg2) => Event?.Invoke(arg1, arg2);
     public void Clear()
     {
@@ -39,5 +39,10 @@ namespace BaroJunk
         Event -= (Action<T1, T2>)callback;
       }
     }
+
+    public override EventSubscription Add(Delegate callback) => Add((Action<T1, T2>)callback);
+    protected override Delegate DefaultMapping(ClearableEventBase next) => DefaultMapping((ClearableEvent<T1, T2>)next);
+    private Action<T1, T2> DefaultMapping(ClearableEvent<T1, T2> next)
+      => (T1 arg1, T2 arg2) => next.Raise(arg1, arg2);
   }
 }
