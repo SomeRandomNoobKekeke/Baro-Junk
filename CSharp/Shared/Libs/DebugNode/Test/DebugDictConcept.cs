@@ -1,0 +1,39 @@
+using System;
+using System.Reflection;
+using System.Diagnostics;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using System.Linq;
+
+using Barotrauma;
+
+
+namespace BaroJunk
+{
+
+  public class DebugDictConceptTest : DebugNodeTest
+  {
+    public DebugNodeDict Nodes1 { get; } = new()
+    {
+      ["bruh"] = new DebugNode<string>(),
+    };
+
+    public DebugNodeDict Nodes2 { get; } = new()
+    {
+      ["bruh"] = new DebugNode<string>(),
+    };
+
+    public UTest ConceptTest()
+    {
+      Nodes1.Map(Nodes2);
+
+
+
+      Nodes2["bruh"].Pin.Add((e) => Mod.Logger.Log(e));
+      Nodes1["bruh"].Send("lel");
+
+
+      return new UTest(123, 123);
+    }
+  }
+}

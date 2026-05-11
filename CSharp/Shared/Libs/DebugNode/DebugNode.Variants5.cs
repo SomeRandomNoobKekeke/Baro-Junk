@@ -6,7 +6,7 @@ using System.Diagnostics;
 
 namespace BaroJunk
 {
-  public class DebugNode<T1, T2, T3, T4, T5> : ClearableEvent<T1, T2, T3, T4, T5>, IDebugNode
+  public class DebugNode<T1, T2, T3, T4, T5> : ClearableEvent<T1, T2, T3, T4, T5>, IDebugNode<T1, T2, T3, T4, T5>
   {
     public string Name { get; set; } = "";
     public ClearableEvent<DebugEvent> Pin { get; } = new();
