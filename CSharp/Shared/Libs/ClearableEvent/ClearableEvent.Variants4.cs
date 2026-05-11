@@ -29,6 +29,8 @@ namespace BaroJunk
       OnUnSubscribed?.Invoke(callback);
     }
 
+    public override void Raise(object arg1, object arg2, object arg3, object arg4)
+      => Raise((T1)arg1, (T2)arg2, (T3)arg3, (T4)arg4);
     public void Raise(T1 arg1, T2 arg2, T3 arg3, T4 arg4) => Event?.Invoke(arg1, arg2, arg3, arg4);
     public void Clear()
     {

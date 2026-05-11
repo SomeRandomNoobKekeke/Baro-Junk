@@ -20,20 +20,23 @@ namespace BaroJunk
 
     public DebugNodeDict Nodes2 { get; } = new()
     {
-      ["bruh"] = new DebugNode<string>(),
+      ["bruh"] = new DebugNode<string>()
+      {
+        MsgFactory = (s) => s,
+      },
     };
 
     public UTest ConceptTest()
     {
+      string value = "???";
+
       Nodes1.Map(Nodes2);
 
-
-
-      Nodes2["bruh"].Pin.Add((e) => Mod.Logger.Log(e));
+      Nodes2["bruh"].Pin.Add((e) => { value = e.ToString(); });
       Nodes1["bruh"].Send("lel");
 
 
-      return new UTest(123, 123);
+      return new UTest(value, "| lel");
     }
   }
 }

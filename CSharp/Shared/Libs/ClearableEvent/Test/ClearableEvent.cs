@@ -13,20 +13,7 @@ namespace BaroJunk
 
   public class ClearableEventTest : UTestPack
   {
-    public ClearableEvent<string> bruh = new();
-    public ClearableEvent<string> kek = new();
 
-    public UTest ConceptTest()
-    {
-      string value = "???";
-
-      bruh.Map(kek);
-
-      kek.Add((s) => value = s);
-      bruh.Raise("lol");
-
-      return new UTest(value, "lol");
-    }
   }
 
 

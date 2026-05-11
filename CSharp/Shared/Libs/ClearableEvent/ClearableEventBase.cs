@@ -38,6 +38,13 @@ namespace BaroJunk
     public EventSubscription Route(ClearableEventBase prev) => prev.Map(this);
 
 
+    public virtual void Raise() { }
+    public virtual void Raise(object arg1) { }
+    public virtual void Raise(object arg1, object arg2) { }
+    public virtual void Raise(object arg1, object arg2, object arg3) { }
+    public virtual void Raise(object arg1, object arg2, object arg3, object arg4) { }
+    public virtual void Raise(object arg1, object arg2, object arg3, object arg4, object arg5) { }
+
     public override int GetHashCode() => ID;
 
     //TODO do i even need this?
